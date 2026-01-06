@@ -1,1 +1,4 @@
-print("SKALA")
+
+
+
+print("SKALA2")

@@ -1,4 +1,5 @@
 
 
 
-print("SKALA2")
+print("SKALA55555")
+

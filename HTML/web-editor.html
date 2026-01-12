@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>심플 웹 에디터</title>
+  <style>
+    body { font-family: system-ui, sans-serif; padding: 16px; }
+    .bar { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 10px; }
+    button, select { padding: 6px 10px; border: 1px solid #ccc; border-radius: 8px; background: #fff; cursor: pointer; }
+    .editor { border: 1px solid #ccc; border-radius: 10px; padding: 12px; min-height: 140px; outline: none; }
+    .out { border: 1px solid #ccc; border-radius: 10px; padding: 12px; background: #fafafa; white-space: pre-wrap; word-break: break-word; }
+    .label { margin: 12px 0 6px; font-weight: 700; }
+  </style>
+</head>
+<body>
+
+  <div class="bar">
+    <button id="b"><b>B</b></button>
+    <button id="i"><i>I</i></button>
+    <button id="u"><u>U</u></button>
+
+    <select id="color">
+      <option value="">색상</option>
+      <option value="#000000">검정</option>
+      <option value="#d00000">빨강</option>
+      <option value="#0066cc">파랑</option>
+    </select>
+
+    <button id="save">저장</button>
+  </div>
+
+  <div class="label">편집기</div>
+  <div id="editor" class="editor" contenteditable="true">
+    여기에 입력하고, 드래그로 선택한 뒤 버튼을 눌러보세요.
+  </div>
+
+  <div class="label">저장된 HTML 결과</div>
+  <div id="result" class="out"></div>
+
+<script>
+  const editor = document.getElementById("editor");
+  const result = document.getElementById("result");
+
+  function getRange() {
+    const sel = window.getSelection();
+    if (!sel || sel.rangeCount === 0) return null;
+    const range = sel.getRangeAt(0);
+    const common = range.commonAncestorContainer;
+    const node = common.nodeType === 1 ? common : common.parentNode;
+    if (!editor.contains(node)) return null;
+    return range;
+  }
+
+  function wrap(tag, styleText = "") {
+    const range = getRange();
+    if (!range) return;
+    if (range.collapsed) return; // 선택 안 했으면 아무것도 안 함(최소 요구사항)
+
+    const frag = range.extractContents();
+    const el = document.createElement(tag);
+    if (styleText) el.setAttribute("style", styleText);
+    el.appendChild(frag);
+    range.insertNode(el);
+
+    // 커서를 래퍼 뒤로
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+    const r = document.createRange();
+    r.setStartAfter(el);
+    r.collapse(true);
+    sel.addRange(r);
+    editor.focus();
+  }
+
+  document.getElementById("b").onclick = () => wrap("strong");
+  document.getElementById("i").onclick = () => wrap("em");
+  document.getElementById("u").onclick = () => wrap("u");
+
+  document.getElementById("color").onchange = (e) => {
+    const c = e.target.value;
+    if (!c) return;
+    wrap("span", `color:${c};`);
+    e.target.value = "";
+  };
+
+  document.getElementById("save").onclick = () => {
+    result.textContent = editor.innerHTML; // HTML 태그 포함해서 그대로 출력
+  };
+</script>
+</body>
+</html>

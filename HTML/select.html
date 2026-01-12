@@ -1,0 +1,26 @@
+<select id="mySelect" onchange="showSelectedValue()">
+    <option value="">-- 선택 --</option>
+    <option value="apple">사과</option>
+    <option value="banana">바나나</option>
+    <option value="orange">오렌지</option>
+  </select>
+
+  <div class="result" id="resultText">
+    선택된 항목이 여기에 표시됩니다.
+  </div>
+
+  <script>
+    function showSelectedValue() {
+      const select = document.getElementById("mySelect");
+      const selectedText = select.options[select.selectedIndex].text;
+      const selectedValue = select.value;
+
+      if (selectedValue === "") {
+        document.getElementById("resultText").innerText =
+          "선택된 항목이 여기에 표시됩니다.";
+      } else {
+        document.getElementById("resultText").innerText =
+          `선택된 항목: ${selectedValue}`;
+      }
+    }
+  </script>

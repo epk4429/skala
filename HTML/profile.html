@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>나의 프로필 페이지</title>
+</head>
+
+<body>
+  <header>
+    <h1 style="text-align:center;">👔기동주의 프로필</h1>
+    <p style="text-align:center;">HTML 태그로 구성한 자기소개 페이지입니다.</p>
+  </header>
+  <div style="display:flex;">
+    <div style="width:50%; border:1px solid #000; box-sizing:border-box;">
+      <section>
+        <h2 style="text-align:center;">자기소개</h2>
+
+        <article>
+        <h3 style="margin-left:10px;">기본 정보</h3>
+        <ul>
+            <li><b>이름:</b> 기동주</li>
+            <li><b>나이:</b> 28세</li>
+            <li><b>전공:</b> 메카트로닉스공학</li>
+            <li><b>한 줄 소개:</b> 새로운 분야에 도전하는 것을 좋아합니다.</li>
+        </ul>
+        </article>
+
+        <article>
+        <h3 style="margin-left:10px;">아바타 이미지</h3>
+        <img src="dino.png" alt="공부하는 공룡" width="150" height="150">
+        <p>귀여워서 넣어봤습니다.</p>
+        </article>
+
+        <article>
+        <h3 style="margin-left:10px;">관심사 / 취미</h3>
+
+        <p style="margin-left:10px;"><b>관심사</b></p>
+        <ul>
+            <li>AI 서비스 기획</li>
+            <li>HTML</li>
+            <li>LLM</li>
+        </ul>
+
+        <p style="margin-left:10px;"><b>취미</b></p>
+
+            <figure style="margin:0;">
+                <img src="IUFC.jpeg" alt="IUFC" width="150" style="display:inline-block; vertical-align:top; margin-left:10px;">
+                <figcaption style="display:inline-block; vertical-align:top; width:310px; margin-left:12px;">
+                    <p>주말에 인천유나이티드FC를 응원하러 갑니다.</p>
+                    <p>올해 상반기는 가기 힘들지도 모르겠습니다...</p>
+                </figcaption>
+            </figure>
+        </article>
+
+        <article>
+        <h3 style="margin-left:10px;">기술 스택 표</h3>
+        <table border="1" style="border-collapse:collapse; margin-left:10px;">
+            <thead>
+            <tr>
+                <th>분야</th>
+                <th>기술</th>
+                <th>숙련도</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>언어</td>
+                <td>C++, Python</td>
+                <td>중</td>
+            </tr>
+            <tr>
+                <td>시스템/임베디드</td>
+                <td>시스템설계</td>
+                <td>초~중</td>
+            </tr>
+            <tr>
+                <td>도구</td>
+                <td>Visual Studio, Git, Github</td>
+                <td>중</td>
+            </tr>
+            </tbody>
+        </table>
+        </article>
+      </section>  
+    </div>
+
+    
+    <div style="width:50%; border:1px solid #000; box-sizing:border-box;">
+        <section>
+            <article>
+            <h3 style="margin-left:10px;">자주 사용하는 링크</h3>
+            <ul>
+                <li><a href="https://youtube.com/" target="_blank">Youtube</a></li>
+            </ul>
+            </article>
+
+            <article>
+            <h3 style="margin-left:10px;">오디오</h3>
+            <p style="margin-left:10px;">최근 자주 듣는 음악<br> Beautiful Things - Benson Boone</p>
+            <audio controls>
+                <source src="Beautiful Things.mp3" type="audio/mpeg" />
+                브라우저가 오디오 태그를 지원하지 않습니다.
+            </audio>
+            </article>
+
+            <article>
+            <h3 style="margin-left:10px;">최근 시청한 유튜브</h3>
+            <video controls width="360" style="margin-left:10px;" >
+                <source src="Make Me Wonder.mp4" type="video/mp4" / >
+                브라우저가 비디오 태그를 지원하지 않습니다.
+            </video>
+            </article>
+
+            <article>
+            <h3 style="margin-left:10px;">피드백</h3>
+            <form>
+                <table>
+                    <tr>
+                    <td style="width:70px;">성명:</td>
+                    <td><input type="text" name="name" style="width:300px;"></td>
+                    </tr>
+                    <tr>
+                    <td style="vertical-align:top;">피드백:</td>
+                    <td><textarea name="feedback" rows="6" cols="50"></textarea></td>
+                    </tr>
+                    <tr>
+                    <td></td>
+                    <td><button type="submit">보내기</button></td>
+                    </tr>
+                </table>
+            </form>
+            </article>
+        </section>
+        <footer>
+            <p>© 2026 기동주</p>
+        </footer>
+    </div>
+  <section>
+    
+
+    
+  </section>
+
+  
+</body>
+</html>

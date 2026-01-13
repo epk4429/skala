@@ -3,8 +3,8 @@
 ============================================ */
 
 :root{
-  --gradient-start: #667eea;  
-  --gradient-end:   #764ba2;
+  --gradient-start: #e5e5e7;  
+  --gradient-end:   #3a3a3c;
   --text-dark: #2d3748;
   --text-light:#718096;
 }
@@ -13,7 +13,7 @@ body{
   font-family: "Malgun Gothic","Apple SD Gothic Neo",sans-serif;
   color: var(--text-dark);
   line-height: 1.65;
-  background: #f5f6fb;
+  background: #f6f7fd;
 }
 
 .custom-navbar{
@@ -91,12 +91,12 @@ table{
 }
 
 thead th{
-  background: #f1f3f8;
+  background: #f3f5fb;
 }
 
 .form-control{
   border-radius: 10px;
-  border: 2px solid #e9ecef;
+  border: 2px solid #e7eaed;
   padding: .75rem 1rem;
 }
 

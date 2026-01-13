@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            margin: 0;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR", Arial, sans-serif;
+            background: #fff;
+        }
+        .container{
+            width: 680px;
+            margin: 70px auto 0;
+        }
+        .search-bar{
+            display: grid;
+            grid-template-columns: 1fr 70px; 
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 14px;
+        }
+        .search-bar input{
+            height: 32px;
+            padding: 0 10px;
+            border: 1px solid #999;
+            border-radius: 2px;
+            outline: none;
+        }
+
+        .search-bar button{
+            height: 32px;
+            border: 1px solid #999;
+            background: #eee;
+            border-radius: 2px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .list-area{
+            border: 1px solid #cfcfcf;
+            padding: 18px 18px 22px;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            gap: 12px; 
+        }
+        .list-title{
+            font-size: 18px;
+            font-weight: 800;
+            color: #000;
+        }
+        .divider{
+            height: 1px;
+            background: #999;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+ 
+    <div class="search-bar">
+      <input type="text" placeholder="키워드 입력" />
+      <button type="button">검색</button>
+    </div>
+
+    <div class="list-area">
+      <div class="list-title">목록형 데이터 영역</div>
+      <div class="divider"></div>
+    </div>
+  </div>
+</body>
+</html>

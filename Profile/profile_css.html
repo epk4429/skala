@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>기동주의 프로필</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <!-- NAVIGATION  -->
+  <nav class="navbar navbar-expand-lg navbar-dark custom-navbar sticky-top">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="#home">👔 프로필</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="nav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="#about">자기소개</a></li>
+          <li class="nav-item"><a class="nav-link" href="#hobby">관심사/취미</a></li>
+          <li class="nav-item"><a class="nav-link" href="#stack">기술스택</a></li>
+          <li class="nav-item"><a class="nav-link" href="#media">미디어</a></li>
+          <li class="nav-item"><a class="nav-link" href="#feedback">피드백</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header id="home" class="hero-section">
+    <div class="container">
+      <div class="row align-items-center g-4">
+        <div class="col-md-4 text-center">
+          <!-- 아바타 -->
+          <img class="profile-image" src="dino.png" alt="공부하는 공룡">
+        </div>
+        <div class="col-md-8">
+          <h1 class="fw-bold mb-2">기동주</h1>
+          <p class="mb-3" style="opacity:.95;">
+            HTML 태그로 구성한 자기소개 페이지입니다.
+          </p>
+
+          <div class="d-flex flex-wrap gap-2">
+            <span class="badge text-bg-light">메카트로닉스공학</span>
+            <span class="badge text-bg-light">AI · LLM</span>
+            <span class="badge text-bg-light">C++ · Python</span>
+            <span class="badge text-bg-light">시스템설계</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container py-5">
+
+    <section id="about" class="mb-5">
+      <div class="text-center">
+        <h2 class="section-title">자기소개</h2>
+        <div class="title-underline"></div>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <div class="card p-4 h-100">
+            <h3 class="h5 fw-bold">기본 정보</h3>
+            <ul class="mb-0">
+              <li><b>이름</b>: 기동주</li>
+              <li><b>나이</b>: 28세</li>
+              <li><b>전공</b>: 메카트로닉스공학</li>
+              <li><b>한 줄 소개</b>: 새로운 분야에 도전하는 것을 좋아합니다.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="card p-4 h-100">
+            <h3 class="h5 fw-bold">관심사</h3>
+            <ul class="mb-0">
+              <li>AI 서비스 기획</li>
+              <li>HTML</li>
+              <li>LLM</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOBBY -->
+    <section id="hobby" class="mb-5">
+      <div class="text-center">
+        <h2 class="section-title">취미</h2>
+        <div class="title-underline"></div>
+      </div>
+
+      <div class="card p-4">
+        <div class="row g-3 align-items-center">
+          <div class="col-md-4 text-center">
+            <img class="iufc-img" src="IUFC.jpeg" alt="인천유나이티드FC(IUFC) 응원 사진">
+            <div class="text-muted mt-2" style="font-size:.9rem;">IUFC.jpeg</div>
+          </div>
+          <div class="col-md-8">
+            <h3 class="h5 fw-bold mb-2">인천유나이티드FC 응원</h3>
+            <p class="mb-1">주말에 인천유나이티드FC를 응원하러 갑니다.</p>
+            <p class="mb-0">올해 상반기는 가기 힘들지도 모르겠습니다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STACK -->
+    <section id="stack" class="mb-5">
+      <div class="text-center">
+        <h2 class="section-title">기술 스택</h2>
+        <div class="title-underline"></div>
+      </div>
+
+      <div class="card p-4">
+        <div class="table-responsive">
+          <table class="table table-bordered align-middle mb-0">
+            <thead>
+              <tr>
+                <th style="width:30%;">분야</th>
+                <th>기술</th>
+                <th style="width:18%;">숙련도</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>언어</td>
+                <td>C++, Python</td>
+                <td>중</td>
+              </tr>
+              <tr>
+                <td>시스템/임베디드</td>
+                <td>시스템설계</td>
+                <td>초~중</td>
+              </tr>
+              <tr>
+                <td>도구</td>
+                <td>Visual Studio, Git, Github</td>
+                <td>중</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- LINK MEDIA -->
+    <section id="media" class="mb-5">
+      <div class="text-center">
+        <h2 class="section-title">링크 / 미디어</h2>
+        <div class="title-underline"></div>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <div class="card p-4 h-100">
+            <h3 class="h5 fw-bold">자주 사용하는 링크</h3>
+            <ul class="mb-0">
+              <li><a href="https://youtube.com/" target="_blank" rel="noreferrer">Youtube</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="card p-4 h-100">
+            <h3 class="h5 fw-bold">오디오</h3>
+            <p class="text-muted mb-2">Beautiful Things - Benson Boone</p>
+            <audio controls class="w-100">
+              <source src="Beautiful Things.mp3" type="audio/mpeg" />
+              브라우저가 오디오를 지원하지 않습니다.
+            </audio>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="card p-4 h-100">
+            <h3 class="h5 fw-bold">최근 시청한 영상</h3>
+            <video controls class="w-100" style="border-radius:12px;">
+              <source src="Make Me Wonder.mp4" type="video/mp4" />
+              브라우저가 비디오를 지원하지 않습니다.
+            </video>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEEDBACK -->
+    <section id="feedback" class="mb-4">
+      <div class="text-center">
+        <h2 class="section-title">피드백</h2>
+        <div class="title-underline"></div>
+      </div>
+
+      <div class="card p-4">
+        <form>
+          <div class="mb-3">
+            <label class="form-label fw-bold">성명</label>
+            <input class="form-control" type="text" placeholder="성명">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-bold">피드백</label>
+            <textarea class="form-control" rows="5" placeholder="피드백을 자유롭게 작성해주세요."></textarea>
+          </div>
+
+          <button class="btn btn-primary" type="submit">보내기</button>
+        </form>
+      </div>
+    </section>
+
+    <footer class="text-center text-muted py-4">
+      <small>© 2026 기동주</small>
+    </footer>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

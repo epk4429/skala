@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>블록 요소 vs 인라인 스타일 비교</title>
+    <style>
+        h2{
+        margin: 0 0 14px 0;
+        font-size: 26px;
+        font-weight: 800;
+        }
+        .box{
+        border: 2px dashed #939393;
+        padding: 14px 12px;
+        margin: 8px 0 26px 0;
+        }
+        .block-div{
+        background: #bfe2ef;
+        border: 2px solid #1c3afb;
+        padding: 12px 10px;
+        margin: 10px 0;
+        }
+        .inline-div{
+        display: inline-block;       
+        background: #a2ed96;
+        border: 2px solid #2a782a;
+        padding: 10px 12px;
+        margin: 6px 8px 6px 0;       
+        vertical-align: top;
+        }
+    </style>
+</head>
+<body>
+    <h2>블록 요소 기본 스타일</h2>
+  <div class="box">
+    <div class="block-div">블록 스타일 div 1</div>
+    <div class="block-div">블록 스타일 div 2</div>
+  </div>
+
+  <h2>인라인 스타일로 변경한 div</h2>
+  <div class="box">
+    <div class="inline-div">인라인 스타일 div 1</div>
+    <div class="inline-div">인라인 스타일 div 2</div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>Grid + Flex Layout</title>
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+  }
+
+  /* 전체 페이지: Grid */
+  .layout {
+    display: grid;
+    grid-template-areas:
+      "header header"
+      "sidebar content"
+      "footer footer";
+    grid-template-columns: 220px 1fr;
+    grid-template-rows: 60px 1fr 50px;
+    height: 100vh;
+  }
+
+  header {
+    grid-area: header;
+    background: #34495e;
+    color: white;
+    display: flex;               /* Flexbox */
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+  }
+
+  aside {
+    grid-area: sidebar;
+    background: #ecf0f1;
+    display: flex;               /* Flexbox */
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+  }
+
+  main {
+    grid-area: content;
+    padding: 20px;
+    overflow-y: auto;
+  }
+
+  /* 카드 영역: Grid */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 20px;
+  }
+
+  /* 카드 내부: Flexbox */
+  .card {
+    background: #3498db;
+    color: white;
+    padding: 16px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  footer {
+    grid-area: footer;
+    background: #2c3e50;
+    color: white;
+    display: flex;               /* Flexbox */
+    align-items: center;
+    justify-content: center;
+  }
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+  <header>
+    <strong>My App</strong>
+    <nav>Menu</nav>
+  </header>
+
+  <aside>
+    <div>Dashboard</div>
+    <div>Users</div>
+    <div>Settings</div>
+  </aside>
+
+  <main>
+    <h3>Dashboard</h3>
+    <div class="card-grid">
+      <div class="card">
+        <div>Card 1</div>
+        <button>Detail</button>
+      </div>
+      <div class="card">
+        <div>Card 2</div>
+        <button>Detail</button>
+      </div>
+      <div class="card">
+        <div>Card 3</div>
+        <button>Detail</button>
+      </div>
+      <div class="card">
+        <div>Card 4</div>
+        <button>Detail</button>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    © 2026 SKALA
+  </footer>
+
+</div>
+
+</body>
+</html>

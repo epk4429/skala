@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>CSS Position Sample</title>
+<style>
+  body {
+    height: 2000px;
+    font-family: Arial, sans-serif;
+  }
+
+  .box {
+    width: 150px;
+    height: 80px;
+    margin: 20px;
+    color: white;
+    padding: 10px;
+  }
+
+  .static {
+    position: static;
+    background: gray;
+  }
+
+  .relative {
+    position: relative;
+    top: 20px;
+    left: 30px;
+    background: blue;
+  }
+
+  .container {
+    position: relative;
+    border: 2px dashed black;
+    height: 200px;
+    margin: 40px;
+  }
+
+  .absolute {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: red;
+  }
+
+  .fixed {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: green;
+  }
+
+  .sticky {
+    position: sticky;
+    top: 0;
+    background: purple;
+  }
+</style>
+</head>
+<body>
+
+  <div class="box static">static</div>
+
+  <div class="box relative">relative</div>
+
+  <div class="container">
+    container (relative)
+    <div class="box absolute">absolute</div>
+  </div>
+
+  <div class="box sticky">sticky (scroll)</div>
+
+  <div class="box fixed">fixed</div>
+
+</body>
+</html>

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01. Flexbox</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #E91E63;
+            padding-bottom: 10px;
+        }
+        .example {
+            background: #f9f9f9;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #E91E63;
+            border-radius: 5px;
+        }
+        .code-block {
+            background: #fce4ec;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+        }
+        .demo-box {
+            padding: 15px;
+            margin: 10px 0;
+            border: 2px dashed #ddd;
+            border-radius: 5px;
+            background: #fff;
+        }
+        .flex-item {
+            background: #F8BBD0;
+            padding: 20px;
+            margin: 5px;
+            border: 2px solid #E91E63;
+            text-align: center;
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>01. Flexbox (Flexible Box Layout)</h1>
+        
+        <div class="example">
+            <h3>1. Flexbox 기본 개념</h3>
+            <p>Flexbox는 요소들을 유연하게 배치하는 레이아웃 방식입니다.</p>
+            <div class="code-block">/* Flexbox 컨테이너 만들기 */
+.container {
+    display: flex;
+}
+
+/* 주요 개념:
+   - flex container: display: flex를 가진 부모 요소
+   - flex items: 컨테이너의 직접 자식 요소들
+   - main axis: 주축 (기본값: 가로)
+   - cross axis: 교차축 (기본값: 세로)
+*/</div>
+            <div class="demo-box">
+                <div style="display: flex; border: 2px solid #E91E63; padding: 10px;">
+                    <div class="flex-item">항목 1</div>
+                    <div class="flex-item">항목 2</div>
+                    <div class="flex-item">항목 3</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="example">
+            <h3>2. flex-direction (방향)</h3>
+            <p>주축의 방향을 설정합니다.</p>
+            <div class="code-block">/* 가로 방향 (기본값) */
+.container {
+    flex-direction: row;
+}
+
+/* 세로 방향 */
+.container {
+    flex-direction: column;
+}
+
+/* 가로 역방향 */
+.container {
+    flex-direction: row-reverse;
+}
+
+/* 세로 역방향 */
+.container {
+    flex-direction: column-reverse;
+}</div>
+            <div class="demo-box">
+                <div style="display: flex; flex-direction: row; border: 2px solid #E91E63; padding: 10px; margin-bottom: 10px;">
+                    <div class="flex-item">1</div>
+                    <div class="flex-item">2</div>
+                    <div class="flex-item">3</div>
+                </div>
+                <div style="display: flex; flex-direction: column; border: 2px solid #E91E63; padding: 10px;">
+                    <div class="flex-item">1</div>
+                    <div class="flex-item">2</div>
+                    <div class="flex-item">3</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="example">
+            <h3>3. justify-content (주축 정렬)</h3>
+            <p>주축(main axis) 방향으로 요소들을 정렬합니다.</p>
+            <div class="code-block">/* 시작점 정렬 */
+.container {
+    justify-content: flex-start;
+}
+
+/* 끝점 정렬 */
+.container {
+    justify-content: flex-end;
+}
+
+/* 중앙 정렬 */
+.container {
+    justify-content: center;
+}
+
+/* 양쪽 정렬 (간격 동일) */
+.container {
+    justify-content: space-between;
+}
+
+/* 주변 간격 동일 */
+.container {
+    justify-content: space-around;
+}
+
+/* 모든 간격 동일 */
+.container {
+    justify-content: space-evenly;
+}</div>
+            <div class="demo-box">
+                <div style="display: flex; justify-content: flex-start; border: 2px solid #E91E63; padding: 10px; margin-bottom: 10px;">
+                    <div class="flex-item" style="flex: 0 1 auto;">flex-start</div>
+                </div>
+                <div style="display: flex; justify-content: center; border: 2px solid #E91E63; padding: 10px; margin-bottom: 10px;">
+                    <div class="flex-item" style="flex: 0 1 auto;">center</div>
+                </div>
+                <div style="display: flex; justify-content: space-between; border: 2px solid #E91E63; padding: 10px;">
+                    <div class="flex-item" style="flex: 0 1 auto;">1</div>
+                    <div class="flex-item" style="flex: 0 1 auto;">2</div>
+                    <div class="flex-item" style="flex: 0 1 auto;">3</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="example">
+            <h3>4. align-items (교차축 정렬)</h3>
+            <p>교차축(cross axis) 방향으로 요소들을 정렬합니다.</p>
+            <div class="code-block">/* 시작점 정렬 */
+.container {
+    align-items: flex-start;
+}
+
+/* 끝점 정렬 */
+.container {
+    align-items: flex-end;
+}
+
+/* 중앙 정렬 */
+.container {
+    align-items: center;
+}
+
+/* 기준선 정렬 */
+.container {
+    align-items: baseline;
+}
+
+/* 늘리기 */
+.container {
+    align-items: stretch;
+}</div>
+            <div class="demo-box">
+                <div style="display: flex; align-items: flex-start; border: 2px solid #E91E63; padding: 10px; height: 150px; margin-bottom: 10px;">
+                    <div class="flex-item" style="height: 50px;">flex-start</div>
+                    <div class="flex-item" style="height: 80px;">높이 80px</div>
+                    <div class="flex-item" style="height: 60px;">높이 60px</div>
+                </div>
+                <div style="display: flex; align-items: center; border: 2px solid #E91E63; padding: 10px; height: 150px;">
+                    <div class="flex-item" style="height: 50px;">center</div>
+                    <div class="flex-item" style="height: 80px;">높이 80px</div>
+                    <div class="flex-item" style="height: 60px;">높이 60px</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="example">
+            <h3>5. flex-wrap (줄바꿈)</h3>
+            <p>요소들이 한 줄에 들어가지 않을 때 줄바꿈을 설정합니다.</p>
+            <div class="code-block">/* 줄바꿈 안 함 (기본값) */
+.container {
+    flex-wrap: nowrap;
+}
+
+/* 줄바꿈 허용 */
+.container {
+    flex-wrap: wrap;
+}
+
+/* 역순 줄바꿈 */
+.container {
+    flex-wrap: wrap-reverse;
+}</div>
+            <div class="demo-box">
+                <div style="display: flex; flex-wrap: wrap; border: 2px solid #E91E63; padding: 10px;">
+                    <div class="flex-item" style="min-width: 200px;">항목 1</div>
+                    <div class="flex-item" style="min-width: 200px;">항목 2</div>
+                    <div class="flex-item" style="min-width: 200px;">항목 3</div>
+                    <div class="flex-item" style="min-width: 200px;">항목 4</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="example">
+            <h3>6. flex 속성 (자식 요소)</h3>
+            <p>flex item의 크기와 성장/축소 비율을 설정합니다.</p>
+            <div class="code-block">/* flex 축약형 */
+.item {
+    flex: 1;  /* flex-grow: 1, flex-shrink: 1, flex-basis: 0% */
+}
+
+/* 개별 속성 */
+.item {
+    flex-grow: 1;      /* 남은 공간 차지 비율 */
+    flex-shrink: 1;    /* 공간 부족 시 축소 비율 */
+    flex-basis: 200px; /* 기본 크기 */
+}
+
+/* 고정 크기 */
+.item {
+    flex: 0 0 200px;  /* grow: 0, shrink: 0, basis: 200px */
+}</div>
+            <div class="demo-box">
+                <div style="display: flex; border: 2px solid #E91E63; padding: 10px;">
+                    <div class="flex-item" style="flex: 1;">flex: 1</div>
+                    <div class="flex-item" style="flex: 2;">flex: 2 (2배)</div>
+                    <div class="flex-item" style="flex: 1;">flex: 1</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="example">
+            <h3>7. 실전 예제: 네비게이션 바</h3>
+            <p>Flexbox를 활용한 네비게이션 바 예제입니다.</p>
+            <div class="demo-box">
+                <nav style="display: flex; justify-content: space-between; align-items: center; background: #E91E63; padding: 15px; border-radius: 5px;">
+                    <div style="color: white; font-weight: bold;">로고</div>
+                    <div style="display: flex; gap: 20px;">
+                        <a href="#" style="color: white; text-decoration: none;">메뉴1</a>
+                        <a href="#" style="color: white; text-decoration: none;">메뉴2</a>
+                        <a href="#" style="color: white; text-decoration: none;">메뉴3</a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+
+        <div class="example">
+            <h3>8. 실전 예제: 카드 그리드</h3>
+            <p>Flexbox로 만든 반응형 카드 그리드입니다.</p>
+            <div class="demo-box">
+                <div style="display: flex; flex-wrap: wrap; gap: 15px;">
+                    <div style="flex: 1 1 200px; background: #F8BBD0; padding: 20px; border-radius: 5px; border: 2px solid #E91E63;">
+                        <h4>카드 1</h4>
+                        <p>Flexbox로 만든 카드입니다.</p>
+                    </div>
+                    <div style="flex: 1 1 200px; background: #F8BBD0; padding: 20px; border-radius: 5px; border: 2px solid #E91E63;">
+                        <h4>카드 2</h4>
+                        <p>반응형으로 동작합니다.</p>
+                    </div>
+                    <div style="flex: 1 1 200px; background: #F8BBD0; padding: 20px; border-radius: 5px; border: 2px solid #E91E63;">
+                        <h4>카드 3</h4>
+                        <p>화면 크기에 따라 조절됩니다.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

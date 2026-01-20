@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>05. 타이포그래피</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #00BCD4;
+            padding-bottom: 10px;
+        }
+        .example {
+            background: #f9f9f9;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #00BCD4;
+            border-radius: 5px;
+        }
+        .code-block {
+            background: #e0f7fa;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+        }
+        .demo-box {
+            padding: 15px;
+            margin: 10px 0;
+            border: 2px dashed #ddd;
+            border-radius: 5px;
+            background: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>05. 타이포그래피 (Typography)</h1>
+        
+        <div class="example">
+            <h3>1. font-family (글꼴)</h3>
+            <p>텍스트에 사용할 글꼴을 지정합니다.</p>
+            <div class="code-block">/* 단일 글꼴 */
+.text {
+    font-family: Arial;
+}
+
+/* 여러 글꼴 (폴백) */
+.text {
+    font-family: "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
+}
+
+/* 글꼴 종류 */
+.serif { font-family: serif; }        /* 명조체 */
+.sans-serif { font-family: sans-serif; } /* 고딕체 */
+.monospace { font-family: monospace; }  /* 고정폭 */
+.cursive { font-family: cursive; }      /* 필기체 */
+.fantasy { font-family: fantasy; }      /* 장식체 */</div>
+            <div class="demo-box">
+                <p style="font-family: serif;">serif (명조체) - Serif 글꼴입니다.</p>
+                <p style="font-family: sans-serif;">sans-serif (고딕체) - Sans-serif 글꼴입니다.</p>
+                <p style="font-family: monospace;">monospace (고정폭) - Monospace 글꼴입니다.</p>
+                <p style="font-family: 'Malgun Gothic', sans-serif;">Malgun Gothic - 맑은 고딕 글꼴입니다.</p>
+            </div>
+        </div>
+
+        <div class="example">
+            <h3>2. font-size (글자 크기)</h3>
+            <p>텍스트의 크기를 설정합니다.</p>
+            <div class="code-block">/* 픽셀 단위 */
+.text {
+    font-size: 16px;
+}
+
+/* em 단위 (부모 요소 기준) */
+.text {
+    font-size: 1.5em;  /* 부모의 1.5배 */
+}
+
+/* rem 단위 (루트 요소 기준) */
+.text {
+    font-size: 1.5rem;  /* 루트의 1.5배 */
+}
+
+/* 퍼센트 */
+.text {
+    font-size: 150%;
+}
+
+/* 키워드 */
+.small { font-size: small; }
+.medium { font-size: medium; }
+.large { font-size: large; }</div>
+            <div class="demo-box">
+                <p style="font-size: 12px;">12px - 작은 텍스트</p>
+                <p style="font-size: 16px;">16px - 기본 텍스트</p>
+                <p style="font-size: 24px;">24px - 큰 텍스트</p>
+                <p style="font-size: 1.5em;">1.5em - 부모의 1.5배</p>
+                <p style="font-size: 1.5rem;">1.5rem - 루트의 1.5배</p>
+            </div>
+        </div>
+
+        <div class="example">
+            <h3>3. font-weight (글자 굵기)</h3>
+            <p>텍스트의 굵기를 설정합니다.</p>
+            <div class="code-block">/* 키워드 */
+.normal { font-weight: normal; }  /* 400 */
+.bold { font-weight: bold; }      /* 700 */
+
+/* 숫자 값 */
+.thin { font-weight: 100; }        /* 얇음 */
+.light { font-weight: 300; }       /* 가벼움 */
+.normal { font-weight: 400; }      /* 보통 */
+.medium { font-weight: 500; }      /* 중간 */
+.bold { font-weight: 700; }        /* 굵음 */
+.bolder { font-weight: 900; }      /* 매우 굵음 */</div>
+            <div class="demo-box">
+                <p style="font-weight: 100;">100 - 얇은 텍스트</p>
+                <p style="font-weight: 300;">300 - 가벼운 텍스트</p>
+                <p style="font-weight: 400;">400 - 보통 텍스트</p>
+                <p style="font-weight: 700;">700 - 굵은 텍스트</p>
+                <p style="font-weight: 900;">900 - 매우 굵은 텍스트</p>
+            </div>
+        </div>
+
+        <div class="example">
+            <h3>4. font-style (글자 스타일)</h3>
+            <p>텍스트의 스타일을 설정합니다.</p>
+            <div class="code-block">/* 일반 */
+.normal {
+    font-style: normal;
+}
+
+/* 이탤릭 */
+.italic {
+    font-style: italic;
+}
+
+/* 기울임 */
+.oblique {
+    font-style: oblique;
+}</div>
+            <div class="demo-box">
+                <p style="font-style: normal;">normal - 일반 텍스트</p>
+                <p style="font-style: italic;">italic - 이탤릭 텍스트</p>
+                <p style="font-style: oblique;">oblique - 기울임 텍스트</p>
+            </div>
+        </div>
+
+        <div class="example">
+            <h3>5. line-height (줄 간격)</h3>
+            <p>줄과 줄 사이의 간격을 설정합니다.</p>
+            <div class="code-block">/* 숫자 (배수) */
+.text {
+    line-height: 1.5;  /* 글자 크기의 1.5배 */
+}
+
+/* 픽셀 */
+.text {
+    line-height: 24px;
+}
+
+/* 퍼센트 */
+.text {
+    line-height: 150%;
+}
+
+/* normal (기본값) */
+.text {
+    line-height: normal;
+}</div>
+            <div class="demo-box">
+                <p style="line-height: 1.2;">line-height: 1.2 - 줄 간격이 좁습니다. 여러 줄의 텍스트가 있을 때 줄 간격이 좁게 표시됩니다.</p>
+                <p style="line-height: 1.8;">line-height: 1.8 - 줄 간격이 넓습니다. 여러 줄의 텍스트가 있을 때 줄 간격이 넓게 표시되어 읽기 편합니다.</p>
+            </div>
+        </div>
+
+        <div class="example">
+            <h3>6. text-decoration (텍스트 장식)</h3>
+            <p>텍스트에 밑줄, 취소선 등을 추가합니다.</p>
+            <div class="code-block">/* 밑줄 */
+.underline {
+    text-decoration: underline;
+}
+
+/* 취소선 */
+.line-through {
+    text-decoration: line-through;
+}
+
+/* 윗줄 */
+.overline {
+    text-decoration: overline;
+}
+
+/* 없음 */
+.none {
+    text-decoration: none;
+}
+
+/* 색상과 스타일 지정 */
+.custom {
+    text-decoration: underline wavy red;
+}</div>
+            <div class="demo-box">
+                <p style="text-decoration: underline;">underline - 밑줄</p>
+                <p style="text-decoration: line-through;">line-through - 취소선</p>
+                <p style="text-decoration: overline;">overline - 윗줄</p>
+                <p style="text-decoration: underline wavy;">wavy underline - 물결 밑줄</p>
+                <a href="#" style="text-decoration: none;">none - 링크 밑줄 제거</a>
+            </div>
+        </div>
+
+        <div class="example">
+            <h3>7. text-transform (대소문자 변환)</h3>
+            <p>텍스트의 대소문자를 변환합니다.</p>
+            <div class="code-block">/* 대문자 */
+.uppercase {
+    text-transform: uppercase;
+}
+
+/* 소문자 */
+.lowercase {
+    text-transform: lowercase;
+}
+
+/* 첫 글자만 대문자 */
+.capitalize {
+    text-transform: capitalize;
+}
+
+/* 없음 */
+.none {
+    text-transform: none;
+}</div>
+            <div class="demo-box">
+                <p style="text-transform: uppercase;">uppercase - 모든 글자를 대문자로</p>
+                <p style="text-transform: lowercase;">LOWERCASE - 모든 글자를 소문자로</p>
+                <p style="text-transform: capitalize;">capitalize - 각 단어의 첫 글자만 대문자로</p>
+            </div>
+        </div>
+
+        <div class="example">
+            <h3>8. letter-spacing과 word-spacing</h3>
+            <p>글자 간격과 단어 간격을 조절합니다.</p>
+            <div class="code-block">/* 글자 간격 */
+.letter-spacing {
+    letter-spacing: 2px;
+}
+
+/* 단어 간격 */
+.word-spacing {
+    word-spacing: 10px;
+}</div>
+            <div class="demo-box">
+                <p style="letter-spacing: 2px;">letter-spacing: 2px - 글자 간격이 넓습니다</p>
+                <p style="letter-spacing: -1px;">letter-spacing: -1px - 글자 간격이 좁습니다</p>
+                <p style="word-spacing: 10px;">word spacing: 10px - 단어 간격이 넓습니다</p>
+            </div>
+        </div>
+
+        <div class="example">
+            <h3>9. 실전 예제: 타이포그래피 조합</h3>
+            <p>여러 속성을 조합한 타이포그래피 예제입니다.</p>
+            <div class="demo-box">
+                <h2 style="font-family: 'Malgun Gothic', sans-serif; font-size: 2rem; font-weight: 700; line-height: 1.5; color: #333; margin-bottom: 10px;">
+                    제목 스타일
+                </h2>
+                <p style="font-size: 1rem; line-height: 1.8; color: #666; margin-bottom: 20px;">
+                    본문 텍스트입니다. 읽기 편한 줄 간격과 적절한 색상을 사용했습니다.
+                </p>
+                <p style="font-size: 0.875rem; color: #999; font-style: italic;">
+                    작은 텍스트와 이탤릭 스타일을 사용한 설명입니다.
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

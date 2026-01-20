@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>03. 레이아웃 기본</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #FF9800;
+            padding-bottom: 10px;
+        }
+        .example {
+            background: #f9f9f9;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #FF9800;
+            border-radius: 5px;
+        }
+        .code-block {
+            background: #fff3e0;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+        }
+        .demo-box {
+            padding: 15px;
+            margin: 10px 0;
+            border: 2px dashed #ddd;
+            border-radius: 5px;
+            background: #fff;
+        }
+        .demo-item {
+            background: #FFE0B2;
+            padding: 10px;
+            margin: 5px;
+            border: 2px solid #FF9800;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>03. 레이아웃 기본</h1>
+        
+        <div class="example">
+            <h3>1. display 속성</h3>
+            <p>요소가 화면에 표시되는 방식을 결정합니다.</p>
+            <div class="code-block">/* block - 블록 요소 (한 줄 전체 차지) */
+div {
+    display: block;
+    /* width, height, margin, padding 모두 사용 가능 */
+}
+
+/* inline - 인라인 요소 (콘텐츠만큼만 차지) */
+span {
+    display: inline;
+    /* width, height 사용 불가 */
+    /* margin, padding은 좌우만 가능 */
+}
+
+/* inline-block - 인라인처럼 배치, 블록처럼 크기 조절 */
+.button {
+    display: inline-block;
+    /* width, height 사용 가능 */
+    /* 인라인처럼 나란히 배치 */
+}
+
+/* none - 요소 숨김 */
+.hidden {
+    display: none;
+}</div>
+            <div class="demo-box">
+                <div class="demo-item" style="display: block;">block 요소 1</div>
+                <div class="demo-item" style="display: block;">block 요소 2</div>
+                <span class="demo-item" style="display: inline;">inline 요소 1</span>
+                <span class="demo-item" style="display: inline;">inline 요소 2</span>
+                <div class="demo-item" style="display: inline-block; width: 150px;">inline-block 요소</div>
+                <div class="demo-item" style="display: inline-block; width: 150px;">inline-block 요소</div>
+            </div>
+        </div>
+
+        <div class="example">
+            <h3>2. 텍스트 정렬</h3>
+            <p>텍스트와 인라인 요소의 정렬을 설정합니다.</p>
+            <div class="code-block">/* 왼쪽 정렬 (기본값) */
+.text-left {
+    text-align: left;
+}
+
+/* 가운데 정렬 */
+.text-center {
+    text-align: center;
+}
+
+/* 오른쪽 정렬 */
+.text-right {
+    text-align: right;
+}
+
+/* 양쪽 정렬 */
+.text-justify {
+    text-align: justify;
+}</div>
+            <div class="demo-box">
+                <p style="text-align: left; border: 1px solid #ddd; padding: 10px;">왼쪽 정렬 (left)</p>
+                <p style="text-align: center; border: 1px solid #ddd; padding: 10px;">가운데 정렬 (center)</p>
+                <p style="text-align: right; border: 1px solid #ddd; padding: 10px;">오른쪽 정렬 (right)</p>
+                <p style="text-align: justify; border: 1px solid #ddd; padding: 10px;">양쪽 정렬 (justify) - 긴 텍스트에서 줄 끝을 맞춥니다.</p>
+            </div>
+        </div>
+
+        <div class="example">
+            <h3>3. float 속성</h3>
+            <p>요소를 왼쪽 또는 오른쪽으로 띄웁니다.</p>
+            <div class="code-block">/* 왼쪽으로 띄움 */
+.float-left {
+    float: left;
+}
+
+/* 오른쪽으로 띄움 */
+.float-right {
+    float: right;
+}
+
+/* float 해제 */
+.clearfix::after {
+    content: "";
+    display: table;
+    clear: both;
+}</div>
+            <div class="demo-box">
+                <div style="float: left; width: 100px; height: 100px; background: #FFE0B2; border: 2px solid #FF9800; margin: 10px;">
+                    float: left
+                </div>
+                <p>이 텍스트는 float된 요소 주변으로 흐릅니다. float는 레이아웃을 만들 때 사용되지만, 현대적인 방법으로는 Flexbox나 Grid를 사용하는 것이 권장됩니다.</p>
+                <div style="clear: both;"></div>
+                <div style="float: right; width: 100px; height: 100px; background: #C8E6C9; border: 2px solid #4CAF50; margin: 10px;">
+                    float: right
+                </div>
+                <p>오른쪽으로 float된 요소입니다.</p>
+                <div style="clear: both;"></div>
+            </div>
+        </div>
+
+        <div class="example">
+            <h3>4. 중앙 정렬 방법</h3>
+            <p>요소를 가로/세로로 중앙에 배치하는 방법들입니다.</p>
+            <div class="code-block">/* 방법 1: margin auto (가로 중앙) */
+.center-horizontal {
+    width: 300px;
+    margin: 0 auto;
+}
+
+/* 방법 2: text-align (인라인 요소) */
+.parent {
+    text-align: center;
+}
+
+/* 방법 3: line-height (한 줄 텍스트 세로 중앙) */
+.single-line {
+    height: 100px;
+    line-height: 100px;
+}
+
+/* 방법 4: padding (간단한 세로 중앙) */
+.vertical-center {
+    padding: 50px 0;
+}</div>
+            <div class="demo-box">
+                <div style="width: 200px; margin: 0 auto; background: #FFE0B2; padding: 20px; border: 2px solid #FF9800;">
+                    margin: 0 auto (가로 중앙)
+                </div>
+                <div style="text-align: center; margin: 20px 0;">
+                    <span style="background: #C8E6C9; padding: 10px; border: 2px solid #4CAF50;">text-align: center</span>
+                </div>
+                <div style="height: 80px; line-height: 80px; background: #BBDEFB; border: 2px solid #2196F3; text-align: center;">
+                    line-height로 세로 중앙
+                </div>
+            </div>
+        </div>
+
+        <div class="example">
+            <h3>5. overflow 속성</h3>
+            <p>콘텐츠가 요소 크기를 넘칠 때 처리 방법을 설정합니다.</p>
+            <div class="code-block">/* visible - 넘치는 부분 표시 (기본값) */
+.visible {
+    overflow: visible;
+}
+
+/* hidden - 넘치는 부분 숨김 */
+.hidden {
+    overflow: hidden;
+}
+
+/* scroll - 스크롤바 항상 표시 */
+.scroll {
+    overflow: scroll;
+}
+
+/* auto - 필요할 때만 스크롤바 표시 */
+.auto {
+    overflow: auto;
+}</div>
+            <div class="demo-box">
+                <div style="width: 200px; height: 100px; overflow: hidden; background: #FFE0B2; border: 2px solid #FF9800; margin: 10px 0;">
+                    overflow: hidden - 넘치는 부분이 잘립니다. 이 텍스트는 보이지 않을 것입니다.
+                </div>
+                <div style="width: 200px; height: 100px; overflow: scroll; background: #C8E6C9; border: 2px solid #4CAF50; margin: 10px 0;">
+                    overflow: scroll - 스크롤바가 항상 표시됩니다. 이 텍스트는 스크롤하여 볼 수 있습니다.
+                </div>
+                <div style="width: 200px; height: 100px; overflow: auto; background: #BBDEFB; border: 2px solid #2196F3; margin: 10px 0;">
+                    overflow: auto - 필요할 때만 스크롤바가 나타납니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="example">
+            <h3>6. visibility 속성</h3>
+            <p>요소의 표시 여부를 제어합니다.</p>
+            <div class="code-block">/* visible - 표시 (기본값) */
+.visible {
+    visibility: visible;
+}
+
+/* hidden - 숨김 (공간은 차지함) */
+.hidden {
+    visibility: hidden;
+}
+
+/* display: none과의 차이 */
+/* display: none - 공간도 차지하지 않음 */
+/* visibility: hidden - 공간은 차지하지만 보이지 않음 */</div>
+            <div class="demo-box">
+                <div style="background: #FFE0B2; padding: 10px; margin: 5px; border: 2px solid #FF9800;">보이는 요소</div>
+                <div style="visibility: hidden; background: #C8E6C9; padding: 10px; margin: 5px; border: 2px solid #4CAF50;">숨겨진 요소 (공간은 차지함)</div>
+                <div style="background: #BBDEFB; padding: 10px; margin: 5px; border: 2px solid #2196F3;">다음 요소</div>
+            </div>
+        </div>
+
+        <div class="example">
+            <h3>7. 실전 예제: 간단한 레이아웃</h3>
+            <p>기본 레이아웃 속성을 활용한 예제입니다.</p>
+            <div class="demo-box">
+                <header style="background: #2196F3; color: white; padding: 20px; text-align: center; margin-bottom: 10px;">
+                    헤더 (header)
+                </header>
+                <nav style="background: #FF9800; color: white; padding: 10px; margin-bottom: 10px;">
+                    <span style="margin: 0 10px;">메뉴1</span>
+                    <span style="margin: 0 10px;">메뉴2</span>
+                    <span style="margin: 0 10px;">메뉴3</span>
+                </nav>
+                <div style="overflow: hidden;">
+                    <aside style="float: left; width: 200px; background: #4CAF50; color: white; padding: 20px; min-height: 200px;">
+                        사이드바 (aside)
+                    </aside>
+                    <main style="margin-left: 220px; background: #f5f5f5; padding: 20px; min-height: 200px;">
+                        메인 콘텐츠 (main)
+                    </main>
+                </div>
+                <footer style="background: #9E9E9E; color: white; padding: 20px; text-align: center; margin-top: 10px;">
+                    푸터 (footer)
+                </footer>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

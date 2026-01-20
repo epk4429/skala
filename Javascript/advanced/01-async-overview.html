@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01. 비동기 처리 방법 개요</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #9C27B0;
+            padding-bottom: 10px;
+        }
+        .example {
+            background: #f9f9f9;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #9C27B0;
+            border-radius: 5px;
+        }
+        .output {
+            background: #f3e5f5;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            min-height: 50px;
+            white-space: pre-wrap;
+        }
+        button {
+            background: #9C27B0;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #7B1FA2;
+        }
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .comparison-table th,
+        .comparison-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        .comparison-table th {
+            background-color: #9C27B0;
+            color: white;
+        }
+        .comparison-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .highlight {
+            background-color: #fff3cd;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>01. 비동기 처리 방법 개요</h1>
+        
+        <div class="example">
+            <h3>비동기 처리 방법의 분류</h3>
+            <p>JavaScript에서 비동기 작업을 처리하는 방법은 크게 세 가지로 나눌 수 있습니다:</p>
+            <button onclick="showOverview()">개요 보기</button>
+            <div id="overview-output" class="output"></div>
+        </div>
+
+        <div class="example">
+            <h3>1. 콜백 (Callback) - 가장 기본적인 방법</h3>
+            <p>함수를 다른 함수의 인자로 전달하여 비동기 작업 완료 후 실행하는 방법입니다.</p>
+            <button onclick="showCallback()">콜백 예제</button>
+            <div id="callback-output" class="output"></div>
+        </div>
+
+        <div class="example">
+            <h3>2. Promise - ES6에서 도입된 방법</h3>
+            <p>비동기 작업의 성공/실패를 나타내는 객체를 사용하는 방법입니다.</p>
+            <button onclick="showPromise()">Promise 예제</button>
+            <div id="promise-output" class="output"></div>
+        </div>
+
+        <div class="example">
+            <h3>3. async/await - Promise를 더 쉽게 사용하는 문법</h3>
+            <p>Promise를 동기 코드처럼 작성할 수 있게 해주는 문법적 설탕(syntactic sugar)입니다.</p>
+            <button onclick="showAsyncAwait()">async/await 예제</button>
+            <div id="async-await-output" class="output"></div>
+        </div>
+
+        <div class="example">
+            <h3>4. 세 가지 방법 비교</h3>
+            <p>같은 작업을 세 가지 방법으로 구현하여 비교해봅시다.</p>
+            <button onclick="showComparison()">비교 예제</button>
+            <div id="comparison-output" class="output"></div>
+        </div>
+
+        <div class="example">
+            <h3>5. setTimeout의 역할</h3>
+            <p>setTimeout은 비동기 함수의 예시이며, 비동기 처리 방법 자체는 아닙니다.</p>
+            <button onclick="showSetTimeout()">setTimeout 설명</button>
+            <div id="settimeout-output" class="output"></div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // 비동기 처리 방법 개요
+        // ============================================
+        
+        function showOverview() {
+            const output = document.getElementById('overview-output');
+            
+            let result = '<strong>비동기 처리 방법 분류:</strong>\n\n';
+            
+            result += '<strong>1. 콜백 (Callback)</strong>\n';
+            result += '   - 가장 오래된 방법\n';
+            result += '   - 함수를 인자로 전달하여 완료 후 실행\n';
+            result += '   - 예: setTimeout(callback, 1000)\n\n';
+            
+            result += '<strong>2. Promise</strong>\n';
+            result += '   - ES6 (ES2015)에서 도입\n';
+            result += '   - 비동기 작업의 성공/실패를 객체로 표현\n';
+            result += '   - then(), catch() 메서드 사용\n\n';
+            
+            result += '<strong>3. async/await</strong>\n';
+            result += '   - ES2017에서 도입\n';
+            result += '   - Promise를 더 쉽게 사용하기 위한 문법\n';
+            result += '   - 동기 코드처럼 작성 가능\n\n';
+            
+            result += '<strong>중요한 이해:</strong>\n';
+            result += '❌ setTimeout은 비동기 처리 방법이 아닙니다!\n';
+            result += '✅ setTimeout은 비동기 함수의 예시입니다\n';
+            result += '✅ 비동기 처리 방법: 콜백, Promise, async/await\n\n';
+            
+            result += '<strong>관계도:</strong>\n';
+            result += '콜백 → Promise → async/await\n';
+            result += '  (기본)   (개선)    (문법적 설탕)\n\n';
+            result += 'async/await는 내부적으로 Promise를 사용합니다!';
+            
+            output.innerHTML = result;
+        }
+
+        // ============================================
+        // 1. 콜백 (Callback)
+        // ============================================
+        
+        function showCallback() {
+            const output = document.getElementById('callback-output');
+            output.innerHTML = '콜백 예제 실행 중...\n';
+            
+            let result = '<strong>콜백 (Callback) 방식:</strong>\n\n';
+            
+            // 콜백 함수: 다른 함수의 인자로 전달되는 함수
+            function fetchData(callback) {
+                // 비동기 작업 시뮬레이션
+                setTimeout(() => {
+                    const data = '데이터 로드 완료';
+                    // 작업 완료 후 콜백 함수 실행
+                    callback(null, data); // 첫 번째: 에러, 두 번째: 데이터
+                }, 1000);
+            }
+            
+            // 콜백 함수 사용
+            fetchData((error, data) => {
+                if (error) {
+                    result += `에러: ${error}\n`;
+                } else {
+                    result += `성공: ${data}\n\n`;
+                }
+                
+                result += '<strong>콜백의 특징:</strong>\n';
+                result += '1. 함수를 인자로 전달\n';
+                result += '2. 비동기 작업 완료 후 실행\n';
+                result += '3. 콜백 지옥(callback hell) 문제 발생 가능\n\n';
+                
+                result += '<strong>콜백 지옥 예시:</strong>\n';
+                result += 'fetchData1((err1, data1) => {\n';
+                result += '  fetchData2((err2, data2) => {\n';
+                result += '    fetchData3((err3, data3) => {\n';
+                result += '      // 코드가 깊어짐...\n';
+                result += '    });\n';
+                result += '  });\n';
+                result += '});';
+                
+                output.innerHTML = result;
+            });
+        }
+
+        // ============================================
+        // 2. Promise
+        // ============================================
+        
+        function showPromise() {
+            const output = document.getElementById('promise-output');
+            output.innerHTML = 'Promise 예제 실행 중...\n';
+            
+            // Promise를 사용한 비동기 처리
+            function fetchDataPromise() {
+                return new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        const success = true;
+                        if (success) {
+                            resolve('데이터 로드 완료');
+                        } else {
+                            reject('에러 발생');
+                        }
+                    }, 1000);
+                });
+            }
+            
+            fetchDataPromise()
+                .then((data) => {
+                    let result = '<strong>Promise 방식:</strong>\n\n';
+                    result += `성공: ${data}\n\n`;
+                    
+                    result += '<strong>Promise의 특징:</strong>\n';
+                    result += '1. 비동기 작업을 객체로 표현\n';
+                    result += '2. then(), catch()로 체이닝 가능\n';
+                    result += '3. 콜백 지옥 문제 해결\n';
+                    result += '4. 에러 처리 용이\n\n';
+                    
+                    result += '<strong>Promise 체이닝:</strong>\n';
+                    result += 'fetchData1()\n';
+                    result += '  .then(data1 => fetchData2(data1))\n';
+                    result += '  .then(data2 => fetchData3(data2))\n';
+                    result += '  .catch(error => console.error(error));';
+                    
+                    output.innerHTML = result;
+                })
+                .catch((error) => {
+                    output.innerHTML = `에러: ${error}`;
+                });
+        }
+
+        // ============================================
+        // 3. async/await
+        // ============================================
+        
+        function showAsyncAwait() {
+            const output = document.getElementById('async-await-output');
+            output.innerHTML = 'async/await 예제 실행 중...\n';
+            
+            // Promise를 반환하는 함수
+            function fetchDataPromise() {
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        resolve('데이터 로드 완료');
+                    }, 1000);
+                });
+            }
+            
+            // async/await 사용
+            async function fetchDataAsync() {
+                try {
+                    // await: Promise가 완료될 때까지 기다림
+                    const data = await fetchDataPromise();
+                    
+                    let result = '<strong>async/await 방식:</strong>\n\n';
+                    result += `성공: ${data}\n\n`;
+                    
+                    result += '<strong>async/await의 특징:</strong>\n';
+                    result += '1. Promise를 더 쉽게 사용하는 문법\n';
+                    result += '2. 동기 코드처럼 작성 가능\n';
+                    result += '3. try-catch로 에러 처리\n';
+                    result += '4. 가독성이 좋음\n\n';
+                    
+                    result += '<strong>중요:</strong>\n';
+                    result += '✅ async/await는 내부적으로 Promise를 사용합니다!\n';
+                    result += '✅ async 함수는 항상 Promise를 반환합니다\n';
+                    result += '✅ await는 Promise 앞에서만 사용 가능합니다\n\n';
+                    
+                    result += '<strong>async/await 체이닝:</strong>\n';
+                    result += 'async function fetchAll() {\n';
+                    result += '  const data1 = await fetchData1();\n';
+                    result += '  const data2 = await fetchData2(data1);\n';
+                    result += '  const data3 = await fetchData3(data2);\n';
+                    result += '  return data3;\n';
+                    result += '}';
+                    
+                    output.innerHTML = result;
+                } catch (error) {
+                    output.innerHTML = `에러: ${error}`;
+                }
+            }
+            
+            fetchDataAsync();
+        }
+
+        // ============================================
+        // 4. 세 가지 방법 비교
+        // ============================================
+        
+        function showComparison() {
+            const output = document.getElementById('comparison-output');
+            
+            let result = '<strong>같은 작업을 세 가지 방법으로 구현:</strong>\n\n';
+            
+            result += '<strong>작업: 데이터를 가져와서 처리한 후 저장</strong>\n\n';
+            
+            result += '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n';
+            result += '<strong>1. 콜백 방식:</strong>\n';
+            result += '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n';
+            result += 'fetchData1((err1, data1) => {\n';
+            result += '  if (err1) return handleError(err1);\n';
+            result += '  processData(data1, (err2, processed) => {\n';
+            result += '    if (err2) return handleError(err2);\n';
+            result += '    saveData(processed, (err3) => {\n';
+            result += '      if (err3) return handleError(err3);\n';
+            result += '      console.log("완료");\n';
+            result += '    });\n';
+            result += '  });\n';
+            result += '});\n';
+            result += '→ 코드가 깊어지고 읽기 어려움 (콜백 지옥)\n\n';
+            
+            result += '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n';
+            result += '<strong>2. Promise 방식:</strong>\n';
+            result += '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n';
+            result += 'fetchData1()\n';
+            result += '  .then(data1 => processData(data1))\n';
+            result += '  .then(processed => saveData(processed))\n';
+            result += '  .then(() => console.log("완료"))\n';
+            result += '  .catch(error => handleError(error));\n';
+            result += '→ 체이닝으로 읽기 쉬움, 에러 처리 용이\n\n';
+            
+            result += '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n';
+            result += '<strong>3. async/await 방식:</strong>\n';
+            result += '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n';
+            result += 'async function doWork() {\n';
+            result += '  try {\n';
+            result += '    const data1 = await fetchData1();\n';
+            result += '    const processed = await processData(data1);\n';
+            result += '    await saveData(processed);\n';
+            result += '    console.log("완료");\n';
+            result += '  } catch (error) {\n';
+            result += '    handleError(error);\n';
+            result += '  }\n';
+            result += '}\n';
+            result += '→ 동기 코드처럼 읽기 쉬움, 가장 직관적\n\n';
+            
+            result += '<strong>결론:</strong>\n';
+            result += '✅ 세 가지 방법 모두 비동기 작업을 처리합니다\n';
+            result += '✅ Promise와 async/await는 내부적으로 같은 메커니즘 사용\n';
+            result += '✅ async/await는 Promise의 문법적 설탕(syntactic sugar)\n';
+            result += '✅ 현대적인 코드는 Promise 또는 async/await 사용 권장';
+            
+            output.innerHTML = result;
+        }
+
+        // ============================================
+        // 5. setTimeout의 역할
+        // ============================================
+        
+        function showSetTimeout() {
+            const output = document.getElementById('settimeout-output');
+            
+            let result = '<strong>setTimeout의 역할과 이해:</strong>\n\n';
+            
+            result += '<strong>❌ 잘못된 이해:</strong>\n';
+            result += '"비동기 처리 방법 = setTimeout"\n';
+            result += '→ setTimeout은 비동기 처리 방법이 아닙니다!\n\n';
+            
+            result += '<strong>✅ 올바른 이해:</strong>\n';
+            result += 'setTimeout은 비동기 함수의 예시입니다\n';
+            result += '비동기 처리 방법: 콜백, Promise, async/await\n\n';
+            
+            result += '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n';
+            result += '<strong>setTimeout의 역할:</strong>\n';
+            result += '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n';
+            result += '1. 지정된 시간 후 함수 실행\n';
+            result += '2. 비동기적으로 실행 (다른 코드를 막지 않음)\n';
+            result += '3. 콜백 함수를 사용\n\n';
+            
+            result += '<strong>예시:</strong>\n';
+            result += 'console.log("1. 시작");\n';
+            result += 'setTimeout(() => {\n';
+            result += '  console.log("2. 비동기 실행");\n';
+            result += '}, 1000);\n';
+            result += 'console.log("3. 끝");\n\n';
+            result += '<strong>출력 순서:</strong>\n';
+            result += '1. 시작\n';
+            result += '3. 끝\n';
+            result += '2. 비동기 실행 (1초 후)\n\n';
+            
+            result += '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n';
+            result += '<strong>setTimeout을 Promise로 변환:</strong>\n';
+            result += '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n';
+            result += '// 콜백 방식 (setTimeout)\n';
+            result += 'setTimeout(() => {\n';
+            result += '  console.log("완료");\n';
+            result += '}, 1000);\n\n';
+            
+            result += '// Promise 방식\n';
+            result += 'new Promise((resolve) => {\n';
+            result += '  setTimeout(() => resolve("완료"), 1000);\n';
+            result += '}).then(result => console.log(result));\n\n';
+            
+            result += '// async/await 방식\n';
+            result += 'async function delay() {\n';
+            result += '  const result = await new Promise((resolve) => {\n';
+            result += '    setTimeout(() => resolve("완료"), 1000);\n';
+            result += '  });\n';
+            result += '  console.log(result);\n';
+            result += '}\n\n';
+            
+            result += '<strong>결론:</strong>\n';
+            result += '✅ setTimeout은 비동기 함수의 예시\n';
+            result += '✅ 비동기 처리 방법은 콜백/Promise/async-await\n';
+            result += '✅ setTimeout을 Promise로 감싸면 async/await 사용 가능';
+            
+            output.innerHTML = result;
+        }
+    </script>
+</body>
+</html>

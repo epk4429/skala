@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>05. 반응형 디자인</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #795548;
+            padding-bottom: 10px;
+        }
+        .example {
+            background: #f9f9f9;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #795548;
+            border-radius: 5px;
+        }
+        .code-block {
+            background: #efebe9;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+        }
+        .demo-box {
+            padding: 15px;
+            margin: 10px 0;
+            border: 2px dashed #ddd;
+            border-radius: 5px;
+            background: #fff;
+        }
+        .responsive-item {
+            background: #BCAAA4;
+            padding: 20px;
+            margin: 10px;
+            border: 2px solid #795548;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>05. 반응형 디자인 (Responsive Design)</h1>
+        
+        <div class="example">
+            <h3>1. 미디어 쿼리 (Media Queries)</h3>
+            <p>화면 크기에 따라 다른 스타일을 적용합니다.</p>
+            <div class="code-block">/* 기본 스타일 */
+.container {
+    width: 100%;
+}
+
+/* 태블릿 (768px 이상) */
+@media (min-width: 768px) {
+    .container {
+        width: 750px;
+    }
+}
+
+/* 데스크톱 (1024px 이상) */
+@media (min-width: 1024px) {
+    .container {
+        width: 1000px;
+    }
+}
+
+/* 모바일 (768px 미만) */
+@media (max-width: 767px) {
+    .menu {
+        display: none;
+    }
+}</div>
+            <div class="demo-box">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                    <div class="responsive-item">항목 1</div>
+                    <div class="responsive-item">항목 2</div>
+                    <div class="responsive-item">항목 3</div>
+                </div>
+                <p style="margin-top: 10px; font-size: 14px; color: #666;">화면 크기를 조절해보세요</p>
+            </div>
+        </div>
+
+        <div class="example">
+            <h3>2. viewport 메타 태그</h3>
+            <p>모바일에서 올바르게 표시되도록 설정합니다.</p>
+            <div class="code-block">&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+
+/* 설명:
+   - width=device-width: 화면 너비에 맞춤
+   - initial-scale=1.0: 초기 확대/축소 비율
+*/</div>
+        </div>
+
+        <div class="example">
+            <h3>3. 유동적 단위 사용</h3>
+            <p>고정 크기 대신 유동적인 단위를 사용합니다.</p>
+            <div class="code-block">/* 퍼센트 */
+.width-percent {
+    width: 100%;
+}
+
+/* vw, vh (뷰포트 기준) */
+.width-viewport {
+    width: 50vw;  /* 뷰포트 너비의 50% */
+    height: 50vh; /* 뷰포트 높이의 50% */
+}
+
+/* rem (루트 요소 기준) */
+.font-size {
+    font-size: 1.5rem;
+}
+
+/* em (부모 요소 기준) */
+.font-size-em {
+    font-size: 1.2em;
+}</div>
+        </div>
+
+        <div class="example">
+            <h3>4. Flexbox와 Grid의 반응형 활용</h3>
+            <p>Flexbox와 Grid를 활용한 반응형 레이아웃입니다.</p>
+            <div class="code-block">/* Flexbox 반응형 */
+.container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.item {
+    flex: 1 1 200px;  /* 최소 200px, 가능한 만큼 늘어남 */
+}
+
+/* Grid 반응형 */
+.container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}</div>
+        </div>
+    </div>
+</body>
+</html>

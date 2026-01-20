@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>04. 애니메이션과 트랜지션</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #FF5722;
+            padding-bottom: 10px;
+        }
+        .example {
+            background: #f9f9f9;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #FF5722;
+            border-radius: 5px;
+        }
+        .code-block {
+            background: #ffebee;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+        }
+        .demo-box {
+            padding: 15px;
+            margin: 10px 0;
+            border: 2px dashed #ddd;
+            border-radius: 5px;
+            background: #fff;
+        }
+        .transition-box {
+            width: 100px;
+            height: 100px;
+            background: #FF5722;
+            transition: all 0.3s ease;
+            margin: 20px;
+        }
+        .transition-box:hover {
+            width: 200px;
+            background: #E91E63;
+            transform: rotate(45deg);
+        }
+        @keyframes slide {
+            from { transform: translateX(0); }
+            to { transform: translateX(200px); }
+        }
+        .animation-box {
+            width: 100px;
+            height: 100px;
+            background: #2196F3;
+            animation: slide 2s infinite alternate;
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>04. 애니메이션과 트랜지션</h1>
+        
+        <div class="example">
+            <h3>1. transition (트랜지션)</h3>
+            <p>속성 변화를 부드럽게 만듭니다.</p>
+            <div class="code-block">/* 기본 사용법 */
+.element {
+    transition: property duration timing-function delay;
+}
+
+/* 예제 */
+.box {
+    width: 100px;
+    transition: width 0.3s ease;
+}
+
+.box:hover {
+    width: 200px;
+}
+
+/* 여러 속성 */
+.box {
+    transition: width 0.3s, background 0.5s;
+}
+
+/* 모든 속성 */
+.box {
+    transition: all 0.3s ease;
+}</div>
+            <div class="demo-box">
+                <div class="transition-box"></div>
+                <p>마우스를 올려보세요 (hover)</p>
+            </div>
+        </div>
+
+        <div class="example">
+            <h3>2. animation (애니메이션)</h3>
+            <p>키프레임을 사용한 복잡한 애니메이션입니다.</p>
+            <div class="code-block">/* 키프레임 정의 */
+@keyframes slide {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(200px);
+    }
+}
+
+/* 애니메이션 적용 */
+.element {
+    animation: slide 2s infinite alternate;
+}
+
+/* 애니메이션 속성 */
+.element {
+    animation-name: slide;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    animation-timing-function: ease;
+}</div>
+            <div class="demo-box">
+                <div class="animation-box"></div>
+                <p>자동으로 애니메이션이 실행됩니다</p>
+            </div>
+        </div>
+
+        <div class="example">
+            <h3>3. transform (변형)</h3>
+            <p>요소를 변형시킵니다.</p>
+            <div class="code-block">/* 이동 */
+transform: translateX(50px);
+transform: translateY(50px);
+transform: translate(50px, 50px);
+
+/* 회전 */
+transform: rotate(45deg);
+
+/* 크기 조절 */
+transform: scale(1.5);
+transform: scaleX(2);
+transform: scaleY(0.5);
+
+/* 기울임 */
+transform: skewX(20deg);
+transform: skewY(10deg);
+
+/* 조합 */
+transform: translate(50px, 50px) rotate(45deg) scale(1.2);</div>
+        </div>
+    </div>
+</body>
+</html>

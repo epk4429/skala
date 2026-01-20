@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>04. 배열 메서드</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #FF5722;
+            padding-bottom: 10px;
+        }
+        .example {
+            background: #f9f9f9;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #FF5722;
+            border-radius: 5px;
+        }
+        .output {
+            background: #ffebee;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+        }
+        button {
+            background: #FF5722;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #E64A19;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>04. 배열 메서드</h1>
+        
+        <div class="example">
+            <h3>1. map() - 배열 변환</h3>
+            <p>각 요소를 변환하여 새로운 배열을 생성합니다.</p>
+            <button onclick="showMap()">map 예제</button>
+            <div id="map-output" class="output"></div>
+        </div>
+
+        <div class="example">
+            <h3>2. filter() - 배열 필터링</h3>
+            <p>조건에 맞는 요소만 추출하여 새로운 배열을 생성합니다.</p>
+            <button onclick="showFilter()">filter 예제</button>
+            <div id="filter-output" class="output"></div>
+        </div>
+
+        <div class="example">
+            <h3>3. reduce() - 배열 축약</h3>
+            <p>배열을 하나의 값으로 축약합니다.</p>
+            <button onclick="showReduce()">reduce 예제</button>
+            <div id="reduce-output" class="output"></div>
+        </div>
+
+        <div class="example">
+            <h3>4. find(), some(), every()</h3>
+            <p>배열에서 요소를 찾거나 조건을 확인합니다.</p>
+            <button onclick="showFindMethods()">find/some/every 예제</button>
+            <div id="find-output" class="output"></div>
+        </div>
+
+        <div class="example">
+            <h3>5. sort()와 reverse()</h3>
+            <p>배열을 정렬하거나 순서를 뒤집습니다.</p>
+            <button onclick="showSort()">sort/reverse 예제</button>
+            <div id="sort-output" class="output"></div>
+        </div>
+
+        <div class="example">
+            <h3>6. 실전 예제: 학생 성적 관리</h3>
+            <p>여러 배열 메서드를 조합한 실전 예제입니다.</p>
+            <button onclick="showStudentExample()">학생 성적 예제</button>
+            <div id="student-output" class="output"></div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // 1. map() - 배열 변환
+        // ============================================
+        function showMap() {
+            const output = document.getElementById('map-output');
+            let result = '<strong>map() 메서드:</strong><br><br>';
+
+            const numbers = [1, 2, 3, 4, 5];
+            
+            // 각 요소를 2배로 변환
+            const doubled = numbers.map(function(num) {
+                return num * 2;
+            });
+            
+            result += `원본 배열: [${numbers.join(', ')}]<br>`;
+            result += `2배로 변환: [${doubled.join(', ')}]<br><br>`;
+
+            // 화살표 함수 사용 (더 간단)
+            const squared = numbers.map(num => num * num);
+            result += `제곱으로 변환: [${squared.join(', ')}]<br><br>`;
+
+            // 문자열 배열 변환
+            const names = ['홍길동', '김철수', '이영희'];
+            const greetings = names.map(name => `안녕하세요, ${name}님!`);
+            result += `이름 배열: [${names.join(', ')}]<br>`;
+            result += `인사말 배열: [${greetings.join(', ')}]<br>`;
+
+            output.innerHTML = result;
+        }
+
+        // ============================================
+        // 2. filter() - 배열 필터링
+        // ============================================
+        function showFilter() {
+            const output = document.getElementById('filter-output');
+            let result = '<strong>filter() 메서드:</strong><br><br>';
+
+            const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+            
+            // 짝수만 필터링
+            const evens = numbers.filter(num => num % 2 === 0);
+            result += `원본 배열: [${numbers.join(', ')}]<br>`;
+            result += `짝수만: [${evens.join(', ')}]<br><br>`;
+
+            // 5보다 큰 수만 필터링
+            const greaterThan5 = numbers.filter(num => num > 5);
+            result += `5보다 큰 수: [${greaterThan5.join(', ')}]<br><br>`;
+
+            // 객체 배열 필터링
+            const students = [
+                { name: '김철수', score: 85 },
+                { name: '이영희', score: 92 },
+                { name: '박민수', score: 78 }
+            ];
+            
+            const highScorers = students.filter(student => student.score >= 85);
+            result += `80점 이상 학생: ${highScorers.map(s => s.name).join(', ')}<br>`;
+
+            output.innerHTML = result;
+        }
+
+        // ============================================
+        // 3. reduce() - 배열 축약
+        // ============================================
+        function showReduce() {
+            const output = document.getElementById('reduce-output');
+            let result = '<strong>reduce() 메서드:</strong><br><br>';
+
+            const numbers = [1, 2, 3, 4, 5];
+            
+            // 배열의 합계 구하기
+            const sum = numbers.reduce(function(accumulator, currentValue) {
+                return accumulator + currentValue;
+            }, 0); // 초기값 0
+            
+            result += `배열: [${numbers.join(', ')}]<br>`;
+            result += `합계: ${sum}<br><br>`;
+
+            // 화살표 함수 사용
+            const product = numbers.reduce((acc, curr) => acc * curr, 1);
+            result += `곱셈: ${product}<br><br>`;
+
+            // 최대값 구하기
+            const max = numbers.reduce((acc, curr) => curr > acc ? curr : acc);
+            result += `최대값: ${max}<br><br>`;
+
+            // 문자열 배열 합치기
+            const words = ['안녕', '하세요', 'JavaScript'];
+            const sentence = words.reduce((acc, curr) => acc + ' ' + curr);
+            result += `단어 배열: [${words.join(', ')}]<br>`;
+            result += `합친 문장: "${sentence}"<br>`;
+
+            output.innerHTML = result;
+        }
+
+        // ============================================
+        // 4. find(), some(), every()
+        // ============================================
+        function showFindMethods() {
+            const output = document.getElementById('find-output');
+            let result = '<strong>find(), some(), every() 메서드:</strong><br><br>';
+
+            const numbers = [1, 3, 5, 7, 9];
+            
+            // find(): 조건에 맞는 첫 번째 요소 반환
+            const found = numbers.find(num => num > 5);
+            result += `배열: [${numbers.join(', ')}]<br>`;
+            result += `find(num => num > 5): ${found}<br><br>`;
+
+            // some(): 하나라도 조건을 만족하면 true
+            const hasEven = numbers.some(num => num % 2 === 0);
+            result += `some(num => num % 2 === 0): ${hasEven} (짝수가 하나라도 있는가?)<br>`;
+
+            const hasGreaterThan5 = numbers.some(num => num > 5);
+            result += `some(num => num > 5): ${hasGreaterThan5} (5보다 큰 수가 있는가?)<br><br>`;
+
+            // every(): 모든 요소가 조건을 만족하면 true
+            const allOdd = numbers.every(num => num % 2 === 1);
+            result += `every(num => num % 2 === 1): ${allOdd} (모두 홀수인가?)<br>`;
+
+            const allGreaterThan0 = numbers.every(num => num > 0);
+            result += `every(num => num > 0): ${allGreaterThan0} (모두 0보다 큰가?)<br>`;
+
+            output.innerHTML = result;
+        }
+
+        // ============================================
+        // 5. sort()와 reverse()
+        // ============================================
+        function showSort() {
+            const output = document.getElementById('sort-output');
+            let result = '<strong>sort()와 reverse() 메서드:</strong><br><br>';
+
+            // 숫자 배열 정렬
+            const numbers = [3, 1, 4, 1, 5, 9, 2, 6];
+            result += `원본 배열: [${numbers.join(', ')}]<br>`;
+
+            // sort(): 기본적으로 문자열로 변환하여 정렬
+            const sorted = [...numbers].sort(); // 원본 배열 보호를 위해 복사
+            result += `sort() (문자열 정렬): [${sorted.join(', ')}]<br>`;
+
+            // 숫자 정렬: 비교 함수 사용
+            const sortedNumbers = [...numbers].sort((a, b) => a - b);
+            result += `sort((a, b) => a - b) (오름차순): [${sortedNumbers.join(', ')}]<br>`;
+
+            const sortedDesc = [...numbers].sort((a, b) => b - a);
+            result += `sort((a, b) => b - a) (내림차순): [${sortedDesc.join(', ')}]<br><br>`;
+
+            // 문자열 배열 정렬
+            const names = ['홍길동', '김철수', '이영희', '박민수'];
+            const sortedNames = [...names].sort();
+            result += `이름 배열: [${names.join(', ')}]<br>`;
+            result += `정렬 후: [${sortedNames.join(', ')}]<br><br>`;
+
+            // reverse(): 배열 순서 뒤집기
+            const reversed = [...numbers].reverse();
+            result += `reverse() (순서 뒤집기): [${reversed.join(', ')}]<br>`;
+
+            output.innerHTML = result;
+        }
+
+        // ============================================
+        // 6. 실전 예제: 학생 성적 관리
+        // ============================================
+        function showStudentExample() {
+            const output = document.getElementById('student-output');
+            let result = '<strong>학생 성적 관리 예제:</strong><br><br>';
+
+            const students = [
+                { name: '김철수', score: 85, grade: 'B' },
+                { name: '이영희', score: 92, grade: 'A' },
+                { name: '박민수', score: 78, grade: 'C' },
+                { name: '정수진', score: 96, grade: 'A' },
+                { name: '최영호', score: 88, grade: 'B' }
+            ];
+
+            result += `전체 학생: ${students.length}명<br><br>`;
+
+            // 1. A등급 학생만 필터링
+            const aGradeStudents = students.filter(s => s.grade === 'A');
+            result += '<strong>A등급 학생:</strong><br>';
+            aGradeStudents.forEach(s => {
+                result += `- ${s.name} (${s.score}점)<br>`;
+            });
+            result += '<br>';
+
+            // 2. 평균 점수 계산
+            const averageScore = students.reduce((sum, s) => sum + s.score, 0) / students.length;
+            result += `<strong>평균 점수:</strong> ${averageScore.toFixed(1)}점<br><br>`;
+
+            // 3. 점수 순으로 정렬
+            const sortedByScore = [...students].sort((a, b) => b.score - a.score);
+            result += '<strong>점수 순위:</strong><br>';
+            sortedByScore.forEach((s, index) => {
+                result += `${index + 1}. ${s.name} - ${s.score}점 (${s.grade})<br>`;
+            });
+            result += '<br>';
+
+            // 4. 90점 이상 학생 확인
+            const hasHighScorer = students.some(s => s.score >= 90);
+            result += `<strong>90점 이상 학생 존재:</strong> ${hasHighScorer ? '예' : '아니오'}<br>`;
+
+            // 5. 모든 학생이 70점 이상인지 확인
+            const allPassed = students.every(s => s.score >= 70);
+            result += `<strong>모든 학생이 70점 이상:</strong> ${allPassed ? '예' : '아니오'}<br>`;
+
+            output.innerHTML = result;
+        }
+    </script>
+</body>
+</html>

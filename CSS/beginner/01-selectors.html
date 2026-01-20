@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01. CSS 선택자 (Selectors)</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #4CAF50;
+            padding-bottom: 10px;
+        }
+        .example {
+            background: #f9f9f9;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #4CAF50;
+            border-radius: 5px;
+        }
+        .code-block {
+            background: #e8f5e9;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+        }
+        .demo-box {
+            padding: 15px;
+            margin: 10px 0;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        /* 예제용 스타일 - 실제로는 각 섹션에서 설명 */
+        .demo-element {
+            padding: 10px;
+            margin: 5px;
+            background: #fff;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>01. CSS 선택자 (Selectors)</h1>
+        
+        <div class="example">
+            <h3>1. 기본 선택자</h3>
+            <p>요소를 선택하는 가장 기본적인 방법들입니다.</p>
+            <div class="code-block">/* 태그 선택자 - 모든 p 태그에 적용 */
+p {
+    color: blue;
+}
+
+/* 클래스 선택자 - .클래스명 */
+.my-class {
+    color: red;
+}
+
+/* ID 선택자 - #아이디명 */
+#my-id {
+    color: green;
+}</div>
+            <div class="demo-box">
+                <p>이것은 p 태그입니다 (태그 선택자)</p>
+                <p class="my-class">이것은 클래스를 가진 p 태그입니다</p>
+                <p id="my-id">이것은 ID를 가진 p 태그입니다</p>
+            </div>
+        </div>
+
+        <div class="example">
+            <h3>2. 자손 선택자와 자식 선택자</h3>
+            <p>요소의 계층 구조를 이용하여 선택합니다.</p>
+            <div class="code-block">/* 자손 선택자 (Descendant) - 모든 하위 요소 */
+div p {
+    color: blue;
+}
+
+/* 자식 선택자 (Child) - 직접 자식만 */
+div > p {
+    color: red;
+}</div>
+            <div class="demo-box">
+                <p>div의 직접 자식 p (빨간색)</p>
+                <section>
+                    <p>div의 손자 p (파란색)</p>
+                </section>
+            </div>
+        </div>
+
+        <div class="example">
+            <h3>3. 형제 선택자</h3>
+            <p>같은 부모를 가진 형제 요소를 선택합니다.</p>
+            <div class="code-block">/* 인접 형제 선택자 - 바로 다음 형제 */
+h2 + p {
+    color: blue;
+}
+
+/* 일반 형제 선택자 - 모든 다음 형제 */
+h2 ~ p {
+    background: yellow;
+}</div>
+            <div class="demo-box">
+                <h2>제목</h2>
+                <p>h2 바로 다음 p (파란색, 노란 배경)</p>
+                <p>h2 다음 p (노란 배경만)</p>
+            </div>
+        </div>
+
+        <div class="example">
+            <h3>4. 속성 선택자</h3>
+            <p>요소의 속성을 기준으로 선택합니다.</p>
+            <div class="code-block">/* 특정 속성을 가진 요소 */
+a[href] {
+    color: blue;
+}
+
+/* 속성 값이 정확히 일치 */
+input[type="text"] {
+    border: 2px solid blue;
+}
+
+/* 속성 값에 특정 문자열 포함 */
+a[href*="example"] {
+    font-weight: bold;
+}</div>
+            <div class="demo-box">
+                <a href="https://example.com">예제 링크</a>
+                <input type="text" placeholder="텍스트 입력">
+                <input type="password" placeholder="비밀번호">
+            </div>
+        </div>
+
+        <div class="example">
+            <h3>5. 가상 클래스 선택자</h3>
+            <p>요소의 상태나 위치를 기준으로 선택합니다.</p>
+            <div class="code-block">/* 호버 상태 */
+button:hover {
+    background: blue;
+}
+
+/* 첫 번째 자식 */
+li:first-child {
+    color: red;
+}
+
+/* 마지막 자식 */
+li:last-child {
+    color: blue;
+}
+
+/* n번째 자식 */
+li:nth-child(2) {
+    color: green;
+}</div>
+            <div class="demo-box">
+                <button>마우스를 올려보세요</button>
+                <ul>
+                    <li>첫 번째 항목 (빨간색)</li>
+                    <li>두 번째 항목 (초록색)</li>
+                    <li>세 번째 항목</li>
+                    <li>마지막 항목 (파란색)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="example">
+            <h3>6. 가상 요소 선택자</h3>
+            <p>요소의 특정 부분을 선택합니다.</p>
+            <div class="code-block">/* 요소 앞에 내용 추가 */
+p::before {
+    content: "앞: ";
+    color: red;
+}
+
+/* 요소 뒤에 내용 추가 */
+p::after {
+    content: " (뒤)";
+    color: blue;
+}
+
+/* 첫 줄 선택 */
+p::first-line {
+    font-weight: bold;
+}</div>
+            <div class="demo-box">
+                <p>이 문단은 가상 요소를 사용합니다.</p>
+            </div>
+        </div>
+
+        <div class="example">
+            <h3>7. 선택자 조합</h3>
+            <p>여러 선택자를 조합하여 더 정확하게 선택합니다.</p>
+            <div class="code-block">/* 여러 클래스 동시 적용 */
+.btn.primary {
+    background: blue;
+}
+
+/* 그룹 선택자 */
+h1, h2, h3 {
+    color: darkblue;
+}
+
+/* 복합 선택자 */
+div.container > p.intro {
+    font-size: 18px;
+}</div>
+        </div>
+    </div>
+
+    <style>
+        /* 실제 적용되는 스타일 */
+        .demo-box p {
+            margin: 5px 0;
+        }
+        
+        .my-class {
+            color: red;
+            font-weight: bold;
+        }
+        
+        #my-id {
+            color: green;
+            font-weight: bold;
+        }
+        
+        .demo-box > p {
+            color: red;
+        }
+        
+        .demo-box p {
+            color: blue;
+        }
+        
+        .demo-box h2 + p {
+            color: blue;
+        }
+        
+        .demo-box h2 ~ p {
+            background: yellow;
+        }
+        
+        a[href] {
+            color: blue;
+            text-decoration: none;
+        }
+        
+        input[type="text"] {
+            border: 2px solid blue;
+            padding: 5px;
+        }
+        
+        a[href*="example"] {
+            font-weight: bold;
+        }
+        
+        button:hover {
+            background: blue;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        li:first-child {
+            color: red;
+        }
+        
+        li:last-child {
+            color: blue;
+        }
+        
+        li:nth-child(2) {
+            color: green;
+        }
+        
+        .demo-box p::before {
+            content: "앞: ";
+            color: red;
+            font-weight: bold;
+        }
+        
+        .demo-box p::after {
+            content: " (뒤)";
+            color: blue;
+            font-weight: bold;
+        }
+        
+        .demo-box p::first-line {
+            font-weight: bold;
+        }
+    </style>
+</body>
+</html>

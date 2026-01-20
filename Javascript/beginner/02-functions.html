@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>02. 함수</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #2196F3;
+            padding-bottom: 10px;
+        }
+        .example {
+            background: #f9f9f9;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #2196F3;
+            border-radius: 5px;
+        }
+        .output {
+            background: #e3f2fd;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+        }
+        button {
+            background: #2196F3;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #1976D2;
+        }
+        input {
+            padding: 8px;
+            margin: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>02. 함수 (Functions)</h1>
+        
+        <div class="example">
+            <h3>1. 함수 선언과 호출</h3>
+            <p>함수는 특정 작업을 수행하는 코드 블록입니다.</p>
+            <button onclick="basicFunction()">기본 함수 실행</button>
+            <div id="basic-output" class="output"></div>
+        </div>
+
+        <div class="example">
+            <h3>2. 매개변수와 반환값</h3>
+            <p>함수는 입력값(매개변수)을 받아서 결과값(반환값)을 반환할 수 있습니다.</p>
+            <input type="number" id="num1" placeholder="첫 번째 숫자" value="10">
+            <input type="number" id="num2" placeholder="두 번째 숫자" value="5">
+            <button onclick="calculateSum()">덧셈 계산</button>
+            <button onclick="calculateMultiply()">곱셈 계산</button>
+            <div id="param-output" class="output"></div>
+        </div>
+
+        <div class="example">
+            <h3>3. 화살표 함수 (Arrow Function)</h3>
+            <p>ES6에서 도입된 간단한 함수 표현 방법입니다.</p>
+            <button onclick="showArrowFunction()">화살표 함수 예제</button>
+            <div id="arrow-output" class="output"></div>
+        </div>
+
+        <div class="example">
+            <h3>4. 함수를 변수에 할당</h3>
+            <p>함수도 값이므로 변수에 저장하고 전달할 수 있습니다.</p>
+            <button onclick="showFunctionVariable()">함수 변수 예제</button>
+            <div id="variable-output" class="output"></div>
+        </div>
+
+        <div class="example">
+            <h3>5. 실전 예제: 간단한 계산기</h3>
+            <p>지금까지 배운 내용을 활용한 실전 예제입니다.</p>
+            <input type="number" id="calc-num1" placeholder="숫자 1" value="15">
+            <select id="operator">
+                <option value="+">+ (덧셈)</option>
+                <option value="-">- (뺄셈)</option>
+                <option value="*">* (곱셈)</option>
+                <option value="/">/ (나눗셈)</option>
+            </select>
+            <input type="number" id="calc-num2" placeholder="숫자 2" value="3">
+            <button onclick="calculate()">계산하기</button>
+            <div id="calc-output" class="output"></div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // 1. 기본 함수 선언과 호출
+        // ============================================
+        
+        // 함수 선언: function 키워드 사용
+        // 함수명: sayHello
+        // 매개변수: 없음
+        // 반환값: 없음 (void)
+        function sayHello() {
+            console.log("안녕하세요!");
+            return "안녕하세요!";
+        }
+
+        function basicFunction() {
+            const output = document.getElementById('basic-output');
+            let result = '<strong>기본 함수 예제:</strong><br><br>';
+            
+            result += '<strong>함수 선언:</strong><br>';
+            result += 'function sayHello() {<br>';
+            result += '&nbsp;&nbsp;&nbsp;&nbsp;console.log("안녕하세요!");<br>';
+            result += '&nbsp;&nbsp;&nbsp;&nbsp;return "안녕하세요!";<br>';
+            result += '}<br><br>';
+            
+            result += '<strong>함수 호출:</strong><br>';
+            const greeting = sayHello(); // 함수 호출
+            result += `sayHello(); // 결과: "${greeting}"<br>`;
+            
+            output.innerHTML = result;
+        }
+
+        // ============================================
+        // 2. 매개변수와 반환값이 있는 함수
+        // ============================================
+        
+        // 매개변수(parameter): 함수에 전달되는 입력값
+        // a, b는 매개변수입니다
+        function add(a, b) {
+            // return 키워드: 함수의 결과값을 반환
+            return a + b;
+        }
+
+        function multiply(a, b) {
+            return a * b;
+        }
+
+        function calculateSum() {
+            const num1 = parseFloat(document.getElementById('num1').value);
+            const num2 = parseFloat(document.getElementById('num2').value);
+            const output = document.getElementById('param-output');
+            
+            let result = '<strong>매개변수와 반환값 예제:</strong><br><br>';
+            result += `함수 선언: function add(a, b) { return a + b; }<br><br>`;
+            result += `함수 호출: add(${num1}, ${num2})<br>`;
+            
+            // 인수(argument): 함수를 호출할 때 전달하는 실제 값
+            // num1, num2는 인수입니다
+            const sum = add(num1, num2);
+            result += `결과: ${sum}<br>`;
+            result += `<br><em>※ 매개변수(parameter): 함수 정의 시 사용하는 변수명 (a, b)<br>`;
+            result += `※ 인수(argument): 함수 호출 시 전달하는 실제 값 (${num1}, ${num2})</em>`;
+            
+            output.innerHTML = result;
+        }
+
+        function calculateMultiply() {
+            const num1 = parseFloat(document.getElementById('num1').value);
+            const num2 = parseFloat(document.getElementById('num2').value);
+            const output = document.getElementById('param-output');
+            
+            let result = '<strong>매개변수와 반환값 예제:</strong><br><br>';
+            result += `함수 선언: function multiply(a, b) { return a * b; }<br><br>`;
+            result += `함수 호출: multiply(${num1}, ${num2})<br>`;
+            
+            const product = multiply(num1, num2);
+            result += `결과: ${product}`;
+            
+            output.innerHTML = result;
+        }
+
+        // ============================================
+        // 3. 화살표 함수 (Arrow Function)
+        // ============================================
+        
+        // 기존 함수 선언 방식
+        function traditionalFunction(x) {
+            return x * 2;
+        }
+
+        // 화살표 함수 방식 1: 기본 형태
+        const arrowFunction1 = (x) => {
+            return x * 2;
+        };
+
+        // 화살표 함수 방식 2: 간단한 형태 (한 줄일 때)
+        // 중괄호와 return 생략 가능
+        const arrowFunction2 = (x) => x * 2;
+
+        // 매개변수가 하나일 때는 괄호도 생략 가능
+        const arrowFunction3 = x => x * 2;
+
+        // 매개변수가 없을 때
+        const noParam = () => "안녕하세요!";
+
+        // 매개변수가 여러 개일 때
+        const multipleParams = (a, b) => a + b;
+
+        function showArrowFunction() {
+            const output = document.getElementById('arrow-output');
+            let result = '<strong>화살표 함수 예제:</strong><br><br>';
+            
+            result += '<strong>1. 기존 함수 선언 방식:</strong><br>';
+            result += 'function traditionalFunction(x) {<br>';
+            result += '&nbsp;&nbsp;&nbsp;&nbsp;return x * 2;<br>';
+            result += '}<br>';
+            result += `traditionalFunction(5) = ${traditionalFunction(5)}<br><br>`;
+            
+            result += '<strong>2. 화살표 함수 (기본 형태):</strong><br>';
+            result += 'const arrowFunction1 = (x) => {<br>';
+            result += '&nbsp;&nbsp;&nbsp;&nbsp;return x * 2;<br>';
+            result += '};<br>';
+            result += `arrowFunction1(5) = ${arrowFunction1(5)}<br><br>`;
+            
+            result += '<strong>3. 화살표 함수 (간단한 형태):</strong><br>';
+            result += 'const arrowFunction2 = (x) => x * 2;<br>';
+            result += `arrowFunction2(5) = ${arrowFunction2(5)}<br><br>`;
+            
+            result += '<strong>4. 매개변수가 하나일 때:</strong><br>';
+            result += 'const arrowFunction3 = x => x * 2;<br>';
+            result += `arrowFunction3(5) = ${arrowFunction3(5)}<br><br>`;
+            
+            result += '<strong>5. 매개변수가 없을 때:</strong><br>';
+            result += 'const noParam = () => "안녕하세요!";<br>';
+            result += `noParam() = "${noParam()}"<br><br>`;
+            
+            result += '<strong>6. 매개변수가 여러 개일 때:</strong><br>';
+            result += 'const multipleParams = (a, b) => a + b;<br>';
+            result += `multipleParams(10, 20) = ${multipleParams(10, 20)}<br>`;
+            
+            output.innerHTML = result;
+        }
+
+        // ============================================
+        // 4. 함수를 변수에 할당
+        // ============================================
+        
+        // 함수 표현식: 함수를 변수에 할당
+        const greet = function(name) {
+            return `안녕하세요, ${name}님!`;
+        };
+
+        // 화살표 함수를 변수에 할당
+        const square = (n) => n * n;
+
+        // 함수를 배열에 저장
+        const operations = [
+            function(a, b) { return a + b; },
+            function(a, b) { return a - b; },
+            function(a, b) { return a * b; },
+            function(a, b) { return a / b; }
+        ];
+
+        function showFunctionVariable() {
+            const output = document.getElementById('variable-output');
+            let result = '<strong>함수를 변수에 할당하는 예제:</strong><br><br>';
+            
+            result += '<strong>1. 함수 표현식:</strong><br>';
+            result += 'const greet = function(name) {<br>';
+            result += '&nbsp;&nbsp;&nbsp;&nbsp;return `안녕하세요, ${name}님!`;<br>';
+            result += '};<br>';
+            result += `greet("홍길동") = "${greet("홍길동")}"<br><br>`;
+            
+            result += '<strong>2. 화살표 함수를 변수에 할당:</strong><br>';
+            result += 'const square = (n) => n * n;<br>';
+            result += `square(7) = ${square(7)}<br><br>`;
+            
+            result += '<strong>3. 함수를 배열에 저장:</strong><br>';
+            result += 'const operations = [<br>';
+            result += '&nbsp;&nbsp;&nbsp;&nbsp;function(a, b) { return a + b; },<br>';
+            result += '&nbsp;&nbsp;&nbsp;&nbsp;function(a, b) { return a - b; },<br>';
+            result += '&nbsp;&nbsp;&nbsp;&nbsp;// ...<br>';
+            result += '];<br>';
+            result += `operations[0](10, 5) = ${operations[0](10, 5)} // 덧셈<br>`;
+            result += `operations[1](10, 5) = ${operations[1](10, 5)} // 뺄셈<br>`;
+            result += `operations[2](10, 5) = ${operations[2](10, 5)} // 곱셈<br>`;
+            result += `operations[3](10, 5) = ${operations[3](10, 5)} // 나눗셈<br>`;
+            
+            output.innerHTML = result;
+        }
+
+        // ============================================
+        // 5. 실전 예제: 간단한 계산기
+        // ============================================
+        
+        // 계산 함수들
+        const addCalc = (a, b) => a + b;
+        const subtract = (a, b) => a - b;
+        const multiplyCalc = (a, b) => a * b;
+        const divide = (a, b) => {
+            if (b === 0) {
+                return "0으로 나눌 수 없습니다!";
+            }
+            return a / b;
+        };
+
+        function calculate() {
+            const num1 = parseFloat(document.getElementById('calc-num1').value);
+            const num2 = parseFloat(document.getElementById('calc-num2').value);
+            const operator = document.getElementById('operator').value;
+            const output = document.getElementById('calc-output');
+            
+            let result;
+            let operationName;
+            
+            // 연산자에 따라 적절한 함수 호출
+            switch(operator) {
+                case '+':
+                    result = addCalc(num1, num2);
+                    operationName = "덧셈";
+                    break;
+                case '-':
+                    result = subtract(num1, num2);
+                    operationName = "뺄셈";
+                    break;
+                case '*':
+                    result = multiplyCalc(num1, num2);
+                    operationName = "곱셈";
+                    break;
+                case '/':
+                    result = divide(num1, num2);
+                    operationName = "나눗셈";
+                    break;
+                default:
+                    result = "알 수 없는 연산자";
+            }
+            
+            output.innerHTML = `<strong>계산 결과:</strong><br>${num1} ${operator} ${num2} = ${result}<br><br><em>${operationName} 함수를 호출하여 계산했습니다.</em>`;
+        }
+    </script>
+</body>
+</html>

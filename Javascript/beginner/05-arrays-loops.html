@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>05. 배열과 반복문</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #00BCD4;
+            padding-bottom: 10px;
+        }
+        .example {
+            background: #f9f9f9;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #00BCD4;
+            border-radius: 5px;
+        }
+        .output {
+            background: #e0f7fa;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+        }
+        button {
+            background: #00BCD4;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0097A7;
+        }
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        li {
+            padding: 5px;
+            margin: 5px 0;
+            background: #fff;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>05. 배열과 반복문</h1>
+        
+        <div class="example">
+            <h3>1. 배열 생성과 접근</h3>
+            <p>배열은 여러 값을 순서대로 저장하는 자료구조입니다.</p>
+            <button onclick="showArrayBasics()">배열 기본 예제</button>
+            <div id="array-basics-output" class="output"></div>
+        </div>
+
+        <div class="example">
+            <h3>2. for 반복문</h3>
+            <p>특정 횟수만큼 반복 실행할 때 사용합니다.</p>
+            <button onclick="showForLoop()">for 반복문 예제</button>
+            <div id="for-output" class="output"></div>
+        </div>
+
+        <div class="example">
+            <h3>3. while 반복문</h3>
+            <p>조건이 참인 동안 반복 실행합니다.</p>
+            <button onclick="showWhileLoop()">while 반복문 예제</button>
+            <div id="while-output" class="output"></div>
+        </div>
+
+        <div class="example">
+            <h3>4. 배열과 반복문 함께 사용하기</h3>
+            <p>배열의 모든 요소를 순회하면서 처리합니다.</p>
+            <button onclick="showArrayLoop()">배열 순회 예제</button>
+            <div id="array-loop-output" class="output"></div>
+        </div>
+
+        <div class="example">
+            <h3>5. 배열 메서드 (push, pop, length)</h3>
+            <p>배열을 조작하는 기본 메서드들입니다.</p>
+            <button onclick="showArrayMethods()">배열 메서드 예제</button>
+            <div id="methods-output" class="output"></div>
+        </div>
+
+        <div class="example">
+            <h3>6. forEach 기본</h3>
+            <p>배열의 각 요소에 대해 함수를 실행하는 메서드입니다.</p>
+            <button onclick="showForEach()">forEach 예제</button>
+            <div id="foreach-output" class="output"></div>
+        </div>
+
+        <div class="example">
+            <h3>7. 실전 예제: 할 일 목록</h3>
+            <p>배열과 반복문을 활용한 실전 예제입니다.</p>
+            <input type="text" id="todo-input" placeholder="할 일을 입력하세요">
+            <button onclick="addTodo()">추가</button>
+            <button onclick="showTodos()">목록 보기</button>
+            <button onclick="clearTodos()">전체 삭제</button>
+            <ul id="todo-list"></ul>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // 1. 배열 생성과 접근
+        // ============================================
+        
+        function showArrayBasics() {
+            const output = document.getElementById('array-basics-output');
+            let result = '<strong>배열 기본:</strong><br><br>';
+
+            // 배열 생성 방법 1: 배열 리터럴 사용 (가장 일반적)
+            const fruits = ['사과', '바나나', '오렌지'];
+            result += '<strong>1. 배열 생성:</strong><br>';
+            result += `const fruits = ['사과', '바나나', '오렌지'];<br>`;
+            result += `배열: [${fruits.join(', ')}]<br><br>`;
+
+            // 배열 생성 방법 2: Array 생성자 사용
+            const numbers = new Array(1, 2, 3);
+            result += '<strong>2. Array 생성자 사용:</strong><br>';
+            result += `const numbers = new Array(1, 2, 3);<br>`;
+            result += `배열: [${numbers.join(', ')}]<br><br>`;
+
+            // 배열 접근: 인덱스 사용 (0부터 시작!)
+            result += '<strong>3. 배열 요소 접근:</strong><br>';
+            result += `fruits[0] = "${fruits[0]}" // 첫 번째 요소 (인덱스 0)<br>`;
+            result += `fruits[1] = "${fruits[1]}" // 두 번째 요소 (인덱스 1)<br>`;
+            result += `fruits[2] = "${fruits[2]}" // 세 번째 요소 (인덱스 2)<br><br>`;
+
+            // 배열 길이: length 속성
+            result += '<strong>4. 배열 길이:</strong><br>';
+            result += `fruits.length = ${fruits.length} // 배열의 요소 개수<br><br>`;
+
+            // 배열 요소 수정
+            fruits[1] = '포도';
+            result += '<strong>5. 배열 요소 수정:</strong><br>';
+            result += `fruits[1] = '포도';<br>`;
+            result += `수정 후: [${fruits.join(', ')}]<br>`;
+
+            output.innerHTML = result;
+        }
+
+        // ============================================
+        // 2. for 반복문
+        // ============================================
+        
+        function showForLoop() {
+            const output = document.getElementById('for-output');
+            let result = '<strong>for 반복문:</strong><br><br>';
+
+            result += '<strong>기본 구조:</strong><br>';
+            result += 'for (초기값; 조건; 증가/감소) {<br>';
+            result += '&nbsp;&nbsp;&nbsp;&nbsp;// 반복할 코드<br>';
+            result += '}<br><br>';
+
+            // 예제 1: 1부터 5까지 출력
+            result += '<strong>예제 1: 1부터 5까지 출력</strong><br>';
+            result += 'for (let i = 1; i <= 5; i++) {<br>';
+            result += '&nbsp;&nbsp;&nbsp;&nbsp;console.log(i);<br>';
+            result += '}<br>';
+            result += '결과: ';
+            for (let i = 1; i <= 5; i++) {
+                result += `${i} `;
+            }
+            result += '<br><br>';
+
+            // 예제 2: 5부터 1까지 역순 출력
+            result += '<strong>예제 2: 5부터 1까지 역순 출력</strong><br>';
+            result += 'for (let i = 5; i >= 1; i--) {<br>';
+            result += '&nbsp;&nbsp;&nbsp;&nbsp;console.log(i);<br>';
+            result += '}<br>';
+            result += '결과: ';
+            for (let i = 5; i >= 1; i--) {
+                result += `${i} `;
+            }
+            result += '<br><br>';
+
+            // 예제 3: 2씩 증가
+            result += '<strong>예제 3: 0부터 10까지 2씩 증가</strong><br>';
+            result += 'for (let i = 0; i <= 10; i += 2) {<br>';
+            result += '&nbsp;&nbsp;&nbsp;&nbsp;console.log(i);<br>';
+            result += '}<br>';
+            result += '결과: ';
+            for (let i = 0; i <= 10; i += 2) {
+                result += `${i} `;
+            }
+
+            output.innerHTML = result;
+        }
+
+        // ============================================
+        // 3. while 반복문
+        // ============================================
+        
+        function showWhileLoop() {
+            const output = document.getElementById('while-output');
+            let result = '<strong>while 반복문:</strong><br><br>';
+
+            result += '<strong>기본 구조:</strong><br>';
+            result += 'while (조건) {<br>';
+            result += '&nbsp;&nbsp;&nbsp;&nbsp;// 조건이 참인 동안 반복<br>';
+            result += '&nbsp;&nbsp;&nbsp;&nbsp;// 조건을 변경하는 코드 필요 (무한 루프 방지!)<br>';
+            result += '}<br><br>';
+
+            // 예제 1: 1부터 5까지 출력
+            result += '<strong>예제 1: 1부터 5까지 출력</strong><br>';
+            result += 'let i = 1;<br>';
+            result += 'while (i <= 5) {<br>';
+            result += '&nbsp;&nbsp;&nbsp;&nbsp;console.log(i);<br>';
+            result += '&nbsp;&nbsp;&nbsp;&nbsp;i++; // 중요: 값을 증가시켜야 함!<br>';
+            result += '}<br>';
+            result += '결과: ';
+            let i = 1;
+            while (i <= 5) {
+                result += `${i} `;
+                i++; // 값을 증가시키지 않으면 무한 루프에 빠짐!
+            }
+            result += '<br><br>';
+
+            // 예제 2: 사용자 입력 시뮬레이션 (조건부 반복)
+            result += '<strong>예제 2: 조건부 반복</strong><br>';
+            result += 'let count = 0;<br>';
+            result += 'while (count < 3) {<br>';
+            result += '&nbsp;&nbsp;&nbsp;&nbsp;count++;<br>';
+            result += '}<br>';
+            result += '결과: ';
+            let count = 0;
+            while (count < 3) {
+                result += `반복 ${count + 1}번 `;
+                count++;
+            }
+
+            output.innerHTML = result;
+        }
+
+        // ============================================
+        // 4. 배열과 반복문 함께 사용하기
+        // ============================================
+        
+        function showArrayLoop() {
+            const output = document.getElementById('array-loop-output');
+            let result = '<strong>배열과 반복문:</strong><br><br>';
+
+            const students = ['김철수', '이영희', '박민수', '정수진'];
+            
+            // 방법 1: for 반복문으로 배열 순회
+            result += '<strong>방법 1: for 반복문 사용</strong><br>';
+            result += 'for (let i = 0; i < students.length; i++) {<br>';
+            result += '&nbsp;&nbsp;&nbsp;&nbsp;console.log(students[i]);<br>';
+            result += '}<br>';
+            result += '결과:<br>';
+            for (let i = 0; i < students.length; i++) {
+                result += `&nbsp;&nbsp;${i + 1}. ${students[i]}<br>`;
+            }
+            result += '<br>';
+
+            // 방법 2: for...of 반복문 (ES6, 더 간단)
+            result += '<strong>방법 2: for...of 반복문 사용 (더 간단)</strong><br>';
+            result += 'for (let student of students) {<br>';
+            result += '&nbsp;&nbsp;&nbsp;&nbsp;console.log(student);<br>';
+            result += '}<br>';
+            result += '결과:<br>';
+            let index = 1;
+            for (let student of students) {
+                result += `&nbsp;&nbsp;${index}. ${student}<br>`;
+                index++;
+            }
+
+            output.innerHTML = result;
+        }
+
+        // ============================================
+        // 5. 배열 메서드 (push, pop, length)
+        // ============================================
+        
+        function showArrayMethods() {
+            const output = document.getElementById('methods-output');
+            let result = '<strong>배열 메서드:</strong><br><br>';
+
+            // 배열 생성
+            let shoppingList = ['우유', '빵'];
+            result += `초기 배열: [${shoppingList.join(', ')}]<br><br>`;
+
+            // push(): 배열 끝에 요소 추가
+            shoppingList.push('계란');
+            result += '<strong>push() - 배열 끝에 추가:</strong><br>';
+            result += `shoppingList.push('계란');<br>`;
+            result += `결과: [${shoppingList.join(', ')}]<br><br>`;
+
+            // 여러 요소 한 번에 추가
+            shoppingList.push('치즈', '버터');
+            result += `shoppingList.push('치즈', '버터');<br>`;
+            result += `결과: [${shoppingList.join(', ')}]<br><br>`;
+
+            // pop(): 배열 끝에서 요소 제거하고 반환
+            const removedItem = shoppingList.pop();
+            result += '<strong>pop() - 배열 끝에서 제거:</strong><br>';
+            result += `const removedItem = shoppingList.pop();<br>`;
+            result += `제거된 요소: "${removedItem}"<br>`;
+            result += `결과: [${shoppingList.join(', ')}]<br><br>`;
+
+            // length: 배열의 길이 (속성, 메서드 아님)
+            result += '<strong>length - 배열 길이:</strong><br>';
+            result += `shoppingList.length = ${shoppingList.length}<br><br>`;
+
+            // unshift(): 배열 앞에 요소 추가
+            shoppingList.unshift('사과');
+            result += '<strong>unshift() - 배열 앞에 추가:</strong><br>';
+            result += `shoppingList.unshift('사과');<br>`;
+            result += `결과: [${shoppingList.join(', ')}]<br><br>`;
+
+            // shift(): 배열 앞에서 요소 제거
+            const firstItem = shoppingList.shift();
+            result += '<strong>shift() - 배열 앞에서 제거:</strong><br>';
+            result += `const firstItem = shoppingList.shift();<br>`;
+            result += `제거된 요소: "${firstItem}"<br>`;
+            result += `결과: [${shoppingList.join(', ')}]<br>`;
+
+            output.innerHTML = result;
+        }
+
+        // ============================================
+        // 6. forEach 기본
+        // ============================================
+        
+        function showForEach() {
+            const output = document.getElementById('foreach-output');
+            let result = '<strong>forEach 메서드:</strong><br><br>';
+
+            const numbers = [1, 2, 3, 4, 5];
+            
+            result += '<strong>기본 사용법:</strong><br>';
+            result += '배열.forEach(function(요소) {<br>';
+            result += '&nbsp;&nbsp;&nbsp;&nbsp;// 각 요소에 대해 실행할 코드<br>';
+            result += '});<br><br>';
+
+            result += `배열: [${numbers.join(', ')}]<br>`;
+            result += '배열.forEach(function(num) {<br>';
+            result += '&nbsp;&nbsp;&nbsp;&nbsp;console.log(num * 2);<br>';
+            result += '});<br>';
+            result += '결과:<br>';
+
+            // forEach 사용
+            numbers.forEach(function(num) {
+                result += `&nbsp;&nbsp;${num} × 2 = ${num * 2}<br>`;
+            });
+
+            result += '<br><strong>화살표 함수 사용 (더 간단):</strong><br>';
+            result += '배열.forEach(요소 => {<br>';
+            result += '&nbsp;&nbsp;&nbsp;&nbsp;// 코드<br>';
+            result += '});<br><br>';
+
+            result += '결과 (제곱):<br>';
+            numbers.forEach(num => {
+                result += `&nbsp;&nbsp;${num}² = ${num * num}<br>`;
+            });
+
+            output.innerHTML = result;
+        }
+
+        // ============================================
+        // 7. 실전 예제: 할 일 목록
+        // ============================================
+        
+        // 할 일을 저장할 배열
+        let todos = [];
+
+        function addTodo() {
+            const input = document.getElementById('todo-input');
+            const todoText = input.value.trim();
+
+            // 입력값 검증
+            if (todoText === '') {
+                alert('할 일을 입력해주세요!');
+                return;
+            }
+
+            // 배열에 추가
+            todos.push(todoText);
+            
+            // 입력 필드 초기화
+            input.value = '';
+            
+            // 목록 업데이트
+            showTodos();
+        }
+
+        function showTodos() {
+            const todoList = document.getElementById('todo-list');
+            
+            // 기존 목록 초기화
+            todoList.innerHTML = '';
+
+            // 배열이 비어있으면 메시지 표시
+            if (todos.length === 0) {
+                todoList.innerHTML = '<li style="color: #999;">할 일이 없습니다.</li>';
+                return;
+            }
+
+            // 배열을 순회하면서 목록 생성
+            // forEach를 사용하여 각 할 일을 리스트 아이템으로 추가
+            todos.forEach(function(todo, index) {
+                const listItem = document.createElement('li');
+                listItem.textContent = `${index + 1}. ${todo}`;
+                todoList.appendChild(listItem);
+            });
+
+            // 또는 for 반복문 사용
+            // for (let i = 0; i < todos.length; i++) {
+            //     const listItem = document.createElement('li');
+            //     listItem.textContent = `${i + 1}. ${todos[i]}`;
+            //     todoList.appendChild(listItem);
+            // }
+        }
+
+        function clearTodos() {
+            // 배열 초기화
+            todos = [];
+            
+            // 화면 업데이트
+            showTodos();
+        }
+
+        // Enter 키로도 추가 가능하도록
+        document.addEventListener('DOMContentLoaded', function() {
+            const input = document.getElementById('todo-input');
+            input.addEventListener('keypress', function(event) {
+                if (event.key === 'Enter') {
+                    addTodo();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

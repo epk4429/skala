@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>도서 목록 출력 예제</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #4CAF50;
+            padding-bottom: 10px;
+        }
+        .example {
+            background: #f9f9f9;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #4CAF50;
+            border-radius: 5px;
+        }
+        .code-block {
+            background: #e8f5e9;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        .output {
+            background: #e8f5e9;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 5px;
+            min-height: 50px;
+        }
+        .book-list {
+            list-style: none;
+            padding: 0;
+        }
+        .book-item {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #4CAF50;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .book-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .book-info {
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>도서 목록 출력 예제</h1>
+        
+        <div class="example">
+            <h3>1. 도서 객체 배열 생성</h3>
+            <p>여러 도서 정보를 담은 객체 배열을 생성합니다.</p>
+            <button onclick="showBookObjects()">도서 객체 확인</button>
+            <div id="objects-output" class="output"></div>
+        </div>
+
+        <div class="example">
+            <h3>2. for 반복문으로 도서 제목 출력</h3>
+            <p>전통적인 for 반복문을 사용하여 도서 제목을 출력합니다.</p>
+            <button onclick="displayBooksWithFor()">for 반복문으로 출력</button>
+            <div id="for-output" class="output"></div>
+        </div>
+
+        <div class="example">
+            <h3>3. for...of 반복문으로 도서 제목 출력</h3>
+            <p>ES6의 for...of 반복문을 사용하여 도서 제목을 출력합니다.</p>
+            <button onclick="displayBooksWithForOf()">for...of 반복문으로 출력</button>
+            <div id="forof-output" class="output"></div>
+        </div>
+
+        <div class="example">
+            <h3>4. forEach 메서드로 도서 제목 출력</h3>
+            <p>배열의 forEach 메서드를 사용하여 도서 제목을 출력합니다.</p>
+            <button onclick="displayBooksWithForEach()">forEach 메서드로 출력</button>
+            <div id="foreach-output" class="output"></div>
+        </div>
+
+        <div class="example">
+            <h3>5. 실전 예제: 도서 목록 카드 형태로 출력</h3>
+            <p>for 반복문을 사용하여 도서 정보를 카드 형태로 출력합니다.</p>
+            <button onclick="displayBookCards()">카드 형태로 출력</button>
+            <div id="cards-output" class="output"></div>
+        </div>
+
+        <div class="example">
+            <h3>6. 도서 가격 평균 계산</h3>
+            <p>for 반복문을 사용하여 모든 도서의 가격 평균을 계산합니다.</p>
+            <button onclick="calculateAveragePrice()">가격 평균 계산</button>
+            <div id="average-output" class="output"></div>
+        </div>
+
+        <div class="example">
+            <h3>7. 재고가 0인 도서 재고 추가</h3>
+            <p>for 반복문을 사용하여 재고가 0인 도서의 재고를 10권 추가합니다.</p>
+            <button onclick="addStockToZeroBooks()">재고 추가하기</button>
+            <button onclick="showCurrentStock()">현재 재고 확인</button>
+            <div id="stock-output" class="output"></div>
+        </div>
+
+        <div class="example">
+            <h3>8. 도서 정보 입력 및 추가</h3>
+            <p>화면에서 도서 정보를 입력받아 객체로 생성하고 배열에 추가합니다.</p>
+            <form id="book-form" onsubmit="addNewBook(event)" style="background: #fff; padding: 20px; border-radius: 5px;">
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: bold;">도서 제목 *</label>
+                    <input type="text" id="book-title" required style="width: 100%; padding: 8px; border: 2px solid #ddd; border-radius: 5px; box-sizing: border-box;">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: bold;">저자 *</label>
+                    <input type="text" id="book-author" required style="width: 100%; padding: 8px; border: 2px solid #ddd; border-radius: 5px; box-sizing: border-box;">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: bold;">출판사 *</label>
+                    <input type="text" id="book-publisher" required style="width: 100%; padding: 8px; border: 2px solid #ddd; border-radius: 5px; box-sizing: border-box;">
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                    <div>
+                        <label style="display: block; margin-bottom: 5px; font-weight: bold;">출판년도 *</label>
+                        <input type="number" id="book-year" required min="1900" max="2100" style="width: 100%; padding: 8px; border: 2px solid #ddd; border-radius: 5px; box-sizing: border-box;">
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 5px; font-weight: bold;">가격 (원) *</label>
+                        <input type="number" id="book-price" required min="0" style="width: 100%; padding: 8px; border: 2px solid #ddd; border-radius: 5px; box-sizing: border-box;">
+                    </div>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                    <div>
+                        <label style="display: block; margin-bottom: 5px; font-weight: bold;">ISBN *</label>
+                        <input type="text" id="book-isbn" required style="width: 100%; padding: 8px; border: 2px solid #ddd; border-radius: 5px; box-sizing: border-box;">
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 5px; font-weight: bold;">재고 (권) *</label>
+                        <input type="number" id="book-stock" required min="0" value="0" style="width: 100%; padding: 8px; border: 2px solid #ddd; border-radius: 5px; box-sizing: border-box;">
+                    </div>
+                </div>
+                <button type="submit" style="width: 100%; background: #4CAF50; color: white; border: none; padding: 12px; border-radius: 5px; font-size: 16px; cursor: pointer; font-weight: bold;">
+                    도서 추가하기
+                </button>
+            </form>
+            <div id="add-book-output" class="output" style="margin-top: 15px;"></div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // 도서 객체 배열 생성
+        // ============================================
+        
+        // 도서 정보를 담은 객체 배열
+        // 각 객체는 도서의 속성(제목, 저자, 출판사, 가격, 재고 등)을 가지고 있습니다
+        const books = [
+            {
+                title: "자바스크립트 완벽 가이드",
+                author: "데이비드 플래너건",
+                publisher: "한빛미디어",
+                year: 2023,
+                isbn: "978-89-6848-123-4",
+                price: 45000,
+                stock: 15  // 재고 15권
+            },
+            {
+                title: "모던 자바스크립트 Deep Dive",
+                author: "이웅모",
+                publisher: "위키북스",
+                year: 2022,
+                isbn: "978-89-6848-456-7",
+                price: 42000,
+                stock: 0  // 재고 0권 (품절)
+            },
+            {
+                title: "코어 자바스크립트",
+                author: "정재남",
+                publisher: "위키북스",
+                year: 2021,
+                isbn: "978-89-6848-789-0",
+                price: 35000,
+                stock: 0  // 재고 0권 (품절)
+            },
+            {
+                title: "You Don't Know JS",
+                author: "카일 심슨",
+                publisher: "한빛미디어",
+                year: 2023,
+                isbn: "978-89-6848-012-3",
+                price: 38000,
+                stock: 8  // 재고 8권
+            },
+            {
+                title: "프론트엔드 개발자를 위한 자바스크립트",
+                author: "알렉스 뱅크스",
+                publisher: "에이콘출판사",
+                year: 2022,
+                isbn: "978-89-6848-345-6",
+                price: 40000,
+                stock: 0  // 재고 0권 (품절)
+            }
+        ];
+
+        // ============================================
+        // 1. 도서 객체 확인
+        // ============================================
+        
+        function showBookObjects() {
+            const output = document.getElementById('objects-output');
+            
+            let result = '<strong>도서 객체 배열 구조:</strong><br><br>';
+            result += '<strong>생성된 도서 개수:</strong> ' + books.length + '권<br><br>';
+            
+            result += '<strong>도서 객체 예시:</strong><br>';
+            result += '<div class="code-block">';
+            result += 'const books = [<br>';
+            result += '&nbsp;&nbsp;{<br>';
+            result += '&nbsp;&nbsp;&nbsp;&nbsp;title: "자바스크립트 완벽 가이드",<br>';
+            result += '&nbsp;&nbsp;&nbsp;&nbsp;author: "데이비드 플래너건",<br>';
+            result += '&nbsp;&nbsp;&nbsp;&nbsp;publisher: "한빛미디어",<br>';
+            result += '&nbsp;&nbsp;&nbsp;&nbsp;year: 2023,<br>';
+            result += '&nbsp;&nbsp;&nbsp;&nbsp;isbn: "978-89-6848-123-4",<br>';
+            result += '&nbsp;&nbsp;&nbsp;&nbsp;price: 45000,<br>';
+            result += '&nbsp;&nbsp;&nbsp;&nbsp;stock: 15<br>';
+            result += '&nbsp;&nbsp;},<br>';
+            result += '&nbsp;&nbsp;// ... 더 많은 도서 객체들<br>';
+            result += '];';
+            result += '</div>';
+            
+            result += '<br><strong>전체 도서 객체:</strong><br>';
+            result += '<pre style="background: #fff; padding: 10px; border-radius: 5px; overflow-x: auto;">';
+            result += JSON.stringify(books, null, 2);
+            result += '</pre>';
+            
+            output.innerHTML = result;
+        }
+
+        // ============================================
+        // 2. for 반복문으로 도서 제목 출력
+        // ============================================
+        
+        function displayBooksWithFor() {
+            const output = document.getElementById('for-output');
+            
+            let result = '<strong>for 반복문 사용:</strong><br><br>';
+            result += '<div class="code-block">';
+            result += 'for (let i = 0; i < books.length; i++) {<br>';
+            result += '&nbsp;&nbsp;console.log(books[i].title);<br>';
+            result += '}';
+            result += '</div><br>';
+            
+            result += '<strong>출력 결과:</strong><br>';
+            result += '<ul class="book-list">';
+            
+            // for 반복문 사용
+            // i는 0부터 시작하여 books.length보다 작을 때까지 반복
+            // i++는 매 반복마다 i를 1씩 증가시킴
+            for (let i = 0; i < books.length; i++) {
+                // books[i]: 배열의 i번째 요소 (도서 객체)
+                // books[i].title: 해당 도서 객체의 title 속성
+                const bookTitle = books[i].title;
+                
+                result += '<li class="book-item">';
+                result += '<div class="book-title">' + (i + 1) + '. ' + bookTitle + '</div>';
+                result += '</li>';
+            }
+            
+            result += '</ul>';
+            
+            result += '<br><strong>설명:</strong><br>';
+            result += '- let i = 0: 반복 변수 초기화 (0부터 시작)<br>';
+            result += '- i < books.length: 반복 조건 (배열 길이보다 작을 때까지)<br>';
+            result += '- i++: 반복 변수 증가 (매 반복마다 1씩 증가)<br>';
+            result += '- books[i].title: i번째 도서 객체의 제목 속성 접근';
+            
+            output.innerHTML = result;
+        }
+
+        // ============================================
+        // 3. for...of 반복문으로 도서 제목 출력
+        // ============================================
+        
+        function displayBooksWithForOf() {
+            const output = document.getElementById('forof-output');
+            
+            let result = '<strong>for...of 반복문 사용:</strong><br><br>';
+            result += '<div class="code-block">';
+            result += 'for (let book of books) {<br>';
+            result += '&nbsp;&nbsp;console.log(book.title);<br>';
+            result += '}';
+            result += '</div><br>';
+            
+            result += '<strong>출력 결과:</strong><br>';
+            result += '<ul class="book-list">';
+            
+            let index = 1;
+            // for...of 반복문 사용
+            // 배열의 각 요소를 직접 순회
+            // book 변수는 각 반복에서 현재 도서 객체를 가리킴
+            for (let book of books) {
+                // book.title: 현재 도서 객체의 title 속성
+                result += '<li class="book-item">';
+                result += '<div class="book-title">' + index + '. ' + book.title + '</div>';
+                result += '<div class="book-info">저자: ' + book.author + ' | 출판사: ' + book.publisher + '</div>';
+                result += '<div class="book-info" style="color: #E91E63; font-weight: bold;">가격: ' + book.price.toLocaleString() + '원</div>';
+                const stockColor = book.stock === 0 ? '#f44336' : '#4CAF50';
+                result += '<div class="book-info" style="color: ' + stockColor + '; font-weight: bold;">재고: ' + (book.stock === 0 ? '품절' : book.stock + '권') + '</div>';
+                result += '</li>';
+                index++;
+            }
+            
+            result += '</ul>';
+            
+            result += '<br><strong>설명:</strong><br>';
+            result += '- for...of는 배열의 각 요소를 직접 순회<br>';
+            result += '- book 변수는 각 반복에서 현재 도서 객체를 가리킴<br>';
+            result += '- 인덱스 변수(i)를 별도로 관리할 필요 없음<br>';
+            result += '- 코드가 더 간결하고 읽기 쉬움';
+            
+            output.innerHTML = result;
+        }
+
+        // ============================================
+        // 4. forEach 메서드로 도서 제목 출력
+        // ============================================
+        
+        function displayBooksWithForEach() {
+            const output = document.getElementById('foreach-output');
+            
+            let result = '<strong>forEach 메서드 사용:</strong><br><br>';
+            result += '<div class="code-block">';
+            result += 'books.forEach(function(book, index) {<br>';
+            result += '&nbsp;&nbsp;console.log(book.title);<br>';
+            result += '});';
+            result += '</div><br>';
+            
+            result += '<strong>출력 결과:</strong><br>';
+            result += '<ul class="book-list">';
+            
+            // forEach 메서드 사용
+            // 배열의 각 요소에 대해 함수를 실행
+            // 첫 번째 매개변수: 현재 요소 (book)
+            // 두 번째 매개변수: 현재 인덱스 (index)
+            books.forEach(function(book, index) {
+                result += '<li class="book-item">';
+                result += '<div class="book-title">' + (index + 1) + '. ' + book.title + '</div>';
+                result += '<div class="book-info">출판년도: ' + book.year + ' | ISBN: ' + book.isbn + '</div>';
+                result += '<div class="book-info" style="color: #E91E63; font-weight: bold;">가격: ' + book.price.toLocaleString() + '원</div>';
+                const stockColor = book.stock === 0 ? '#f44336' : '#4CAF50';
+                result += '<div class="book-info" style="color: ' + stockColor + '; font-weight: bold;">재고: ' + (book.stock === 0 ? '품절' : book.stock + '권') + '</div>';
+                result += '</li>';
+            });
+            
+            result += '</ul>';
+            
+            result += '<br><strong>설명:</strong><br>';
+            result += '- forEach는 배열의 메서드<br>';
+            result += '- 각 요소에 대해 콜백 함수 실행<br>';
+            result += '- 첫 번째 매개변수: 현재 요소 (book)<br>';
+            result += '- 두 번째 매개변수: 현재 인덱스 (index)<br>';
+            result += '- 화살표 함수로 더 간결하게 작성 가능: books.forEach((book, index) => {...})';
+            
+            output.innerHTML = result;
+        }
+
+        // ============================================
+        // 5. 실전 예제: 도서 목록 카드 형태로 출력
+        // ============================================
+        
+        function displayBookCards() {
+            const output = document.getElementById('cards-output');
+            
+            let result = '<strong>카드 형태로 도서 목록 출력:</strong><br><br>';
+            result += '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">';
+            
+            // for 반복문을 사용하여 카드 생성
+            // 각 도서에 대해 카드 HTML을 생성하고 결과에 추가
+            for (let i = 0; i < books.length; i++) {
+                const book = books[i];
+                
+                // 카드 HTML 생성
+                result += '<div style="background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-left: 4px solid #4CAF50;">';
+                result += '<div style="font-size: 18px; font-weight: bold; color: #333; margin-bottom: 10px;">';
+                result += book.title;
+                result += '</div>';
+                result += '<div style="font-size: 14px; color: #666; margin-bottom: 5px;">';
+                result += '<strong>저자:</strong> ' + book.author;
+                result += '</div>';
+                result += '<div style="font-size: 14px; color: #666; margin-bottom: 5px;">';
+                result += '<strong>출판사:</strong> ' + book.publisher;
+                result += '</div>';
+                result += '<div style="font-size: 14px; color: #666; margin-bottom: 5px;">';
+                result += '<strong>출판년도:</strong> ' + book.year + '년';
+                result += '</div>';
+                result += '<div style="font-size: 14px; color: #E91E63; font-weight: bold; margin-bottom: 5px;">';
+                result += '<strong>가격:</strong> ' + book.price.toLocaleString() + '원';
+                result += '</div>';
+                const stockColor = book.stock === 0 ? '#f44336' : '#4CAF50';
+                const stockText = book.stock === 0 ? '품절' : book.stock + '권';
+                result += '<div style="font-size: 14px; color: ' + stockColor + '; font-weight: bold; margin-bottom: 5px;">';
+                result += '<strong>재고:</strong> ' + stockText;
+                result += '</div>';
+                result += '<div style="font-size: 12px; color: #999;">';
+                result += '<strong>ISBN:</strong> ' + book.isbn;
+                result += '</div>';
+                result += '</div>';
+            }
+            
+            result += '</div>';
+            
+            result += '<br><div class="code-block">';
+            result += '// for 반복문으로 카드 생성<br>';
+            result += 'for (let i = 0; i < books.length; i++) {<br>';
+            result += '&nbsp;&nbsp;const book = books[i];<br>';
+            result += '&nbsp;&nbsp;// 카드 HTML 생성 및 추가<br>';
+            result += '&nbsp;&nbsp;result += \'&lt;div&gt;\' + book.title + \'&lt;/div&gt;\';<br>';
+            result += '}';
+            result += '</div>';
+            
+            result += '<br><strong>설명:</strong><br>';
+            result += '- for 반복문으로 각 도서를 순회<br>';
+            result += '- books[i]로 현재 도서 객체 접근<br>';
+            result += '- 도서 정보를 포함한 카드 HTML 생성<br>';
+            result += '- Grid 레이아웃으로 반응형 카드 그리드 구성';
+            
+            output.innerHTML = result;
+        }
+
+        // ============================================
+        // 6. 도서 가격 평균 계산
+        // ============================================
+        
+        function calculateAveragePrice() {
+            const output = document.getElementById('average-output');
+            
+            let result = '<strong>가격 평균 계산:</strong><br><br>';
+            
+            // 방법 1: for 반복문 사용
+            result += '<strong>방법 1: for 반복문 사용</strong><br>';
+            result += '<div class="code-block">';
+            result += 'let totalPrice = 0;<br>';
+            result += 'for (let i = 0; i < books.length; i++) {<br>';
+            result += '&nbsp;&nbsp;totalPrice += books[i].price;<br>';
+            result += '}<br>';
+            result += 'const average = totalPrice / books.length;';
+            result += '</div><br>';
+            
+            // 가격 합계 계산
+            let totalPrice = 0;
+            for (let i = 0; i < books.length; i++) {
+                totalPrice += books[i].price;  // 각 도서의 가격을 합산
+            }
+            
+            // 평균 계산
+            const average = totalPrice / books.length;
+            
+            result += '<strong>계산 과정:</strong><br>';
+            result += '<ul style="list-style: none; padding: 0;">';
+            
+            // 각 도서의 가격 표시
+            for (let i = 0; i < books.length; i++) {
+                result += '<li style="padding: 5px 0; border-bottom: 1px solid #ddd;">';
+                result += (i + 1) + '. ' + books[i].title + ': ' + books[i].price.toLocaleString() + '원';
+                result += '</li>';
+            }
+            
+            result += '</ul>';
+            result += '<div style="margin-top: 15px; padding: 15px; background: #fff; border-left: 4px solid #4CAF50; border-radius: 5px;">';
+            result += '<strong>총 가격:</strong> ' + totalPrice.toLocaleString() + '원<br>';
+            result += '<strong>도서 개수:</strong> ' + books.length + '권<br>';
+            result += '<strong style="font-size: 18px; color: #E91E63;">평균 가격: ' + Math.round(average).toLocaleString() + '원</strong>';
+            result += '</div>';
+            
+            // 방법 2: reduce 메서드 사용 (참고)
+            result += '<br><strong>방법 2: reduce 메서드 사용 (참고)</strong><br>';
+            result += '<div class="code-block">';
+            result += 'const total = books.reduce((sum, book) => sum + book.price, 0);<br>';
+            result += 'const avg = total / books.length;';
+            result += '</div>';
+            
+            const totalWithReduce = books.reduce((sum, book) => sum + book.price, 0);
+            const avgWithReduce = totalWithReduce / books.length;
+            result += '<div style="margin-top: 10px; padding: 10px; background: #f0f0f0; border-radius: 5px;">';
+            result += 'reduce 메서드 결과: ' + Math.round(avgWithReduce).toLocaleString() + '원 (동일한 결과)';
+            result += '</div>';
+            
+            result += '<br><strong>설명:</strong><br>';
+            result += '1. totalPrice 변수를 0으로 초기화<br>';
+            result += '2. for 반복문으로 각 도서의 가격을 totalPrice에 더함<br>';
+            result += '3. 총 가격을 도서 개수로 나누어 평균 계산<br>';
+            result += '4. Math.round()로 소수점 반올림<br>';
+            result += '5. toLocaleString()로 천 단위 구분 기호 추가';
+            
+            output.innerHTML = result;
+        }
+
+        // ============================================
+        // 7. 재고가 0인 도서 재고 추가
+        // ============================================
+        
+        function addStockToZeroBooks() {
+            const output = document.getElementById('stock-output');
+            
+            let result = '<strong>재고가 0인 도서에 재고 추가:</strong><br><br>';
+            
+            result += '<strong>처리 전 재고 상태:</strong><br>';
+            result += '<ul style="list-style: none; padding: 0;">';
+            for (let i = 0; i < books.length; i++) {
+                const stockStatus = books[i].stock === 0 ? 
+                    '<span style="color: red; font-weight: bold;">품절 (0권)</span>' : 
+                    books[i].stock + '권';
+                result += '<li style="padding: 5px 0; border-bottom: 1px solid #ddd;">';
+                result += (i + 1) + '. ' + books[i].title + ': ' + stockStatus;
+                result += '</li>';
+            }
+            result += '</ul>';
+            
+            result += '<br><strong>처리 과정:</strong><br>';
+            result += '<div class="code-block">';
+            result += 'for (let i = 0; i < books.length; i++) {<br>';
+            result += '&nbsp;&nbsp;if (books[i].stock === 0) {<br>';
+            result += '&nbsp;&nbsp;&nbsp;&nbsp;books[i].stock += 10;  // 재고 10권 추가<br>';
+            result += '&nbsp;&nbsp;}<br>';
+            result += '}';
+            result += '</div><br>';
+            
+            // 재고가 0인 도서를 찾아서 재고 추가
+            let updatedCount = 0;  // 업데이트된 도서 개수
+            let updatedBooks = [];  // 업데이트된 도서 목록
+            
+            // for 반복문으로 모든 도서를 순회
+            for (let i = 0; i < books.length; i++) {
+                // 재고가 0인지 확인
+                if (books[i].stock === 0) {
+                    // 재고가 0이면 10권 추가
+                    books[i].stock += 10;
+                    updatedCount++;
+                    updatedBooks.push(books[i].title);
+                }
+            }
+            
+            result += '<div style="margin-top: 15px; padding: 15px; background: #fff; border-left: 4px solid #4CAF50; border-radius: 5px;">';
+            result += '<strong style="color: #4CAF50;">✅ 재고 추가 완료!</strong><br>';
+            result += '업데이트된 도서 개수: ' + updatedCount + '권<br><br>';
+            
+            if (updatedBooks.length > 0) {
+                result += '<strong>재고가 추가된 도서:</strong><br>';
+                result += '<ul style="margin: 10px 0; padding-left: 20px;">';
+                for (let i = 0; i < updatedBooks.length; i++) {
+                    result += '<li>' + updatedBooks[i] + '</li>';
+                }
+                result += '</ul>';
+            }
+            result += '</div>';
+            
+            result += '<br><strong>처리 후 재고 상태:</strong><br>';
+            result += '<ul style="list-style: none; padding: 0;">';
+            for (let i = 0; i < books.length; i++) {
+                const stockColor = books[i].stock === 0 ? 'red' : '#4CAF50';
+                result += '<li style="padding: 5px 0; border-bottom: 1px solid #ddd;">';
+                result += (i + 1) + '. ' + books[i].title + ': ';
+                result += '<span style="color: ' + stockColor + '; font-weight: bold;">' + books[i].stock + '권</span>';
+                result += '</li>';
+            }
+            result += '</ul>';
+            
+            result += '<br><strong>설명:</strong><br>';
+            result += '1. for 반복문으로 모든 도서를 순회<br>';
+            result += '2. books[i].stock === 0 조건으로 재고가 0인 도서 확인<br>';
+            result += '3. 조건이 참이면 books[i].stock += 10으로 재고 10권 추가<br>';
+            result += '4. 업데이트된 도서 정보를 추적하여 결과 표시';
+            
+            output.innerHTML = result;
+        }
+
+        // 현재 재고 상태 확인 함수
+        function showCurrentStock() {
+            const output = document.getElementById('stock-output');
+            
+            let result = '<strong>현재 재고 상태:</strong><br><br>';
+            result += '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">';
+            
+            // for 반복문으로 모든 도서의 재고 정보 표시
+            for (let i = 0; i < books.length; i++) {
+                const book = books[i];
+                const stockColor = book.stock === 0 ? '#f44336' : '#4CAF50';
+                const stockText = book.stock === 0 ? '품절' : book.stock + '권';
+                
+                result += '<div style="background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); border-left: 4px solid ' + stockColor + ';">';
+                result += '<div style="font-weight: bold; margin-bottom: 8px;">' + book.title + '</div>';
+                result += '<div style="font-size: 14px; color: #666; margin-bottom: 5px;">저자: ' + book.author + '</div>';
+                result += '<div style="font-size: 16px; color: ' + stockColor + '; font-weight: bold;">재고: ' + stockText + '</div>';
+                result += '</div>';
+            }
+            
+            result += '</div>';
+            
+            // 재고 통계
+            let zeroStockCount = 0;
+            let totalStock = 0;
+            
+            for (let i = 0; i < books.length; i++) {
+                if (books[i].stock === 0) {
+                    zeroStockCount++;
+                }
+                totalStock += books[i].stock;
+            }
+            
+            result += '<br><div style="margin-top: 15px; padding: 15px; background: #f0f0f0; border-radius: 5px;">';
+            result += '<strong>재고 통계:</strong><br>';
+            result += '- 총 도서 수: ' + books.length + '권<br>';
+            result += '- 품절 도서: ' + zeroStockCount + '권<br>';
+            result += '- 전체 재고 합계: ' + totalStock.toLocaleString() + '권';
+            result += '</div>';
+            
+            output.innerHTML = result;
+        }
+
+        // ============================================
+        // 8. 도서 정보 입력 및 추가
+        // ============================================
+        
+        function addNewBook(event) {
+            // 폼의 기본 제출 동작 방지
+            event.preventDefault();
+            
+            const output = document.getElementById('add-book-output');
+            
+            // 폼에서 입력값 가져오기
+            const title = document.getElementById('book-title').value.trim();
+            const author = document.getElementById('book-author').value.trim();
+            const publisher = document.getElementById('book-publisher').value.trim();
+            const year = parseInt(document.getElementById('book-year').value);
+            const price = parseInt(document.getElementById('book-price').value);
+            const isbn = document.getElementById('book-isbn').value.trim();
+            const stock = parseInt(document.getElementById('book-stock').value);
+            
+            // 유효성 검사
+            if (!title || !author || !publisher || !isbn) {
+                output.innerHTML = '<span style="color: #f44336; font-weight: bold;">❌ 모든 필수 항목을 입력해주세요.</span>';
+                return;
+            }
+            
+            if (isNaN(year) || year < 1900 || year > 2100) {
+                output.innerHTML = '<span style="color: #f44336; font-weight: bold;">❌ 올바른 출판년도를 입력해주세요 (1900-2100).</span>';
+                return;
+            }
+            
+            if (isNaN(price) || price < 0) {
+                output.innerHTML = '<span style="color: #f44336; font-weight: bold;">❌ 올바른 가격을 입력해주세요.</span>';
+                return;
+            }
+            
+            if (isNaN(stock) || stock < 0) {
+                output.innerHTML = '<span style="color: #f44336; font-weight: bold;">❌ 올바른 재고 수량을 입력해주세요.</span>';
+                return;
+            }
+            
+            // 새로운 도서 객체 생성
+            // 입력받은 정보를 속성으로 가지는 객체를 만듭니다
+            const newBook = {
+                title: title,
+                author: author,
+                publisher: publisher,
+                year: year,
+                price: price,
+                isbn: isbn,
+                stock: stock
+            };
+            
+            // 객체를 배열에 추가
+            // push() 메서드를 사용하여 배열 끝에 새 요소 추가
+            books.push(newBook);
+            
+            // 성공 메시지 표시
+            let result = '<div style="padding: 15px; background: #e8f5e9; border-left: 4px solid #4CAF50; border-radius: 5px; margin-bottom: 15px;">';
+            result += '<strong style="color: #4CAF50; font-size: 18px;">✅ 도서가 성공적으로 추가되었습니다!</strong><br><br>';
+            result += '<strong>추가된 도서 정보:</strong><br>';
+            result += '제목: ' + newBook.title + '<br>';
+            result += '저자: ' + newBook.author + '<br>';
+            result += '출판사: ' + newBook.publisher + '<br>';
+            result += '출판년도: ' + newBook.year + '년<br>';
+            result += '가격: ' + newBook.price.toLocaleString() + '원<br>';
+            result += 'ISBN: ' + newBook.isbn + '<br>';
+            result += '재고: ' + newBook.stock + '권<br>';
+            result += '</div>';
+            
+            result += '<div class="code-block">';
+            result += '// 1. 폼에서 입력값 가져오기<br>';
+            result += 'const title = document.getElementById("book-title").value;<br>';
+            result += 'const author = document.getElementById("book-author").value;<br>';
+            result += '// ... 기타 입력값들<br><br>';
+            result += '// 2. 도서 객체 생성<br>';
+            result += 'const newBook = {<br>';
+            result += '&nbsp;&nbsp;title: title,<br>';
+            result += '&nbsp;&nbsp;author: author,<br>';
+            result += '&nbsp;&nbsp;// ... 기타 속성들<br>';
+            result += '};<br><br>';
+            result += '// 3. 배열에 추가<br>';
+            result += 'books.push(newBook);';
+            result += '</div>';
+            
+            result += '<br><strong>현재 도서 목록 (총 ' + books.length + '권):</strong><br>';
+            result += '<ul class="book-list" style="margin-top: 10px;">';
+            
+            // for 반복문으로 모든 도서 목록 표시
+            for (let i = 0; i < books.length; i++) {
+                const book = books[i];
+                const isNew = i === books.length - 1;  // 마지막 항목이 새로 추가된 도서
+                const itemStyle = isNew ? 'border-left: 4px solid #4CAF50; background: #e8f5e9;' : '';
+                
+                result += '<li class="book-item" style="' + itemStyle + '">';
+                result += '<div class="book-title">' + (i + 1) + '. ' + book.title;
+                if (isNew) {
+                    result += ' <span style="background: #4CAF50; color: white; padding: 2px 8px; border-radius: 3px; font-size: 12px;">NEW</span>';
+                }
+                result += '</div>';
+                result += '<div class="book-info">저자: ' + book.author + ' | 출판사: ' + book.publisher + '</div>';
+                result += '<div class="book-info" style="color: #E91E63; font-weight: bold;">가격: ' + book.price.toLocaleString() + '원</div>';
+                const stockColor = book.stock === 0 ? '#f44336' : '#4CAF50';
+                result += '<div class="book-info" style="color: ' + stockColor + '; font-weight: bold;">재고: ' + (book.stock === 0 ? '품절' : book.stock + '권') + '</div>';
+                result += '</li>';
+            }
+            
+            result += '</ul>';
+            
+            result += '<br><strong>설명:</strong><br>';
+            result += '1. 폼에서 입력값을 가져와서 변수에 저장<br>';
+            result += '2. 입력값 유효성 검사 (필수 항목, 숫자 범위 등)<br>';
+            result += '3. 입력값으로 새로운 도서 객체 생성<br>';
+            result += '4. books.push()로 배열에 추가<br>';
+            result += '5. for 반복문으로 업데이트된 목록 표시';
+            
+            output.innerHTML = result;
+            
+            // 폼 초기화
+            document.getElementById('book-form').reset();
+            
+            // 콘솔에도 출력
+            console.log('새로운 도서가 추가되었습니다:', newBook);
+            console.log('현재 총 도서 개수:', books.length);
+        }
+
+        // 페이지 로드 시 기본 정보 표시
+        window.addEventListener('DOMContentLoaded', function() {
+            console.log('도서 객체 배열이 생성되었습니다.');
+            console.log('총 도서 개수:', books.length);
+            console.log('도서 목록:', books);
+            
+            // 가격 정보도 함께 출력
+            let totalPrice = 0;
+            for (let i = 0; i < books.length; i++) {
+                totalPrice += books[i].price;
+            }
+            const averagePrice = totalPrice / books.length;
+            console.log('총 가격:', totalPrice.toLocaleString() + '원');
+            console.log('평균 가격:', Math.round(averagePrice).toLocaleString() + '원');
+            
+            // 재고 정보도 함께 출력
+            let zeroStockCount = 0;
+            for (let i = 0; i < books.length; i++) {
+                if (books[i].stock === 0) {
+                    zeroStockCount++;
+                }
+            }
+            console.log('재고가 0인 도서:', zeroStockCount + '권');
+        });
+    </script>
+</body>
+</html>
+
+
+

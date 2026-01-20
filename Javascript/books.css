@@ -1,0 +1,118 @@
+/* Minimal clean theme for SKALA 서점 (works with Bootstrap 5) */
+
+:root{
+  --bg: #f6f7fb;
+  --surface: #ffffff;
+  --text: #111827;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --shadow: 0 8px 24px rgba(17, 24, 39, .08);
+  --radius: 14px;
+}
+
+/* Page */
+body{
+  background: var(--bg);
+  color: var(--text);
+}
+
+.container-py5{
+  width: min(980px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 32px 0 64px;
+}
+
+header{
+  text-align: center;
+  padding: 20px 0 10px;
+}
+
+header h1{
+  letter-spacing: -0.02em;
+}
+
+section{
+  margin-top: 18px;
+}
+
+#section-books > h3,
+#section-book-admin > h3{
+  margin-top: 20px;
+}
+.card{
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.card-header{
+  background: rgba(17, 24, 39, .03);
+  border-bottom: 1px solid var(--border);
+}
+.card-body{
+  background: var(--surface);
+}
+#bookListBox .border,
+#OnStockbookListBox .border,
+#programmingBookListBox .border,
+#zeroStockBookBox .border{
+  border-color: var(--border) !important;
+  background: rgba(255, 255, 255, .9);
+}
+
+img{
+  image-rendering: auto;
+}
+#bookListBox img,
+#OnStockbookListBox img,
+#programmingBookListBox img,
+#zeroStockBookBox img{
+  border-color: var(--border) !important;
+}
+
+.btn{
+  border-radius: 12px;
+  padding: 10px 14px;
+}
+
+.btn:focus{
+  box-shadow: 0 0 0 .25rem rgba(13, 110, 253, .18) !important; /* bootstrap primary-ish */
+}
+
+#section-books .btn{
+  width: 100%;
+  max-width: 240px;
+}
+
+#section-books .card + .btn{
+  margin-top: 10px;
+}
+
+#section-book-admin{
+  margin-top: 26px;
+}
+
+#section-book-admin .card{
+  margin-bottom: 18px;
+}
+
+.form-control{
+  border-radius: 12px;
+  border-color: var(--border);
+  padding: 10px 12px;
+}
+
+.form-control:focus{
+  border-color: rgba(13, 110, 253, .55);
+  box-shadow: 0 0 0 .25rem rgba(13, 110, 253, .14);
+}
+
+.form-text,
+.small.text-muted,
+.text-muted{
+  color: var(--muted) !important;
+}
+
+
+}

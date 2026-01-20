@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>04. 이벤트 기본</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #9C27B0;
+            padding-bottom: 10px;
+        }
+        .example {
+            background: #f9f9f9;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #9C27B0;
+            border-radius: 5px;
+        }
+        .output {
+            background: #f3e5f5;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 5px;
+            min-height: 30px;
+        }
+        button {
+            background: #9C27B0;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #7B1FA2;
+        }
+        #click-box {
+            width: 200px;
+            height: 100px;
+            background-color: #4CAF50;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 10px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            user-select: none;
+        }
+        #click-box:active {
+            transform: scale(0.95);
+        }
+        input {
+            padding: 8px;
+            margin: 5px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        input:focus {
+            border-color: #9C27B0;
+            outline: none;
+        }
+        .event-log {
+            background: #fff;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-top: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+        }
+        .log-entry {
+            padding: 3px 0;
+            border-bottom: 1px solid #eee;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>04. 이벤트 기본 (Events)</h1>
+        
+        <div class="example">
+            <h3>1. 클릭 이벤트</h3>
+            <p>사용자가 요소를 클릭했을 때 발생하는 이벤트입니다.</p>
+            <div id="click-box">클릭해보세요!</div>
+            <button id="click-btn">버튼 클릭</button>
+            <div id="click-output" class="output"></div>
+        </div>
+
+        <div class="example">
+            <h3>2. 입력 이벤트 (input, change)</h3>
+            <p>사용자가 입력 필드에 값을 입력하거나 변경할 때 발생하는 이벤트입니다.</p>
+            <input type="text" id="input-demo" placeholder="여기에 입력해보세요">
+            <input type="text" id="change-demo" placeholder="입력 후 포커스를 벗어나보세요">
+            <div id="input-output" class="output"></div>
+        </div>
+
+        <div class="example">
+            <h3>3. 이벤트 객체 (Event Object)</h3>
+            <p>이벤트가 발생하면 이벤트 객체가 생성되어 유용한 정보를 제공합니다.</p>
+            <button id="event-info-btn">이벤트 정보 보기</button>
+            <div id="event-info-output" class="output"></div>
+        </div>
+
+        <div class="example">
+            <h3>4. 다양한 이벤트 타입</h3>
+            <p>마우스, 키보드 등 다양한 이벤트를 처리할 수 있습니다.</p>
+            <div id="event-box" style="width: 300px; height: 150px; background: #E0E0E0; padding: 20px; border-radius: 5px; margin: 10px 0;">
+                마우스를 올려보거나 클릭해보세요!
+            </div>
+            <div class="event-log" id="event-log"></div>
+        </div>
+
+        <div class="example">
+            <h3>5. 실전 예제: 간단한 폼</h3>
+            <p>이름을 입력하고 제출해보세요.</p>
+            <input type="text" id="name-input" placeholder="이름을 입력하세요">
+            <button id="submit-btn">제출</button>
+            <div id="form-output" class="output"></div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // 이벤트란?
+        // ============================================
+        // 이벤트: 웹 페이지에서 발생하는 사용자 행동이나 브라우저 동작
+        // 예: 클릭, 키보드 입력, 마우스 이동, 페이지 로드 등
+        // 이벤트 리스너: 이벤트가 발생했을 때 실행할 함수를 등록하는 것
+
+        // ============================================
+        // 1. 클릭 이벤트
+        // ============================================
+        
+        // 방법 1: addEventListener 사용 (권장 방법)
+        // 요소가 로드된 후에 이벤트 리스너를 추가해야 함
+        // window.onload 또는 DOMContentLoaded 이벤트 사용
+        
+        // DOM이 로드되면 실행
+        document.addEventListener('DOMContentLoaded', function() {
+            // 클릭 박스에 클릭 이벤트 추가
+            const clickBox = document.getElementById('click-box');
+            clickBox.addEventListener('click', function() {
+                const output = document.getElementById('click-output');
+                output.innerHTML = '<strong>클릭 이벤트 발생!</strong><br>박스를 클릭했습니다.';
+                
+                // 클릭할 때마다 색상 변경
+                const colors = ['#4CAF50', '#2196F3', '#FF9800', '#9C27B0', '#F44336'];
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                clickBox.style.backgroundColor = randomColor;
+            });
+
+            // 버튼에 클릭 이벤트 추가
+            const clickBtn = document.getElementById('click-btn');
+            clickBtn.addEventListener('click', function() {
+                const output = document.getElementById('click-output');
+                output.innerHTML = '<strong>버튼 클릭 이벤트 발생!</strong><br>버튼을 클릭했습니다.';
+            });
+        });
+
+        // 방법 2: HTML의 onclick 속성 사용 (간단하지만 권장하지 않음)
+        // HTML과 JavaScript가 섞여 있어서 유지보수가 어려움
+        function handleButtonClick() {
+            alert('HTML onclick 속성으로 처리된 클릭 이벤트입니다.');
+        }
+
+        // ============================================
+        // 2. 입력 이벤트 (input, change)
+        // ============================================
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputDemo = document.getElementById('input-demo');
+            const changeDemo = document.getElementById('change-demo');
+            const output = document.getElementById('input-output');
+
+            // input 이벤트: 입력할 때마다 실시간으로 발생
+            // 사용자가 타이핑하는 동안 계속 발생
+            inputDemo.addEventListener('input', function(event) {
+                // event.target: 이벤트가 발생한 요소
+                // event.target.value: 입력 필드의 현재 값
+                const currentValue = event.target.value;
+                output.innerHTML = `<strong>input 이벤트:</strong> "${currentValue}"<br>`;
+                output.innerHTML += '<em>입력할 때마다 실시간으로 이벤트가 발생합니다.</em>';
+            });
+
+            // change 이벤트: 값이 변경되고 포커스를 잃을 때 발생
+            // 사용자가 입력을 마치고 다른 곳을 클릭했을 때 발생
+            changeDemo.addEventListener('change', function(event) {
+                const currentValue = event.target.value;
+                output.innerHTML = `<strong>change 이벤트:</strong> "${currentValue}"<br>`;
+                output.innerHTML += '<em>입력 후 포커스를 벗어나면 이벤트가 발생합니다.</em>';
+            });
+        });
+
+        // ============================================
+        // 3. 이벤트 객체 (Event Object)
+        // ============================================
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const eventInfoBtn = document.getElementById('event-info-btn');
+            const output = document.getElementById('event-info-output');
+
+            eventInfoBtn.addEventListener('click', function(event) {
+                // event 객체: 이벤트에 대한 정보를 담고 있는 객체
+                let result = '<strong>이벤트 객체 정보:</strong><br><br>';
+                
+                // 이벤트 타입
+                result += `<strong>이벤트 타입:</strong> ${event.type}<br>`;
+                
+                // 이벤트가 발생한 요소
+                result += `<strong>이벤트 타겟:</strong> ${event.target.tagName}<br>`;
+                result += `<strong>타겟 텍스트:</strong> "${event.target.textContent}"<br>`;
+                
+                // 마우스 위치 (클릭 이벤트인 경우)
+                result += `<strong>클릭 위치 (X, Y):</strong> (${event.clientX}, ${event.clientY})<br>`;
+                
+                // 이벤트 발생 시간
+                result += `<strong>이벤트 시간:</strong> ${new Date(event.timeStamp).toLocaleTimeString()}<br>`;
+                
+                // 기본 동작 방지 여부
+                result += `<strong>기본 동작 방지:</strong> ${event.defaultPrevented}<br>`;
+                
+                output.innerHTML = result;
+            });
+        });
+
+        // ============================================
+        // 4. 다양한 이벤트 타입
+        // ============================================
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const eventBox = document.getElementById('event-box');
+            const eventLog = document.getElementById('event-log');
+
+            // 로그를 추가하는 함수
+            function addLog(message) {
+                const logEntry = document.createElement('div');
+                logEntry.className = 'log-entry';
+                logEntry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+                eventLog.appendChild(logEntry);
+                // 스크롤을 맨 아래로
+                eventLog.scrollTop = eventLog.scrollHeight;
+            }
+
+            // 마우스 이벤트들
+            eventBox.addEventListener('mouseenter', function() {
+                addLog('마우스가 영역 안으로 들어왔습니다 (mouseenter)');
+                eventBox.style.background = '#BBDEFB';
+            });
+
+            eventBox.addEventListener('mouseleave', function() {
+                addLog('마우스가 영역 밖으로 나갔습니다 (mouseleave)');
+                eventBox.style.background = '#E0E0E0';
+            });
+
+            eventBox.addEventListener('mousemove', function(event) {
+                // mousemove는 마우스가 움직일 때마다 발생하므로
+                // 너무 자주 로그를 남기지 않도록 주의
+                // (실제로는 이렇게 하지 않고, 필요할 때만 사용)
+            });
+
+            eventBox.addEventListener('click', function(event) {
+                addLog(`클릭했습니다! 위치: (${event.clientX}, ${event.clientY})`);
+            });
+
+            eventBox.addEventListener('dblclick', function() {
+                addLog('더블 클릭했습니다!');
+            });
+
+            // 키보드 이벤트 (전체 문서에 적용)
+            document.addEventListener('keydown', function(event) {
+                addLog(`키를 눌렀습니다: ${event.key} (keydown)`);
+            });
+
+            document.addEventListener('keyup', function(event) {
+                addLog(`키를 뗐습니다: ${event.key} (keyup)`);
+            });
+        });
+
+        // ============================================
+        // 5. 실전 예제: 간단한 폼
+        // ============================================
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const nameInput = document.getElementById('name-input');
+            const submitBtn = document.getElementById('submit-btn');
+            const formOutput = document.getElementById('form-output');
+
+            // 제출 버튼 클릭 이벤트
+            submitBtn.addEventListener('click', function() {
+                const name = nameInput.value.trim(); // trim(): 앞뒤 공백 제거
+
+                // 입력값 검증
+                if (name === '') {
+                    formOutput.innerHTML = '<strong style="color: red;">오류:</strong> 이름을 입력해주세요.';
+                    nameInput.style.borderColor = 'red';
+                    return; // 함수 종료
+                }
+
+                // 성공 메시지 표시
+                formOutput.innerHTML = `<strong style="color: green;">성공!</strong><br>안녕하세요, ${name}님!`;
+                nameInput.style.borderColor = '#4CAF50';
+                
+                // 입력 필드 초기화
+                nameInput.value = '';
+            });
+
+            // Enter 키로도 제출 가능하도록
+            nameInput.addEventListener('keypress', function(event) {
+                // Enter 키의 키 코드는 13
+                if (event.key === 'Enter') {
+                    submitBtn.click(); // 버튼 클릭 이벤트 발생시킴
+                }
+            });
+
+            // 입력할 때마다 경고 제거
+            nameInput.addEventListener('input', function() {
+                if (this.style.borderColor === 'red') {
+                    this.style.borderColor = '#ddd';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

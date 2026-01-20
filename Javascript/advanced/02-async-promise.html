@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>02. 비동기 처리 - Promise</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #673AB7;
+            padding-bottom: 10px;
+        }
+        .example {
+            background: #f9f9f9;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #673AB7;
+            border-radius: 5px;
+        }
+        .output {
+            background: #ede7f6;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            min-height: 50px;
+            white-space: pre-wrap;
+        }
+        button {
+            background: #673AB7;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #512DA8;
+        }
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #673AB7;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .success {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        .error {
+            color: #f44336;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>02. 비동기 처리 - Promise</h1>
+        
+        <div class="example">
+            <h3>1. 비동기 프로그래밍이란?</h3>
+            <p>비동기 프로그래밍은 코드가 순차적으로 실행되지 않고, 작업이 완료되면 결과를 처리하는 방식입니다.</p>
+            <button onclick="showAsyncConcept()">비동기 개념 이해하기</button>
+            <div id="concept-output" class="output"></div>
+        </div>
+
+        <div class="example">
+            <h3>2. Promise 기본 - 생성과 사용</h3>
+            <p>Promise는 비동기 작업의 최종 완료 또는 실패를 나타내는 객체입니다.</p>
+            <button onclick="showPromiseBasics()">Promise 기본 예제</button>
+            <div id="promise-basics-output" class="output"></div>
+        </div>
+
+        <div class="example">
+            <h3>3. Promise 상태 (pending, fulfilled, rejected)</h3>
+            <p>Promise는 세 가지 상태를 가집니다: 대기(pending), 이행(fulfilled), 거부(rejected)</p>
+            <button onclick="showPromiseStates()">Promise 상태 확인</button>
+            <div id="states-output" class="output"></div>
+        </div>
+
+        <div class="example">
+            <h3>4. then(), catch(), finally()</h3>
+            <p>Promise의 결과를 처리하는 메서드들입니다.</p>
+            <button onclick="showPromiseMethods()">then/catch/finally 예제</button>
+            <div id="methods-output" class="output"></div>
+        </div>
+
+        <div class="example">
+            <h3>5. Promise 체이닝</h3>
+            <p>여러 비동기 작업을 순차적으로 연결하여 실행할 수 있습니다.</p>
+            <button onclick="showPromiseChaining()">Promise 체이닝 예제</button>
+            <div id="chaining-output" class="output"></div>
+        </div>
+
+        <div class="example">
+            <h3>6. Promise.all() - 여러 Promise 동시 처리</h3>
+            <p>여러 비동기 작업을 동시에 실행하고 모두 완료될 때까지 기다립니다.</p>
+            <button onclick="showPromiseAll()">Promise.all 예제</button>
+            <div id="all-output" class="output"></div>
+        </div>
+
+        <div class="example">
+            <h3>7. Promise.race() - 가장 빠른 Promise 선택</h3>
+            <p>여러 Promise 중 가장 먼저 완료되는 것을 반환합니다.</p>
+            <button onclick="showPromiseRace()">Promise.race 예제</button>
+            <div id="race-output" class="output"></div>
+        </div>
+
+        <div class="example">
+            <h3>8. 실전 예제: 사용자 데이터 로딩 시뮬레이션</h3>
+            <p>실제 웹 개발에서 사용하는 패턴을 시뮬레이션합니다.</p>
+            <button onclick="loadUserData()">사용자 데이터 로드</button>
+            <div id="user-output" class="output"></div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // 1. 비동기 프로그래밍 개념 이해
+        // ============================================
+        
+        function showAsyncConcept() {
+            const output = document.getElementById('concept-output');
+            output.innerHTML = '<div class="loading"></div> 비동기 작업 시뮬레이션 중...';
+            
+            let result = '<strong>비동기 프로그래밍 개념:</strong>\n\n';
+            
+            // 동기적 실행 (순차적)
+            result += '<strong>동기적 실행 (Synchronous):</strong>\n';
+            result += '1. 첫 번째 작업 시작\n';
+            result += '2. 첫 번째 작업 완료 대기...\n';
+            result += '3. 두 번째 작업 시작\n';
+            result += '4. 두 번째 작업 완료 대기...\n';
+            result += '→ 각 작업이 완료될 때까지 다음 작업이 시작되지 않음\n\n';
+            
+            // 비동기적 실행
+            result += '<strong>비동기적 실행 (Asynchronous):</strong>\n';
+            result += '1. 첫 번째 작업 시작 (백그라운드에서 실행)\n';
+            result += '2. 두 번째 작업 시작 (첫 번째 작업 완료를 기다리지 않음)\n';
+            result += '3. 세 번째 작업 시작\n';
+            result += '4. 각 작업이 완료되면 결과 처리\n';
+            result += '→ 여러 작업을 동시에 처리할 수 있음\n\n';
+            
+            // setTimeout을 사용한 비동기 시뮬레이션
+            setTimeout(() => {
+                result += '<strong>실제 예제:</strong>\n';
+                result += 'console.log("1. 시작");\n';
+                result += 'setTimeout(() => console.log("2. 비동기 작업"), 1000);\n';
+                result += 'console.log("3. 끝");\n\n';
+                result += '<strong>출력 순서:</strong>\n';
+                result += '1. 시작\n';
+                result += '3. 끝\n';
+                result += '2. 비동기 작업 (1초 후)\n\n';
+                result += '→ "끝"이 먼저 출력되는 것을 확인할 수 있음';
+                
+                output.innerHTML = result;
+            }, 1000);
+        }
+
+        // ============================================
+        // 2. Promise 기본 - 생성과 사용
+        // ============================================
+        
+        function showPromiseBasics() {
+            const output = document.getElementById('promise-basics-output');
+            output.innerHTML = '<div class="loading"></div> Promise 실행 중...';
+            
+            // Promise 생성
+            // Promise 생성자는 실행 함수(executor function)를 인자로 받습니다
+            // 실행 함수는 resolve와 reject 두 개의 매개변수를 받습니다
+            const myPromise = new Promise((resolve, reject) => {
+                // 비동기 작업 시뮬레이션
+                // 실제로는 API 호출, 파일 읽기, 데이터베이스 쿼리 등이 올 수 있습니다
+                setTimeout(() => {
+                    const success = true; // 성공/실패 시뮬레이션
+                    
+                    if (success) {
+                        // resolve(): Promise를 성공 상태로 변경하고 결과값 전달
+                        resolve('작업이 성공적으로 완료되었습니다!');
+                    } else {
+                        // reject(): Promise를 실패 상태로 변경하고 에러 전달
+                        reject('작업이 실패했습니다.');
+                    }
+                }, 1500);
+            });
+            
+            // Promise 사용
+            // then(): Promise가 성공(fulfilled)했을 때 실행할 함수
+            myPromise
+                .then((result) => {
+                    // resolve()로 전달된 값이 result 매개변수로 들어옵니다
+                    output.innerHTML = `<span class="success">✅ 성공:</span> ${result}\n\n`;
+                    output.innerHTML += '<strong>코드 설명:</strong>\n';
+                    output.innerHTML += 'const myPromise = new Promise((resolve, reject) => {\n';
+                    output.innerHTML += '  // 비동기 작업 수행\n';
+                    output.innerHTML += '  setTimeout(() => {\n';
+                    output.innerHTML += '    resolve("성공 메시지"); // 성공 시\n';
+                    output.innerHTML += '    // 또는 reject("에러 메시지"); // 실패 시\n';
+                    output.innerHTML += '  }, 1500);\n';
+                    output.innerHTML += '});\n\n';
+                    output.innerHTML += 'myPromise.then((result) => {\n';
+                    output.innerHTML += '  console.log(result); // "성공 메시지"\n';
+                    output.innerHTML += '});';
+                })
+                .catch((error) => {
+                    // catch(): Promise가 실패(rejected)했을 때 실행할 함수
+                    // reject()로 전달된 값이 error 매개변수로 들어옵니다
+                    output.innerHTML = `<span class="error">❌ 에러:</span> ${error}`;
+                });
+        }
+
+        // ============================================
+        // 3. Promise 상태
+        // ============================================
+        
+        function showPromiseStates() {
+            const output = document.getElementById('states-output');
+            output.innerHTML = '<div class="loading"></div> Promise 상태 확인 중...';
+            
+            let result = '<strong>Promise의 세 가지 상태:</strong>\n\n';
+            
+            // 1. Pending (대기)
+            result += '<strong>1. Pending (대기 상태):</strong>\n';
+            result += 'Promise가 생성되었지만 아직 완료되지 않은 상태\n';
+            const pendingPromise = new Promise((resolve) => {
+                // 아직 resolve나 reject를 호출하지 않음
+            });
+            result += `pendingPromise 상태: ${pendingPromise}\n\n`;
+            
+            // 2. Fulfilled (이행)
+            result += '<strong>2. Fulfilled (이행 상태):</strong>\n';
+            result += 'resolve()가 호출되어 성공적으로 완료된 상태\n';
+            const fulfilledPromise = Promise.resolve('성공!');
+            fulfilledPromise.then(value => {
+                result += `fulfilledPromise 값: ${value}\n\n`;
+                
+                // 3. Rejected (거부)
+                result += '<strong>3. Rejected (거부 상태):</strong>\n';
+                result += 'reject()가 호출되어 실패한 상태\n';
+                const rejectedPromise = Promise.reject('에러 발생!');
+                rejectedPromise.catch(error => {
+                    result += `rejectedPromise 에러: ${error}\n\n`;
+                    
+                    result += '<strong>상태 전이:</strong>\n';
+                    result += 'Pending → Fulfilled (resolve 호출 시)\n';
+                    result += 'Pending → Rejected (reject 호출 시)\n';
+                    result += '→ 한 번 fulfilled나 rejected가 되면 상태가 변경되지 않음';
+                    
+                    output.innerHTML = result;
+                });
+            });
+        }
+
+        // ============================================
+        // 4. then(), catch(), finally()
+        // ============================================
+        
+        function showPromiseMethods() {
+            const output = document.getElementById('methods-output');
+            output.innerHTML = '<div class="loading"></div> Promise 메서드 실행 중...';
+            
+            // 성공 케이스
+            const successPromise = new Promise((resolve) => {
+                setTimeout(() => resolve('데이터 로드 성공!'), 1000);
+            });
+            
+            successPromise
+                .then((result) => {
+                    // then(): 성공 시 실행
+                    // 첫 번째 매개변수: 성공 시 실행할 함수
+                    let resultText = '<strong>성공 케이스:</strong>\n\n';
+                    resultText += `then() 실행: ${result}\n`;
+                    
+                    // then()은 새로운 Promise를 반환하므로 체이닝 가능
+                    return result + ' (처리 완료)';
+                })
+                .then((processedResult) => {
+                    // 두 번째 then(): 첫 번째 then()의 반환값을 받음
+                    output.innerHTML = `<span class="success">✅ ${processedResult}</span>\n\n`;
+                    
+                    // catch() 예제
+                    const errorPromise = new Promise((resolve, reject) => {
+                        setTimeout(() => reject('에러 발생!'), 500);
+                    });
+                    
+                    errorPromise
+                        .then((result) => {
+                            // 성공 시 실행 (이 경우 실행되지 않음)
+                            output.innerHTML += `성공: ${result}`;
+                        })
+                        .catch((error) => {
+                            // catch(): 실패 시 실행
+                            // reject()로 전달된 값이 error 매개변수로 들어옵니다
+                            output.innerHTML += `<span class="error">❌ catch() 실행: ${error}</span>\n\n`;
+                            
+                            // finally() 예제
+                            const finallyPromise = Promise.resolve('작업 완료');
+                            
+                            finallyPromise
+                                .then((result) => {
+                                    output.innerHTML += `<span class="success">✅ then() 실행: ${result}</span>\n`;
+                                })
+                                .catch((error) => {
+                                    output.innerHTML += `<span class="error">❌ catch() 실행: ${error}</span>\n`;
+                                })
+                                .finally(() => {
+                                    // finally(): 성공/실패 여부와 관계없이 항상 실행
+                                    // 정리 작업(cleanup)에 유용합니다
+                                    output.innerHTML += '\n<strong>finally() 실행:</strong> 항상 실행됩니다 (성공/실패 무관)\n\n';
+                                    
+                                    output.innerHTML += '<strong>메서드 정리:</strong>\n';
+                                    output.innerHTML += '1. then(onFulfilled, onRejected): 성공/실패 처리\n';
+                                    output.innerHTML += '2. catch(onRejected): 실패 처리 (then(null, onRejected)와 동일)\n';
+                                    output.innerHTML += '3. finally(onFinally): 성공/실패 무관하게 항상 실행';
+                                });
+                        });
+                });
+        }
+
+        // ============================================
+        // 5. Promise 체이닝
+        // ============================================
+        
+        function showPromiseChaining() {
+            const output = document.getElementById('chaining-output');
+            output.innerHTML = '<div class="loading"></div> Promise 체이닝 실행 중...';
+            
+            // 체이닝: 여러 비동기 작업을 순차적으로 연결
+            // 각 then()은 새로운 Promise를 반환하므로 계속 연결 가능
+            
+            // 1단계: 사용자 ID 가져오기
+            function getUserID() {
+                return new Promise((resolve) => {
+                    setTimeout(() => resolve(123), 500);
+                });
+            }
+            
+            // 2단계: 사용자 정보 가져오기
+            function getUserInfo(userID) {
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        resolve({
+                            id: userID,
+                            name: '홍길동',
+                            email: 'hong@example.com'
+                        });
+                    }, 500);
+                });
+            }
+            
+            // 3단계: 사용자 프로필 이미지 가져오기
+            function getProfileImage(userInfo) {
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        resolve({
+                            ...userInfo,
+                            profileImage: 'https://example.com/profile.jpg'
+                        });
+                    }, 500);
+                });
+            }
+            
+            // Promise 체이닝으로 순차 실행
+            getUserID()
+                .then((userID) => {
+                    // 첫 번째 then()의 반환값이 다음 then()의 매개변수가 됩니다
+                    output.innerHTML = `1단계 완료: 사용자 ID = ${userID}\n`;
+                    return getUserInfo(userID); // Promise 반환
+                })
+                .then((userInfo) => {
+                    // getUserInfo()의 반환값이 여기로 전달됩니다
+                    output.innerHTML += `2단계 완료: 사용자 정보 = ${JSON.stringify(userInfo, null, 2)}\n`;
+                    return getProfileImage(userInfo); // Promise 반환
+                })
+                .then((completeUser) => {
+                    // getProfileImage()의 반환값이 여기로 전달됩니다
+                    output.innerHTML += `3단계 완료: 전체 사용자 데이터\n`;
+                    output.innerHTML += `${JSON.stringify(completeUser, null, 2)}\n\n`;
+                    
+                    output.innerHTML += '<strong>체이닝의 장점:</strong>\n';
+                    output.innerHTML += '- 비동기 작업을 순차적으로 실행 가능\n';
+                    output.innerHTML += '- 콜백 지옥(callback hell)을 피할 수 있음\n';
+                    output.innerHTML += '- 코드가 읽기 쉽고 유지보수하기 쉬움';
+                })
+                .catch((error) => {
+                    // 어느 단계에서든 에러가 발생하면 여기로 옵니다
+                    output.innerHTML += `<span class="error">❌ 에러 발생: ${error}</span>`;
+                });
+        }
+
+        // ============================================
+        // 6. Promise.all() - 여러 Promise 동시 처리
+        // ============================================
+        
+        function showPromiseAll() {
+            const output = document.getElementById('all-output');
+            output.innerHTML = '<div class="loading"></div> Promise.all 실행 중...';
+            
+            // 여러 개의 독립적인 비동기 작업을 동시에 실행
+            // 모든 작업이 완료될 때까지 기다립니다
+            
+            // 작업 1: 사용자 데이터 가져오기
+            const fetchUser = new Promise((resolve) => {
+                setTimeout(() => resolve({ name: '홍길동', age: 25 }), 1000);
+            });
+            
+            // 작업 2: 게시글 목록 가져오기
+            const fetchPosts = new Promise((resolve) => {
+                setTimeout(() => resolve(['게시글 1', '게시글 2', '게시글 3']), 1500);
+            });
+            
+            // 작업 3: 댓글 목록 가져오기
+            const fetchComments = new Promise((resolve) => {
+                setTimeout(() => resolve(['댓글 1', '댓글 2']), 800);
+            });
+            
+            // Promise.all(): 모든 Promise가 완료될 때까지 기다림
+            // 배열의 순서대로 결과가 반환됩니다
+            const startTime = Date.now();
+            
+            Promise.all([fetchUser, fetchPosts, fetchComments])
+                .then((results) => {
+                    // results는 배열이며, 각 Promise의 결과값이 순서대로 들어있습니다
+                    const endTime = Date.now();
+                    const duration = endTime - startTime;
+                    
+                    output.innerHTML = '<strong>Promise.all() 결과:</strong>\n\n';
+                    output.innerHTML += `모든 작업 완료! (소요 시간: ${duration}ms)\n\n`;
+                    output.innerHTML += `1. 사용자 데이터: ${JSON.stringify(results[0])}\n`;
+                    output.innerHTML += `2. 게시글 목록: ${JSON.stringify(results[1])}\n`;
+                    output.innerHTML += `3. 댓글 목록: ${JSON.stringify(results[2])}\n\n`;
+                    
+                    output.innerHTML += '<strong>특징:</strong>\n';
+                    output.innerHTML += '- 모든 Promise가 동시에 실행됨\n';
+                    output.innerHTML += '- 가장 느린 작업이 완료될 때까지 기다림\n';
+                    output.innerHTML += '- 하나라도 실패하면 전체가 실패 (catch로 이동)\n';
+                    output.innerHTML += `- 총 소요 시간: 약 ${Math.max(1000, 1500, 800)}ms (가장 느린 작업 시간)`;
+                })
+                .catch((error) => {
+                    // 하나라도 실패하면 여기로 옵니다
+                    output.innerHTML = `<span class="error">❌ 에러 발생: ${error}</span>`;
+                });
+        }
+
+        // ============================================
+        // 7. Promise.race() - 가장 빠른 Promise 선택
+        // ============================================
+        
+        function showPromiseRace() {
+            const output = document.getElementById('race-output');
+            output.innerHTML = '<div class="loading"></div> Promise.race 실행 중...';
+            
+            // 여러 Promise 중 가장 먼저 완료되는 것을 반환합니다
+            // 타임아웃이나 여러 소스 중 빠른 응답을 선택할 때 유용합니다
+            
+            // 작업 1: 빠른 응답 (500ms)
+            const fastServer = new Promise((resolve) => {
+                setTimeout(() => resolve('빠른 서버 응답'), 500);
+            });
+            
+            // 작업 2: 보통 응답 (1000ms)
+            const normalServer = new Promise((resolve) => {
+                setTimeout(() => resolve('보통 서버 응답'), 1000);
+            });
+            
+            // 작업 3: 느린 응답 (2000ms)
+            const slowServer = new Promise((resolve) => {
+                setTimeout(() => resolve('느린 서버 응답'), 2000);
+            });
+            
+            const startTime = Date.now();
+            
+            // Promise.race(): 가장 먼저 완료되는 Promise의 결과를 반환
+            Promise.race([fastServer, normalServer, slowServer])
+                .then((result) => {
+                    const endTime = Date.now();
+                    const duration = endTime - startTime;
+                    
+                    output.innerHTML = '<strong>Promise.race() 결과:</strong>\n\n';
+                    output.innerHTML += `<span class="success">✅ 가장 빠른 응답: ${result}</span>\n`;
+                    output.innerHTML += `소요 시간: ${duration}ms\n\n`;
+                    
+                    output.innerHTML += '<strong>특징:</strong>\n';
+                    output.innerHTML += '- 모든 Promise가 동시에 실행됨\n';
+                    output.innerHTML += '- 가장 빠르게 완료되는 것만 반환\n';
+                    output.innerHTML += '- 나머지 Promise는 계속 실행되지만 결과는 무시됨\n\n';
+                    
+                    // 타임아웃 예제
+                    output.innerHTML += '<strong>실전 활용: 타임아웃 설정</strong>\n';
+                    const dataPromise = new Promise((resolve) => {
+                        setTimeout(() => resolve('데이터 로드 완료'), 3000);
+                    });
+                    
+                    const timeoutPromise = new Promise((resolve, reject) => {
+                        setTimeout(() => reject('타임아웃 발생!'), 2000);
+                    });
+                    
+                    Promise.race([dataPromise, timeoutPromise])
+                        .then((result) => {
+                            output.innerHTML += `성공: ${result}`;
+                        })
+                        .catch((error) => {
+                            output.innerHTML += `<span class="error">❌ ${error}</span>\n`;
+                            output.innerHTML += '→ 2초 안에 데이터를 가져오지 못하면 타임아웃';
+                        });
+                });
+        }
+
+        // ============================================
+        // 8. 실전 예제: 사용자 데이터 로딩 시뮬레이션
+        // ============================================
+        
+        function loadUserData() {
+            const output = document.getElementById('user-output');
+            output.innerHTML = '<div class="loading"></div> 사용자 데이터 로딩 중...';
+            
+            // 실제 웹 개발에서 사용하는 패턴을 시뮬레이션
+            
+            // 1. 사용자 인증 확인
+            function checkAuthentication() {
+                return new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        const isAuthenticated = true; // 실제로는 서버에서 확인
+                        if (isAuthenticated) {
+                            resolve({ token: 'abc123xyz', userId: 456 });
+                        } else {
+                            reject('인증 실패: 로그인이 필요합니다.');
+                        }
+                    }, 800);
+                });
+            }
+            
+            // 2. 사용자 프로필 가져오기
+            function fetchUserProfile(userId) {
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        resolve({
+                            id: userId,
+                            name: '홍길동',
+                            email: 'hong@example.com',
+                            avatar: 'https://example.com/avatar.jpg'
+                        });
+                    }, 600);
+                });
+            }
+            
+            // 3. 사용자 설정 가져오기
+            function fetchUserSettings(userId) {
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        resolve({
+                            theme: 'dark',
+                            language: 'ko',
+                            notifications: true
+                        });
+                    }, 500);
+                });
+            }
+            
+            // 4. 사용자 활동 내역 가져오기
+            function fetchUserActivity(userId) {
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        resolve([
+                            { action: '로그인', time: '2024-01-15 10:00' },
+                            { action: '게시글 작성', time: '2024-01-15 11:30' },
+                            { action: '댓글 작성', time: '2024-01-15 14:20' }
+                        ]);
+                    }, 700);
+                });
+            }
+            
+            // 전체 프로세스 실행
+            const startTime = Date.now();
+            
+            checkAuthentication()
+                .then((authData) => {
+                    output.innerHTML = `✅ 인증 완료: 사용자 ID ${authData.userId}\n\n`;
+                    
+                    // 인증 후 여러 데이터를 동시에 가져오기
+                    return Promise.all([
+                        fetchUserProfile(authData.userId),
+                        fetchUserSettings(authData.userId),
+                        fetchUserActivity(authData.userId)
+                    ]);
+                })
+                .then(([profile, settings, activity]) => {
+                    const endTime = Date.now();
+                    const duration = endTime - startTime;
+                    
+                    output.innerHTML += '<strong>사용자 데이터 로드 완료!</strong>\n\n';
+                    output.innerHTML += `<strong>프로필:</strong>\n`;
+                    output.innerHTML += `이름: ${profile.name}\n`;
+                    output.innerHTML += `이메일: ${profile.email}\n\n`;
+                    
+                    output.innerHTML += `<strong>설정:</strong>\n`;
+                    output.innerHTML += `테마: ${settings.theme}\n`;
+                    output.innerHTML += `언어: ${settings.language}\n`;
+                    output.innerHTML += `알림: ${settings.notifications ? '켜짐' : '꺼짐'}\n\n`;
+                    
+                    output.innerHTML += `<strong>최근 활동:</strong>\n`;
+                    activity.forEach((item, index) => {
+                        output.innerHTML += `${index + 1}. ${item.action} - ${item.time}\n`;
+                    });
+                    
+                    output.innerHTML += `\n<strong>총 소요 시간: ${duration}ms</strong>\n\n`;
+                    output.innerHTML += '<strong>패턴 설명:</strong>\n';
+                    output.innerHTML += '1. 인증 확인 (순차 실행)\n';
+                    output.innerHTML += '2. 인증 후 여러 데이터 동시 로드 (Promise.all)\n';
+                    output.innerHTML += '3. 모든 데이터를 받아서 화면에 표시';
+                })
+                .catch((error) => {
+                    output.innerHTML = `<span class="error">❌ 에러 발생: ${error}</span>\n\n`;
+                    output.innerHTML += '에러 처리: 사용자에게 에러 메시지 표시 또는 재시도 옵션 제공';
+                });
+        }
+    </script>
+</body>
+</html>

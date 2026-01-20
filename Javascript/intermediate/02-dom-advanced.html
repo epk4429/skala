@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>02. DOM 고급 조작</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #3F51B5;
+            padding-bottom: 10px;
+        }
+        .example {
+            background: #f9f9f9;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #3F51B5;
+            border-radius: 5px;
+        }
+        .output {
+            background: #e8eaf6;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 5px;
+            min-height: 50px;
+        }
+        button {
+            background: #3F51B5;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #303F9F;
+        }
+        .item {
+            background: #fff;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .item button {
+            background: #f44336;
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+        .item button:hover {
+            background: #d32f2f;
+        }
+        #dynamic-container {
+            border: 2px dashed #ddd;
+            padding: 15px;
+            margin: 10px 0;
+            min-height: 50px;
+            border-radius: 5px;
+        }
+        .highlight-item {
+            background: #FFEB3B !important;
+            border-color: #FFC107 !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>02. DOM 고급 조작</h1>
+        
+        <div class="example">
+            <h3>1. createElement와 appendChild</h3>
+            <p>JavaScript로 새로운 HTML 요소를 동적으로 생성하고 추가합니다.</p>
+            <button onclick="createNewElement()">새 요소 생성</button>
+            <div id="create-output" class="output"></div>
+        </div>
+
+        <div class="example">
+            <h3>2. querySelectorAll</h3>
+            <p>여러 요소를 한 번에 선택합니다.</p>
+            <div class="selectable-item">항목 1</div>
+            <div class="selectable-item">항목 2</div>
+            <div class="selectable-item">항목 3</div>
+            <button onclick="selectAllItems()">모든 항목 선택</button>
+            <div id="select-all-output" class="output"></div>
+        </div>
+
+        <div class="example">
+            <h3>3. 이벤트 위임 (Event Delegation)</h3>
+            <p>부모 요소에 이벤트를 등록하여 자식 요소의 이벤트를 처리합니다.</p>
+            <ul id="delegation-list">
+                <li>리스트 항목 1 <button>삭제</button></li>
+                <li>리스트 항목 2 <button>삭제</button></li>
+                <li>리스트 항목 3 <button>삭제</button></li>
+            </ul>
+            <button onclick="addListItem()">항목 추가</button>
+        </div>
+
+        <div class="example">
+            <h3>4. 동적 요소 생성/삭제</h3>
+            <p>사용자 입력에 따라 요소를 동적으로 추가하거나 제거합니다.</p>
+            <input type="text" id="item-input" placeholder="항목 이름 입력">
+            <button onclick="addDynamicItem()">항목 추가</button>
+            <div id="dynamic-container"></div>
+        </div>
+
+        <div class="example">
+            <h3>5. 실전 예제: 동적 할 일 목록</h3>
+            <p>모든 기능을 활용한 실전 예제입니다.</p>
+            <input type="text" id="todo-input" placeholder="할 일을 입력하세요">
+            <button onclick="addTodo()">추가</button>
+            <ul id="todo-list"></ul>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // 1. createElement와 appendChild
+        // ============================================
+        
+        function createNewElement() {
+            const output = document.getElementById('create-output');
+            
+            // 기존 내용 초기화
+            output.innerHTML = '';
+
+            // 1. createElement: 새로운 HTML 요소 생성
+            const newDiv = document.createElement('div');
+            newDiv.textContent = '새로 생성된 div 요소입니다!';
+            newDiv.style.padding = '10px';
+            newDiv.style.backgroundColor = '#4CAF50';
+            newDiv.style.color = 'white';
+            newDiv.style.borderRadius = '5px';
+            newDiv.style.marginTop = '10px';
+
+            // 2. appendChild: 부모 요소에 자식 요소 추가
+            output.appendChild(newDiv);
+
+            // 추가 예제: 여러 요소 생성
+            const paragraph = document.createElement('p');
+            paragraph.textContent = '이것은 p 태그입니다.';
+            paragraph.style.color = '#333';
+            output.appendChild(paragraph);
+
+            // 버튼 생성
+            const button = document.createElement('button');
+            button.textContent = '동적 버튼';
+            button.style.marginTop = '10px';
+            button.addEventListener('click', function() {
+                alert('동적으로 생성된 버튼이 클릭되었습니다!');
+            });
+            output.appendChild(button);
+
+            // 설명 텍스트 추가
+            const explanation = document.createElement('p');
+            explanation.innerHTML = '<strong>코드 설명:</strong><br>';
+            explanation.innerHTML += '1. document.createElement("태그명") - 새 요소 생성<br>';
+            explanation.innerHTML += '2. 요소.textContent = "텍스트" - 텍스트 설정<br>';
+            explanation.innerHTML += '3. 요소.style.속성 = "값" - 스타일 설정<br>';
+            explanation.innerHTML += '4. 부모.appendChild(자식) - 요소 추가';
+            explanation.style.marginTop = '15px';
+            explanation.style.fontSize = '14px';
+            explanation.style.color = '#666';
+            output.appendChild(explanation);
+        }
+
+        // ============================================
+        // 2. querySelectorAll
+        // ============================================
+        
+        function selectAllItems() {
+            const output = document.getElementById('select-all-output');
+            
+            // querySelectorAll: 조건에 맞는 모든 요소 선택
+            // NodeList 객체를 반환 (배열과 유사하지만 배열은 아님)
+            const items = document.querySelectorAll('.selectable-item');
+            
+            let result = '<strong>querySelectorAll 사용:</strong><br><br>';
+            result += `선택된 요소 개수: ${items.length}개<br><br>`;
+
+            // NodeList를 순회하면서 처리
+            // 방법 1: forEach 사용 (NodeList는 forEach 지원)
+            result += '<strong>선택된 항목들:</strong><br>';
+            items.forEach((item, index) => {
+                // 각 항목에 스타일 적용
+                item.style.backgroundColor = '#E3F2FD';
+                item.style.padding = '10px';
+                item.style.margin = '5px 0';
+                item.style.borderRadius = '5px';
+                
+                result += `${index + 1}. ${item.textContent}<br>`;
+            });
+
+            // 방법 2: for 반복문 사용
+            // for (let i = 0; i < items.length; i++) {
+            //     console.log(items[i].textContent);
+            // }
+
+            // 방법 3: for...of 사용
+            // for (let item of items) {
+            //     console.log(item.textContent);
+            // }
+
+            result += '<br><strong>주의사항:</strong><br>';
+            result += '- querySelectorAll은 NodeList를 반환 (배열 아님)<br>';
+            result += '- 하지만 forEach, for...of 사용 가능<br>';
+            result += '- 배열 메서드(map, filter 등)를 사용하려면 Array.from() 필요';
+
+            output.innerHTML = result;
+        }
+
+        // ============================================
+        // 3. 이벤트 위임 (Event Delegation)
+        // ============================================
+        
+        // 이벤트 위임: 부모 요소에 이벤트를 등록하고,
+        // event.target을 사용하여 실제 클릭된 자식 요소를 확인
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const delegationList = document.getElementById('delegation-list');
+
+            // 부모 요소(ul)에 이벤트 등록
+            delegationList.addEventListener('click', function(event) {
+                // event.target: 실제로 클릭된 요소
+                // event.currentTarget: 이벤트가 등록된 요소 (ul)
+
+                // 버튼이 클릭되었는지 확인
+                if (event.target.tagName === 'BUTTON') {
+                    // 클릭된 버튼의 부모 요소(li) 제거
+                    const listItem = event.target.parentElement;
+                    listItem.style.transition = 'opacity 0.3s';
+                    listItem.style.opacity = '0';
+                    
+                    // 애니메이션 후 실제로 제거
+                    setTimeout(() => {
+                        listItem.remove();
+                    }, 300);
+                } else if (event.target.tagName === 'LI') {
+                    // li가 클릭되면 강조 표시
+                    // 기존 강조 제거
+                    const allItems = delegationList.querySelectorAll('li');
+                    allItems.forEach(item => {
+                        item.classList.remove('highlight-item');
+                    });
+                    
+                    // 클릭된 항목 강조
+                    event.target.classList.add('highlight-item');
+                }
+            });
+        });
+
+        function addListItem() {
+            const delegationList = document.getElementById('delegation-list');
+            const itemCount = delegationList.children.length + 1;
+            
+            // 새로운 li 요소 생성
+            const newItem = document.createElement('li');
+            newItem.textContent = `리스트 항목 ${itemCount} `;
+            
+            // 버튼 생성
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = '삭제';
+            newItem.appendChild(deleteButton);
+            
+            // 리스트에 추가
+            delegationList.appendChild(newItem);
+            
+            // 이벤트 위임의 장점:
+            // 새로 추가된 요소에도 자동으로 이벤트가 적용됨!
+            // 각 버튼에 개별적으로 이벤트를 등록할 필요가 없음
+        }
+
+        // ============================================
+        // 4. 동적 요소 생성/삭제
+        // ============================================
+        
+        function addDynamicItem() {
+            const input = document.getElementById('item-input');
+            const container = document.getElementById('dynamic-container');
+            const itemText = input.value.trim();
+
+            // 입력값 검증
+            if (itemText === '') {
+                alert('항목 이름을 입력해주세요!');
+                return;
+            }
+
+            // 새 항목 생성
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'item';
+            
+            // 텍스트 부분
+            const textSpan = document.createElement('span');
+            textSpan.textContent = itemText;
+            itemDiv.appendChild(textSpan);
+            
+            // 삭제 버튼
+            const deleteBtn = document.createElement('button');
+            deleteBtn.textContent = '삭제';
+            deleteBtn.onclick = function() {
+                // 부모 요소(div) 제거
+                itemDiv.remove();
+            };
+            itemDiv.appendChild(deleteBtn);
+            
+            // 컨테이너에 추가
+            container.appendChild(itemDiv);
+            
+            // 입력 필드 초기화
+            input.value = '';
+        }
+
+        // Enter 키로도 추가 가능
+        document.addEventListener('DOMContentLoaded', function() {
+            const input = document.getElementById('item-input');
+            input.addEventListener('keypress', function(event) {
+                if (event.key === 'Enter') {
+                    addDynamicItem();
+                }
+            });
+        });
+
+        // ============================================
+        // 5. 실전 예제: 동적 할 일 목록
+        // ============================================
+        
+        let todoCounter = 0;
+
+        function addTodo() {
+            const input = document.getElementById('todo-input');
+            const todoList = document.getElementById('todo-list');
+            const todoText = input.value.trim();
+
+            // 입력값 검증
+            if (todoText === '') {
+                alert('할 일을 입력해주세요!');
+                return;
+            }
+
+            // 새 할 일 항목 생성
+            const listItem = document.createElement('li');
+            listItem.className = 'item';
+            listItem.id = `todo-${todoCounter++}`;
+            
+            // 체크박스 생성
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.addEventListener('change', function() {
+                if (this.checked) {
+                    textSpan.style.textDecoration = 'line-through';
+                    textSpan.style.color = '#999';
+                } else {
+                    textSpan.style.textDecoration = 'none';
+                    textSpan.style.color = '#333';
+                }
+            });
+            
+            // 텍스트 부분
+            const textSpan = document.createElement('span');
+            textSpan.textContent = todoText;
+            textSpan.style.marginLeft = '10px';
+            
+            // 삭제 버튼
+            const deleteBtn = document.createElement('button');
+            deleteBtn.textContent = '삭제';
+            deleteBtn.onclick = function() {
+                listItem.style.transition = 'opacity 0.3s, transform 0.3s';
+                listItem.style.opacity = '0';
+                listItem.style.transform = 'translateX(-20px)';
+                setTimeout(() => {
+                    listItem.remove();
+                }, 300);
+            };
+            
+            // 요소들을 조립
+            listItem.appendChild(checkbox);
+            listItem.appendChild(textSpan);
+            listItem.appendChild(deleteBtn);
+            
+            // 리스트에 추가
+            todoList.appendChild(listItem);
+            
+            // 애니메이션 효과
+            listItem.style.opacity = '0';
+            listItem.style.transform = 'translateY(-10px)';
+            setTimeout(() => {
+                listItem.style.transition = 'opacity 0.3s, transform 0.3s';
+                listItem.style.opacity = '1';
+                listItem.style.transform = 'translateY(0)';
+            }, 10);
+            
+            // 입력 필드 초기화
+            input.value = '';
+        }
+
+        // Enter 키로도 추가 가능
+        document.addEventListener('DOMContentLoaded', function() {
+            const input = document.getElementById('todo-input');
+            input.addEventListener('keypress', function(event) {
+                if (event.key === 'Enter') {
+                    addTodo();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

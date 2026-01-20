@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>02. 박스 모델 (Box Model)</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #2196F3;
+            padding-bottom: 10px;
+        }
+        .example {
+            background: #f9f9f9;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #2196F3;
+            border-radius: 5px;
+        }
+        .code-block {
+            background: #e3f2fd;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+        }
+        .demo-box {
+            padding: 15px;
+            margin: 10px 0;
+            border: 2px dashed #ddd;
+            border-radius: 5px;
+            background: #fff;
+        }
+        .box-demo {
+            background: #E3F2FD;
+            border: 5px solid #2196F3;
+            padding: 20px;
+            margin: 20px;
+            width: 200px;
+            height: 100px;
+        }
+        .box-demo-content {
+            background: #BBDEFB;
+            padding: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>02. 박스 모델 (Box Model)</h1>
+        
+        <div class="example">
+            <h3>1. 박스 모델의 구성 요소</h3>
+            <p>모든 HTML 요소는 박스 모델로 구성되어 있습니다.</p>
+            <div class="code-block">/* 박스 모델의 4가지 영역 */
+요소 {
+    width: 200px;        /* 콘텐츠 너비 */
+    height: 100px;       /* 콘텐츠 높이 */
+    padding: 20px;       /* 안쪽 여백 */
+    border: 5px solid;   /* 테두리 */
+    margin: 20px;        /* 바깥쪽 여백 */
+}
+
+/* 구조:
+   margin (바깥 여백)
+   └─ border (테두리)
+      └─ padding (안쪽 여백)
+         └─ content (콘텐츠)
+*/</div>
+            <div class="demo-box">
+                <div class="box-demo">
+                    <div class="box-demo-content">콘텐츠</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="example">
+            <h3>2. width와 height</h3>
+            <p>요소의 너비와 높이를 설정합니다.</p>
+            <div class="code-block">/* 고정 크기 */
+.box1 {
+    width: 300px;
+    height: 200px;
+}
+
+/* 퍼센트 크기 (부모 요소 기준) */
+.box2 {
+    width: 50%;
+    height: 50%;
+}
+
+/* 최대/최소 크기 */
+.box3 {
+    min-width: 200px;
+    max-width: 500px;
+}</div>
+            <div class="demo-box">
+                <div style="width: 300px; height: 100px; background: #E3F2FD; border: 2px solid #2196F3; margin: 10px 0;">
+                    고정 크기: 300px × 100px
+                </div>
+                <div style="width: 50%; height: 80px; background: #C8E6C9; border: 2px solid #4CAF50; margin: 10px 0;">
+                    퍼센트 크기: 50% × 80px
+                </div>
+            </div>
+        </div>
+
+        <div class="example">
+            <h3>3. padding (안쪽 여백)</h3>
+            <p>콘텐츠와 테두리 사이의 여백입니다.</p>
+            <div class="code-block">/* 모든 방향 동일 */
+.box {
+    padding: 20px;
+}
+
+/* 개별 설정 */
+.box {
+    padding-top: 10px;
+    padding-right: 20px;
+    padding-bottom: 30px;
+    padding-left: 40px;
+}
+
+/* 축약형 (시계방향) */
+.box {
+    padding: 10px 20px 30px 40px;
+    /* 위 오른쪽 아래 왼쪽 */
+}
+
+/* 축약형 (상하 좌우) */
+.box {
+    padding: 10px 20px;
+    /* 상하 좌우 */
+}</div>
+            <div class="demo-box">
+                <div style="padding: 20px; background: #FFE0B2; border: 2px solid #FF9800; margin: 10px 0;">
+                    padding: 20px (모든 방향)
+                </div>
+                <div style="padding: 10px 30px; background: #F8BBD0; border: 2px solid #E91E63; margin: 10px 0;">
+                    padding: 10px 30px (상하 좌우)
+                </div>
+            </div>
+        </div>
+
+        <div class="example">
+            <h3>4. border (테두리)</h3>
+            <p>요소의 테두리를 설정합니다.</p>
+            <div class="code-block">/* 기본 테두리 */
+.box {
+    border: 2px solid black;
+}
+
+/* 개별 속성 */
+.box {
+    border-width: 3px;
+    border-style: solid;
+    border-color: blue;
+}
+
+/* 방향별 설정 */
+.box {
+    border-top: 2px solid red;
+    border-right: 3px dashed blue;
+    border-bottom: 4px dotted green;
+    border-left: 5px double orange;
+}
+
+/* 테두리 스타일 종류 */
+.solid { border-style: solid; }    /* 실선 */
+.dashed { border-style: dashed; }   /* 점선 */
+.dotted { border-style: dotted; }   /* 점 */
+.double { border-style: double; }   /* 이중선 */
+.none { border-style: none; }       /* 없음 */</div>
+            <div class="demo-box">
+                <div style="border: 2px solid #2196F3; padding: 10px; margin: 10px 0;">solid (실선)</div>
+                <div style="border: 2px dashed #4CAF50; padding: 10px; margin: 10px 0;">dashed (점선)</div>
+                <div style="border: 2px dotted #FF9800; padding: 10px; margin: 10px 0;">dotted (점)</div>
+                <div style="border: 4px double #E91E63; padding: 10px; margin: 10px 0;">double (이중선)</div>
+            </div>
+        </div>
+
+        <div class="example">
+            <h3>5. margin (바깥쪽 여백)</h3>
+            <p>요소와 다른 요소 사이의 여백입니다.</p>
+            <div class="code-block">/* 모든 방향 동일 */
+.box {
+    margin: 20px;
+}
+
+/* 개별 설정 */
+.box {
+    margin-top: 10px;
+    margin-right: 20px;
+    margin-bottom: 30px;
+    margin-left: 40px;
+}
+
+/* 축약형 */
+.box {
+    margin: 10px 20px 30px 40px;
+    /* 위 오른쪽 아래 왼쪽 */
+}
+
+/* 중앙 정렬 */
+.box {
+    margin: 0 auto;  /* 좌우 중앙 */
+}
+
+/* 음수 마진 */
+.box {
+    margin: -10px;  /* 요소를 위로 당김 */
+}</div>
+            <div class="demo-box">
+                <div style="margin: 20px; background: #BBDEFB; padding: 10px; border: 2px solid #2196F3;">
+                    margin: 20px
+                </div>
+                <div style="margin: 10px 50px; background: #C8E6C9; padding: 10px; border: 2px solid #4CAF50;">
+                    margin: 10px 50px (상하 좌우)
+                </div>
+                <div style="margin: 0 auto; width: 200px; background: #FFE0B2; padding: 10px; border: 2px solid #FF9800;">
+                    margin: 0 auto (중앙 정렬)
+                </div>
+            </div>
+        </div>
+
+        <div class="example">
+            <h3>6. box-sizing 속성</h3>
+            <p>박스 크기 계산 방식을 변경합니다.</p>
+            <div class="code-block">/* content-box (기본값) */
+/* width/height = 콘텐츠 크기만 */
+.box1 {
+    width: 200px;
+    padding: 20px;
+    border: 5px solid;
+    /* 실제 너비 = 200 + 40 + 10 = 250px */
+}
+
+/* border-box */
+/* width/height = 콘텐츠 + padding + border */
+.box2 {
+    box-sizing: border-box;
+    width: 200px;
+    padding: 20px;
+    border: 5px solid;
+    /* 실제 너비 = 200px (전체) */
+}</div>
+            <div class="demo-box">
+                <div style="width: 200px; padding: 20px; border: 5px solid #2196F3; background: #E3F2FD; margin: 10px 0;">
+                    content-box (기본값)<br>
+                    실제 너비: 250px
+                </div>
+                <div style="box-sizing: border-box; width: 200px; padding: 20px; border: 5px solid #4CAF50; background: #C8E6C9; margin: 10px 0;">
+                    border-box<br>
+                    실제 너비: 200px
+                </div>
+            </div>
+        </div>
+
+        <div class="example">
+            <h3>7. 실전 예제: 카드 레이아웃</h3>
+            <p>박스 모델을 활용한 카드 디자인입니다.</p>
+            <div class="demo-box">
+                <div style="box-sizing: border-box; width: 250px; padding: 20px; margin: 10px; border: 2px solid #ddd; border-radius: 8px; background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                    <h4 style="margin-top: 0;">카드 제목</h4>
+                    <p style="margin-bottom: 0;">카드 내용입니다. padding과 margin을 활용하여 여백을 조절했습니다.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

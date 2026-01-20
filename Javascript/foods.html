@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const foods = [
+            "쌀", "보리", "콩", "감자", "양파",
+            "마늘", "배추", "무", "고구마", "호박"
+        ]; 
+
+        const poors = ["철수", "영희", "민수"];
+
+        const results = [];
+
+        for(let i=0; i<poors.length; i++){
+            
+            const f = [];
+
+            for(let j=i; j<foods.length; j += poors.length){
+                f.push(foods[j]);
+            }
+
+            results.push({name:poors[i], f});
+        }
+        console.table(results);
+    </script>
+</body>
+</html>

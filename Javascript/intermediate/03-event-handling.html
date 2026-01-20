@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>03. 이벤트 처리 고급</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #009688;
+            padding-bottom: 10px;
+        }
+        .example {
+            background: #f9f9f9;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #009688;
+            border-radius: 5px;
+        }
+        .output {
+            background: #e0f2f1;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 5px;
+            min-height: 30px;
+        }
+        button {
+            background: #009688;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #00796B;
+        }
+        .box {
+            padding: 20px;
+            margin: 10px 0;
+            border: 2px solid #009688;
+            border-radius: 5px;
+            background: #B2DFDB;
+            cursor: pointer;
+        }
+        .inner-box {
+            padding: 15px;
+            margin: 10px;
+            border: 2px solid #00796B;
+            border-radius: 5px;
+            background: #80CBC4;
+        }
+        .event-log {
+            background: #fff;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-top: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+        }
+        .log-entry {
+            padding: 3px 0;
+            border-bottom: 1px solid #eee;
+        }
+        input {
+            padding: 8px;
+            margin: 5px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        input:focus {
+            border-color: #009688;
+            outline: none;
+        }
+        form {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>03. 이벤트 처리 고급</h1>
+        
+        <div class="example">
+            <h3>1. 이벤트 전파 (버블링과 캡처)</h3>
+            <p>이벤트가 DOM 트리를 따라 전파되는 방식을 이해합니다.</p>
+            <div class="box" id="outer-box">
+                외부 박스 (클릭해보세요)
+                <div class="inner-box" id="inner-box">
+                    내부 박스 (클릭해보세요)
+                </div>
+            </div>
+            <button onclick="clearEventLog()">로그 지우기</button>
+            <div class="event-log" id="event-log"></div>
+        </div>
+
+        <div class="example">
+            <h3>2. preventDefault와 stopPropagation</h3>
+            <p>이벤트의 기본 동작을 막고 전파를 중지합니다.</p>
+            <a href="https://www.google.com" id="prevent-link">구글로 이동 (기본 동작)</a>
+            <a href="https://www.google.com" id="prevent-link-2">구글로 이동 (기본 동작 막음)</a>
+            <div id="prevent-output" class="output"></div>
+        </div>
+
+        <div class="example">
+            <h3>3. 키보드 이벤트</h3>
+            <p>키보드 입력을 감지하고 처리합니다.</p>
+            <input type="text" id="keyboard-input" placeholder="여기에 입력하고 키를 눌러보세요">
+            <div id="keyboard-output" class="output"></div>
+        </div>
+
+        <div class="example">
+            <h3>4. 폼 이벤트</h3>
+            <p>폼 제출과 입력 검증을 처리합니다.</p>
+            <form id="test-form" onsubmit="handleFormSubmit(event)">
+                <input type="text" id="form-name" placeholder="이름" required>
+                <input type="email" id="form-email" placeholder="이메일" required>
+                <button type="submit">제출</button>
+            </form>
+            <div id="form-output" class="output"></div>
+        </div>
+
+        <div class="example">
+            <h3>5. 실전 예제: 키보드 단축키</h3>
+            <p>Ctrl/Cmd + 키 조합으로 기능을 실행합니다.</p>
+            <div id="shortcut-output" class="output">단축키를 사용해보세요:<br>
+                - Ctrl/Cmd + S: 저장<br>
+                - Ctrl/Cmd + D: 복제<br>
+                - Escape: 취소
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // 1. 이벤트 전파 (버블링과 캡처)
+        // ============================================
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const outerBox = document.getElementById('outer-box');
+            const innerBox = document.getElementById('inner-box');
+            const eventLog = document.getElementById('event-log');
+
+            function addLog(message, color = '#333') {
+                const logEntry = document.createElement('div');
+                logEntry.className = 'log-entry';
+                logEntry.style.color = color;
+                logEntry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+                eventLog.appendChild(logEntry);
+                eventLog.scrollTop = eventLog.scrollHeight;
+            }
+
+            // 버블링 단계 (기본값)
+            // 이벤트가 자식 요소에서 부모 요소로 전파됨
+            outerBox.addEventListener('click', function(event) {
+                addLog('외부 박스 클릭 (버블링 단계)', '#009688');
+            });
+
+            innerBox.addEventListener('click', function(event) {
+                addLog('내부 박스 클릭 (버블링 단계)', '#00796B');
+            });
+
+            // 캡처 단계
+            // 이벤트가 부모 요소에서 자식 요소로 전파됨
+            // addEventListener의 세 번째 매개변수를 true로 설정
+            outerBox.addEventListener('click', function(event) {
+                addLog('외부 박스 클릭 (캡처 단계)', '#FF9800');
+            }, true); // true = 캡처 단계
+
+            innerBox.addEventListener('click', function(event) {
+                addLog('내부 박스 클릭 (캡처 단계)', '#F57C00');
+            }, true);
+
+            addLog('이벤트 전파 순서: 캡처 → 타겟 → 버블링', '#F44336');
+            addLog('내부 박스를 클릭하면 위 순서로 이벤트가 발생합니다.', '#F44336');
+        });
+
+        function clearEventLog() {
+            document.getElementById('event-log').innerHTML = '';
+        }
+
+        // ============================================
+        // 2. preventDefault와 stopPropagation
+        // ============================================
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const preventLink = document.getElementById('prevent-link-2');
+            const output = document.getElementById('prevent-output');
+
+            preventLink.addEventListener('click', function(event) {
+                // preventDefault(): 이벤트의 기본 동작을 막음
+                // 링크의 경우: 페이지 이동을 막음
+                event.preventDefault();
+                
+                output.innerHTML = '<strong>preventDefault() 사용:</strong><br>';
+                output.innerHTML += '링크의 기본 동작(페이지 이동)이 막혔습니다.<br>';
+                output.innerHTML += 'event.preventDefault()를 호출하여 기본 동작을 방지했습니다.';
+            });
+
+            // stopPropagation 예제
+            const outerBox = document.getElementById('outer-box');
+            const innerBox = document.getElementById('inner-box');
+
+            outerBox.addEventListener('click', function(event) {
+                console.log('외부 박스 클릭');
+            });
+
+            innerBox.addEventListener('click', function(event) {
+                // stopPropagation(): 이벤트 전파를 중지
+                // 이벤트가 부모 요소로 전파되지 않음
+                event.stopPropagation();
+                console.log('내부 박스 클릭 (전파 중지)');
+                // 외부 박스의 클릭 이벤트는 발생하지 않음
+            });
+        });
+
+        // ============================================
+        // 3. 키보드 이벤트
+        // ============================================
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const keyboardInput = document.getElementById('keyboard-input');
+            const output = document.getElementById('keyboard-output');
+
+            // keydown: 키를 누를 때 발생
+            keyboardInput.addEventListener('keydown', function(event) {
+                let result = '<strong>keydown 이벤트:</strong><br>';
+                result += `누른 키: ${event.key}<br>`;
+                result += `키 코드: ${event.keyCode || event.code}<br>`;
+                result += `Ctrl 키: ${event.ctrlKey ? '누름' : '안 누름'}<br>`;
+                result += `Shift 키: ${event.shiftKey ? '누름' : '안 누름'}<br>`;
+                result += `Alt 키: ${event.altKey ? '누름' : '안 누름'}<br>`;
+                output.innerHTML = result;
+            });
+
+            // keyup: 키를 뗄 때 발생
+            keyboardInput.addEventListener('keyup', function(event) {
+                // 키를 뗐을 때의 처리
+            });
+
+            // keypress: 문자 키를 누를 때 발생 (deprecated, keydown 사용 권장)
+
+            // 특정 키 처리 예제
+            keyboardInput.addEventListener('keydown', function(event) {
+                // Enter 키 처리
+                if (event.key === 'Enter') {
+                    output.innerHTML += '<br><strong style="color: green;">Enter 키를 눌렀습니다!</strong>';
+                }
+                
+                // Escape 키 처리
+                if (event.key === 'Escape') {
+                    keyboardInput.value = '';
+                    output.innerHTML = '<strong>Escape 키로 입력을 초기화했습니다.</strong>';
+                }
+            });
+        });
+
+        // ============================================
+        // 4. 폼 이벤트
+        // ============================================
+        
+        function handleFormSubmit(event) {
+            // 폼의 기본 제출 동작 막기
+            event.preventDefault();
+
+            const name = document.getElementById('form-name').value;
+            const email = document.getElementById('form-email').value;
+            const output = document.getElementById('form-output');
+
+            // 입력값 검증
+            if (name.trim() === '') {
+                output.innerHTML = '<strong style="color: red;">오류:</strong> 이름을 입력해주세요.';
+                document.getElementById('form-name').focus();
+                return;
+            }
+
+            if (email.trim() === '') {
+                output.innerHTML = '<strong style="color: red;">오류:</strong> 이메일을 입력해주세요.';
+                document.getElementById('form-email').focus();
+                return;
+            }
+
+            // 이메일 형식 검증 (간단한 예제)
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                output.innerHTML = '<strong style="color: red;">오류:</strong> 올바른 이메일 형식이 아닙니다.';
+                document.getElementById('form-email').focus();
+                return;
+            }
+
+            // 성공 메시지
+            output.innerHTML = `<strong style="color: green;">제출 성공!</strong><br>`;
+            output.innerHTML += `이름: ${name}<br>`;
+            output.innerHTML += `이메일: ${email}`;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('test-form');
+            const nameInput = document.getElementById('form-name');
+            const emailInput = document.getElementById('form-email');
+
+            // 입력 필드 변경 감지
+            nameInput.addEventListener('input', function() {
+                if (this.value.trim() !== '') {
+                    this.style.borderColor = '#4CAF50';
+                }
+            });
+
+            emailInput.addEventListener('input', function() {
+                if (this.value.trim() !== '') {
+                    this.style.borderColor = '#4CAF50';
+                }
+            });
+
+            // 폼 제출 이벤트 (submit)
+            form.addEventListener('submit', function(event) {
+                // handleFormSubmit 함수에서 이미 preventDefault를 호출하지만
+                // 여기서도 처리할 수 있음
+                console.log('폼 제출 이벤트 발생');
+            });
+        });
+
+        // ============================================
+        // 5. 실전 예제: 키보드 단축키
+        // ============================================
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const output = document.getElementById('shortcut-output');
+            let actionCount = 0;
+
+            // 전체 문서에 키보드 이벤트 등록
+            document.addEventListener('keydown', function(event) {
+                // Ctrl (Windows/Linux) 또는 Cmd (Mac) 키 확인
+                const isModifierPressed = event.ctrlKey || event.metaKey;
+
+                if (isModifierPressed && event.key === 's') {
+                    // Ctrl/Cmd + S: 저장
+                    event.preventDefault(); // 브라우저의 기본 저장 동작 막기
+                    actionCount++;
+                    output.innerHTML = `<strong style="color: green;">저장 완료!</strong> (${actionCount}번째 저장)<br>`;
+                    output.innerHTML += '단축키: Ctrl/Cmd + S<br><br>';
+                    output.innerHTML += '다른 단축키를 사용해보세요:<br>';
+                    output.innerHTML += '- Ctrl/Cmd + D: 복제<br>';
+                    output.innerHTML += '- Escape: 취소';
+                } else if (isModifierPressed && event.key === 'd') {
+                    // Ctrl/Cmd + D: 복제
+                    event.preventDefault(); // 브라우저의 기본 북마크 동작 막기
+                    const clonedOutput = output.cloneNode(true);
+                    clonedOutput.style.marginTop = '10px';
+                    clonedOutput.style.border = '2px dashed #009688';
+                    output.parentElement.appendChild(clonedOutput);
+                    output.innerHTML += '<br><strong style="color: blue;">복제 완료!</strong>';
+                } else if (event.key === 'Escape') {
+                    // Escape: 취소
+                    actionCount = 0;
+                    output.innerHTML = '<strong style="color: orange;">작업 취소됨</strong><br>';
+                    output.innerHTML += '단축키를 사용해보세요:<br>';
+                    output.innerHTML += '- Ctrl/Cmd + S: 저장<br>';
+                    output.innerHTML += '- Ctrl/Cmd + D: 복제<br>';
+                    output.innerHTML += '- Escape: 취소';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

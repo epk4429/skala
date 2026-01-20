@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>02. 고급 선택자</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #673AB7;
+            padding-bottom: 10px;
+        }
+        .example {
+            background: #f9f9f9;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #673AB7;
+            border-radius: 5px;
+        }
+        .code-block {
+            background: #ede7f6;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+        }
+        .demo-box {
+            padding: 15px;
+            margin: 10px 0;
+            border: 2px dashed #ddd;
+            border-radius: 5px;
+            background: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>02. 고급 선택자</h1>
+        
+        <div class="example">
+            <h3>1. :not() 선택자</h3>
+            <p>특정 요소를 제외하고 선택합니다.</p>
+            <div class="code-block">/* p 태그 중 class가 없는 것만 */
+p:not(.special) {
+    color: blue;
+}
+
+/* 버튼 중 disabled가 아닌 것만 */
+button:not(:disabled) {
+    cursor: pointer;
+}</div>
+            <div class="demo-box">
+                <p>일반 p 태그</p>
+                <p class="special">특별한 p 태그</p>
+                <p>또 다른 일반 p 태그</p>
+            </div>
+        </div>
+
+        <div class="example">
+            <h3>2. :nth-child() 고급 사용</h3>
+            <p>복잡한 패턴으로 요소를 선택합니다.</p>
+            <div class="code-block">/* 짝수 번째 */
+li:nth-child(even) {
+    background: #f0f0f0;
+}
+
+/* 홀수 번째 */
+li:nth-child(odd) {
+    background: #fff;
+}
+
+/* 3의 배수 */
+li:nth-child(3n) {
+    color: red;
+}
+
+/* 3n+1 (1, 4, 7, ...) */
+li:nth-child(3n+1) {
+    font-weight: bold;
+}
+
+/* 마지막에서 n번째 */
+li:nth-last-child(2) {
+    border-bottom: 2px solid blue;
+}</div>
+            <div class="demo-box">
+                <ul style="list-style: none; padding: 0;">
+                    <li style="padding: 10px; margin: 5px 0; background: #f0f0f0;">항목 1</li>
+                    <li style="padding: 10px; margin: 5px 0; background: #fff;">항목 2</li>
+                    <li style="padding: 10px; margin: 5px 0; background: #f0f0f0;">항목 3</li>
+                    <li style="padding: 10px; margin: 5px 0; background: #fff;">항목 4</li>
+                    <li style="padding: 10px; margin: 5px 0; background: #f0f0f0;">항목 5</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="example">
+            <h3>3. 속성 선택자 고급</h3>
+            <p>속성 값의 패턴으로 선택합니다.</p>
+            <div class="code-block">/* 시작하는 값 */
+a[href^="https"] {
+    color: green;
+}
+
+/* 끝나는 값 */
+a[href$=".pdf"] {
+    color: red;
+}
+
+/* 포함하는 값 */
+a[href*="example"] {
+    font-weight: bold;
+}
+
+/* 공백으로 구분된 단어 */
+div[class~="important"] {
+    border: 2px solid red;
+}</div>
+        </div>
+
+        <div class="example">
+            <h3>4. :is()와 :where() 선택자</h3>
+            <p>여러 선택자를 그룹화합니다.</p>
+            <div class="code-block">/* :is() - 우선순위 유지 */
+:is(h1, h2, h3) {
+    color: blue;
+}
+
+/* :where() - 우선순위 0 */
+:where(h1, h2, h3) {
+    margin: 0;
+}</div>
+        </div>
+    </div>
+</body>
+</html>

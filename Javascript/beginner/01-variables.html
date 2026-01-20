@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01. 변수와 데이터 타입</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #4CAF50;
+            padding-bottom: 10px;
+        }
+        .example {
+            background: #f9f9f9;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #4CAF50;
+            border-radius: 5px;
+        }
+        .output {
+            background: #e8f5e9;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>01. 변수와 데이터 타입</h1>
+        
+        <div class="example">
+            <h3>1. 변수 선언하기</h3>
+            <p>JavaScript에서 변수를 선언하는 방법은 3가지가 있습니다:</p>
+            <ul>
+                <li><strong>var</strong>: 오래된 방식 (현재는 거의 사용하지 않음)</li>
+                <li><strong>let</strong>: 값이 변경될 수 있는 변수</li>
+                <li><strong>const</strong>: 값이 변경되지 않는 상수</li>
+            </ul>
+            <button onclick="showVariableExamples()">변수 예제 실행</button>
+            <div id="variable-output" class="output"></div>
+        </div>
+
+        <div class="example">
+            <h3>2. 데이터 타입 확인하기</h3>
+            <p>JavaScript의 기본 데이터 타입을 확인해봅시다.</p>
+            <button onclick="showDataTypeExamples()">데이터 타입 예제 실행</button>
+            <div id="datatype-output" class="output"></div>
+        </div>
+
+        <div class="example">
+            <h3>3. 타입 변환하기</h3>
+            <p>문자열과 숫자 사이의 변환 방법을 알아봅시다.</p>
+            <button onclick="showTypeConversion()">타입 변환 예제 실행</button>
+            <div id="conversion-output" class="output"></div>
+        </div>
+
+        <div class="example">
+            <h3>4. 템플릿 리터럴 (Template Literal)</h3>
+            <p>백틱(`)을 사용하여 문자열과 변수를 쉽게 결합할 수 있습니다.</p>
+            <button onclick="showTemplateLiteral()">템플릿 리터럴 예제 실행</button>
+            <div id="template-output" class="output"></div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // 1. 변수 선언하기
+        // ============================================
+        function showVariableExamples() {
+            const output = document.getElementById('variable-output');
+            let result = '<strong>변수 선언 예제:</strong><br><br>';
+
+            // let: 값이 변경될 수 있는 변수
+            let name = "홍길동";
+            result += `let name = "${name}";<br>`;
+            
+            // 변수 값 변경 가능
+            name = "김철수";
+            result += `name = "${name}"; // 값 변경 가능<br><br>`;
+
+            // const: 값이 변경되지 않는 상수
+            const birthYear = 1990;
+            result += `const birthYear = ${birthYear};<br>`;
+            result += `// birthYear = 2000; // 에러! const는 재할당 불가<br><br>`;
+
+            // 변수 선언 후 나중에 값 할당 (let만 가능)
+            let age;
+            age = 25;
+            result += `let age;<br>age = ${age}; // 나중에 값 할당 가능<br><br>`;
+
+            // const는 선언과 동시에 값 할당 필수
+            result += `// const height; // 에러! const는 선언과 동시에 값 할당 필요<br>`;
+            const height = 175;
+            result += `const height = ${height}; // 올바른 방법<br>`;
+
+            output.innerHTML = result;
+        }
+
+        // ============================================
+        // 2. 데이터 타입 확인하기
+        // ============================================
+        function showDataTypeExamples() {
+            const output = document.getElementById('datatype-output');
+            let result = '<strong>JavaScript의 데이터 타입:</strong><br><br>';
+
+            // 문자열 (String)
+            const text = "안녕하세요";
+            result += `문자열: "${text}" → 타입: ${typeof text}<br>`;
+
+            // 숫자 (Number)
+            const number = 42;
+            const decimal = 3.14;
+            result += `정수: ${number} → 타입: ${typeof number}<br>`;
+            result += `소수: ${decimal} → 타입: ${typeof decimal}<br>`;
+
+            // 불린 (Boolean) - true 또는 false
+            const isStudent = true;
+            const isWorking = false;
+            result += `불린: ${isStudent} → 타입: ${typeof isStudent}<br>`;
+            result += `불린: ${isWorking} → 타입: ${typeof isWorking}<br>`;
+
+            // null - 값이 없음을 의도적으로 표현
+            const emptyValue = null;
+            result += `null: ${emptyValue} → 타입: ${typeof emptyValue}<br>`;
+            result += `// 주의: null의 타입은 'object'로 표시되지만 실제로는 null입니다<br>`;
+
+            // undefined - 변수가 선언되었지만 값이 할당되지 않음
+            let undefinedValue;
+            result += `undefined: ${undefinedValue} → 타입: ${typeof undefinedValue}<br>`;
+
+            // 배열 (Array) - 여러 값을 담는 자료구조
+            const fruits = ["사과", "바나나", "오렌지"];
+            result += `배열: [${fruits.join(", ")}] → 타입: ${typeof fruits}<br>`;
+            result += `// 배열인지 확인하려면 Array.isArray() 사용<br>`;
+            result += `Array.isArray(fruits): ${Array.isArray(fruits)}<br>`;
+
+            output.innerHTML = result;
+        }
+
+        // ============================================
+        // 3. 타입 변환하기
+        // ============================================
+        function showTypeConversion() {
+            const output = document.getElementById('conversion-output');
+            let result = '<strong>타입 변환 예제:</strong><br><br>';
+
+            // 문자열을 숫자로 변환
+            const strNumber = "123";
+            const num1 = Number(strNumber);        // 방법 1: Number() 함수 사용
+            const num2 = parseInt(strNumber);      // 방법 2: parseInt() - 정수로 변환
+            const num3 = parseFloat("123.45");     // 방법 3: parseFloat() - 소수로 변환
+            const num4 = +strNumber;               // 방법 4: + 연산자 사용 (간단한 방법)
+
+            result += `문자열 "123"을 숫자로 변환:<br>`;
+            result += `Number("123") = ${num1} (타입: ${typeof num1})<br>`;
+            result += `parseInt("123") = ${num2} (타입: ${typeof num2})<br>`;
+            result += `parseFloat("123.45") = ${num3} (타입: ${typeof num3})<br>`;
+            result += `+"123" = ${num4} (타입: ${typeof num4})<br><br>`;
+
+            // 숫자를 문자열로 변환
+            const number = 456;
+            const str1 = String(number);           // 방법 1: String() 함수 사용
+            const str2 = number.toString();        // 방법 2: toString() 메서드 사용
+            const str3 = number + "";              // 방법 3: 빈 문자열과 결합
+
+            result += `숫자 ${number}을 문자열로 변환:<br>`;
+            result += `String(456) = "${str1}" (타입: ${typeof str1})<br>`;
+            result += `(456).toString() = "${str2}" (타입: ${typeof str2})<br>`;
+            result += `456 + "" = "${str3}" (타입: ${typeof str3})<br><br>`;
+
+            // 불린으로 변환
+            result += `불린 변환:<br>`;
+            result += `Boolean(1) = ${Boolean(1)}<br>`;
+            result += `Boolean(0) = ${Boolean(0)}<br>`;
+            result += `Boolean("") = ${Boolean("")}<br>`;
+            result += `Boolean("hello") = ${Boolean("hello")}<br>`;
+
+            output.innerHTML = result;
+        }
+
+        // ============================================
+        // 4. 템플릿 리터럴 (Template Literal)
+        // ============================================
+        function showTemplateLiteral() {
+            const output = document.getElementById('template-output');
+            let result = '<strong>템플릿 리터럴 예제:</strong><br><br>';
+
+            const firstName = "길동";
+            const lastName = "홍";
+            const age = 25;
+            const city = "서울";
+
+            // 기존 방식: + 연산자로 문자열 결합 (불편함)
+            const oldWay = "이름: " + lastName + firstName + ", 나이: " + age + "세, 거주지: " + city;
+            result += `<strong>기존 방식 (+ 연산자):</strong><br>`;
+            result += `"이름: " + lastName + firstName + ", 나이: " + age<br>`;
+            result += `결과: ${oldWay}<br><br>`;
+
+            // 템플릿 리터럴 방식: 백틱(`)과 ${} 사용 (간편함)
+            const newWay = `이름: ${lastName}${firstName}, 나이: ${age}세, 거주지: ${city}`;
+            result += `<strong>템플릿 리터럴 방식 (백틱 사용):</strong><br>`;
+            result += `\`이름: \${lastName}\${firstName}, 나이: \${age}세, 거주지: \${city}\`<br>`;
+            result += `결과: ${newWay}<br><br>`;
+
+            // 여러 줄 문자열도 쉽게 작성 가능
+            const multiLine = `안녕하세요!
+제 이름은 ${lastName}${firstName}입니다.
+나이는 ${age}세이고,
+${city}에 살고 있습니다.`;
+            result += `<strong>여러 줄 문자열:</strong><br>`;
+            result += `<pre>${multiLine}</pre>`;
+
+            // 표현식도 사용 가능
+            const price = 10000;
+            const discount = 0.1;
+            const finalPrice = `원가: ${price}원, 할인율: ${discount * 100}%, 최종가격: ${price * (1 - discount)}원`;
+            result += `<br><strong>표현식 사용:</strong><br>`;
+            result += `${finalPrice}`;
+
+            output.innerHTML = result;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>주문 처리</title>
+    <style>
+        :root{
+            --bg:#f4f6f8;        
+            --card:#ffffff;
+            --text:#111827;
+            --primary:#0073e9;   
+            --border:#e5e7eb;
+            --primaryHover:#0062c7;
+            --muted:#6b7280;
+        }
+        *{ box-sizing: border-box; }
+        
+        body{
+            margin:0;
+            font-family: "Malgun Gothic","Apple SD Gothic Neo",sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .wrap{
+            width: min(520px, 100%); 
+            display:flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        header{
+            display:flex;
+            align-items:center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        h1{
+            margin:0;
+            font-size: 22px;
+            font-weight: 800;
+            text-align: center; 
+        }
+
+        .card{
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 10px;                
+            padding: 18px;
+            box-shadow: 0 6px 18px rgba(0,0,0,.06); 
+        }
+
+        .form-grid{
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .field{
+            display:flex;
+            flex-direction: column; /* 방향 가로->세로 */
+            gap: 8px;
+        }
+
+        label{
+            font-weight: 700;
+            font-size: 13px;
+            color: #374151;
+        }
+
+        input, select{
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 14px;
+            background: #fff;
+            outline: none;
+        }
+
+            input::placeholder{
+            color: #9ca3af;
+        }
+
+        input:focus, select:focus{
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0,115,233,.16);
+        }
+
+        .actions{
+            margin-top: 10px;
+        }
+
+        button{
+            border: none;
+            border-radius: 10px;
+            padding: 12px 14px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .btn-primary{
+            width: 100%;              
+            background: var(--primary);
+            color: white;
+            padding: 13px 14px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 800;
+        }
+        .btn-primary:hover{ 
+            background: var(--primaryHover);
+            filter: none; 
+        }
+
+        .result{
+            display:flex;
+            flex-direction: column;   
+            align-items: flex-start;
+            gap: 8px;
+            padding: 14px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: #f9fafb;    
+        }
+        .result strong{ 
+            font-size: 13px;
+            color: #374151; }
+        .result .msg{ 
+            margin:0;
+            font-size: 14px;
+            color: var(--muted); 
+        }
+        .result.ok{
+            border-color: rgba(0,115,233,.35);
+            background: rgba(0,115,233,.06);
+        }
+        .result.bad{
+            border-color: rgba(220,38,38,.35);
+            background: rgba(220,38,38,.06);
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <header>
+            <h1>🛒고객 주문 처리</h1>
+        </header>
+        
+        <div class="card">
+            <div class="form-grid">
+                <div class="field">
+                    <label for="itemStock">상품 재고</label>
+                    <input id="itemStock" type="number" min="0" step="1" placeholder="재고 입력" />
+                </div>
+
+                <div class="field">
+                    <label for="membership">멤버십 등급</label>
+                    <!-- 드롭다운 생성 -->
+                    <select id="membership"> 
+                        <option value="none">일반(할인 없음)</option>
+                        <option value="VIP">VIP(10%)</option>
+                        <option value="Gold">Gold(5%)</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label for="orderAmount">주문 금액</label>
+                    <input id="orderAmount" type="number" min="0" step="10" placeholder="0" />
+                </div>
+
+                <div class="field">
+                    <label for="shippingOption">배송 옵션</label>
+                    <select id="shippingOption">
+                        <option value="standard">standard(일반 배송)</option>
+                        <option value="fast">fast(빠른 배송 +3,000원)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button class="btn-primary" id="orderBtn" type="button">주문하기</button>
+            </div>           
+        </div>
+        <div class="card">
+            <div id="resultBox" class="result">
+                <strong>주문 결과</strong>
+                <p id="resultMsg" class="msg">주문하기를 누르면 결과가 표시됩니다.</p>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // 한국 지역에 맞춰 숫자 앞에 천 단위로 ,를 붙여줌
+        function Won(n){
+            return n.toLocaleString("ko-KR") + "원";
+        }
+
+        function processOrder(itemStock, membership, orderAmount, shippingOption){
+
+            if(itemStock < 1){
+                return {
+                    success: false,
+                    finalPrice: null,
+                    message: "죄송합니다. 해당 상품은 품절입니다."
+                };
+            }
+
+            let memberDiscount = 0; /* 멤버십 기본할인 */
+            let extraDiscount = 0;  /* 주문 금액 추가 할인 */
+            let shippingPrice = 0;  /* 배송비 */
+            let price = 0;          /* 배송비 추가 전 금액 */
+
+            if(membership === "VIP") memberDiscount = 0.10;
+            else if(membership === "Gold") memberDiscount = 0.05;
+
+            /* 멤버십 할인 적용 */
+            const aftermemberDiscount = Math.floor(orderAmount * (1 - memberDiscount));
+
+            if(aftermemberDiscount >= 200000) extraDiscount = 15000;
+            else if(aftermemberDiscount >= 100000) extraDiscount = 5000;
+
+            /* 금액 추가 할인 적용 */
+            price = aftermemberDiscount - extraDiscount;
+
+            
+            if(shippingOption === "fast") shippingPrice = 3000;
+            /* 배송비 합산 */
+            price += shippingPrice;
+            
+            if(price < 0) price = 0;
+
+            return {
+                success: true,
+                finalPrice: price,
+                message: `주문이 정상적으로 완료되었습니다. 최종 결제 금액: ${Won(price)}`
+            };
+        }
+
+        function validateCheck(stockStr, amountStr){
+            const stock = Number(stockStr);
+            const amount = Number(amountStr);
+
+             if (stockStr === "" || amountStr === ""){
+                return { ok:false, message:"상품 재고와 주문금액을 확인해주세요." };
+            }
+            // 정수인지 확인
+            if (!Number.isInteger(stock) || stock < 0){
+                return { ok:false, message:"상품 재고는 0 이상의 정수로 입력해주세요." };
+            }
+            if (amount < 0){
+                return { ok:false, message:"주문금액은 0 이상이어야 합니다." };
+            }
+
+            return { ok:true, stock, amount };
+        }
+
+        const stockInput = document.getElementById("itemStock");
+        const gradeInput = document.getElementById("membership");
+        const amountInput = document.getElementById("orderAmount");
+        const shippingInput = document.getElementById("shippingOption");
+        const resultBox = document.getElementById("resultBox");
+        const resultMsg = document.getElementById("resultMsg");
+
+        function showResult(success, message){
+            resultMsg.textContent = message;
+            resultBox.classList.remove("ok","bad");
+            resultBox.classList.add(success ? "ok" : "bad");
+        }
+
+        document.getElementById("orderBtn").addEventListener("click", () => {
+            const v = validateCheck(stockInput.value, amountInput.value);
+
+            if (!v.ok){
+                showResult(false, v.message);
+                return;
+            }
+
+            const membergrade = gradeInput.value;      
+            const shipping = shippingInput.value;
+
+            const result = processOrder(v.stock, membergrade, v.amount, shipping);
+            showResult(result.success, result.message);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="progress" style="height: 22px;">
+        <div id="progressBar" class="progress-bar" style="width: 0%;"></div>
+    </div>
+
+    <button id="myBtn" type="button" class="btn btn-primary" style="margin-top: 10px;">Primary</button>
+    
+    <script>
+        const progressBar = document.getElementById("progressBar");
+        const myBtn = document.getElementById("myBtn");
+
+        let intervalId = null;
+        let timeoutId = null;
+        let value = 0;
+
+        function setProgress(v) {
+            value = Math.max(0, Math.min(100, v));
+            progressBar.style.width = value + "%";
+            progressBar.textContent = "";
+        }
+
+        function stopTimers() {
+            if (intervalId) clearInterval(intervalId);
+            if (timeoutId) clearTimeout(timeoutId);
+            intervalId = null;
+            timeoutId = null;
+        }
+
+        myBtn.addEventListener('click', ()=>{
+            myBtn.disabled = true;
+
+            stopTimers();
+            setProgress(0);
+
+            const endMs = Math.floor(3000 + Math.random() * 2000); 
+
+            intervalId = setInterval(() => {
+                    if (value < 90) setProgress(value + 10); 
+                }, 1000);
+
+                timeoutId = setTimeout(() => {
+                    setProgress(100);           
+                    stopTimers();
+                    myBtn.disabled = false; 
+            }, endMs);
+        });
+    </script>
+</body>
+</html>

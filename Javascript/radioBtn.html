@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form>
+        <h2>홍길동 변신술</h2>
+        <p>변신할 대상을 선택하세요:</p>
+        
+        <input type="radio" id="option1" name="option" value="스님">
+        <label for="option1">스님</label></br>
+        <input type="radio" id="option2" name="option" value="곰">
+        <label for="option2">곰</label></br>
+        <input type="radio" id="option3" name="option" value="호랑이">
+        <label for="option3">호랑이</label></br>
+        <button id="myBtn" type="button">변신</button>
+
+        <p id="result"></p>
+    </form>
+    
+    <script>
+        const btn = document.getElementById('myBtn');
+        const result = document.getElementById('result');
+
+        btn.addEventListener('click', () => {
+            const selected = document.querySelector('input[name="option"]:checked');
+
+            result.textContent = `변신 결과: ${selected.value}`;
+        });
+    </script>
+
+</body>
+</html>

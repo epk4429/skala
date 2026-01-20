@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01. 객체 (Objects)</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #E91E63;
+            padding-bottom: 10px;
+        }
+        .example {
+            background: #f9f9f9;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #E91E63;
+            border-radius: 5px;
+        }
+        .output {
+            background: #fce4ec;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+        }
+        button {
+            background: #E91E63;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #C2185B;
+        }
+        .card {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            background: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>01. 객체 (Objects)</h1>
+        
+        <div class="example">
+            <h3>1. 객체 생성과 속성 접근</h3>
+            <p>객체는 관련된 데이터와 함수를 하나로 묶는 자료구조입니다.</p>
+            <button onclick="showObjectBasics()">객체 기본 예제</button>
+            <div id="object-basics-output" class="output"></div>
+        </div>
+
+        <div class="example">
+            <h3>2. 메서드 정의</h3>
+            <p>객체 안에 함수를 정의하여 메서드로 사용할 수 있습니다.</p>
+            <button onclick="showMethods()">메서드 예제</button>
+            <div id="methods-output" class="output"></div>
+        </div>
+
+        <div class="example">
+            <h3>3. 객체 순회 (for...in)</h3>
+            <p>객체의 모든 속성을 순회하면서 처리할 수 있습니다.</p>
+            <button onclick="showObjectLoop()">객체 순회 예제</button>
+            <div id="loop-output" class="output"></div>
+        </div>
+
+        <div class="example">
+            <h3>4. 객체 구조 분해 (Destructuring)</h3>
+            <p>객체의 속성을 변수로 쉽게 추출할 수 있습니다.</p>
+            <button onclick="showDestructuring()">구조 분해 예제</button>
+            <div id="destructuring-output" class="output"></div>
+        </div>
+
+        <div class="example">
+            <h3>5. 실전 예제: 학생 정보 관리</h3>
+            <p>객체를 활용한 실전 예제입니다.</p>
+            <div id="student-cards"></div>
+            <button onclick="displayStudents()">학생 정보 표시</button>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // 1. 객체 생성과 속성 접근
+        // ============================================
+        
+        function showObjectBasics() {
+            const output = document.getElementById('object-basics-output');
+            let result = '<strong>객체 기본:</strong><br><br>';
+
+            // 객체 생성 방법 1: 객체 리터럴 사용 (가장 일반적)
+            const person = {
+                name: '홍길동',
+                age: 25,
+                city: '서울',
+                isStudent: true
+            };
+
+            result += '<strong>1. 객체 생성:</strong><br>';
+            result += 'const person = {<br>';
+            result += '&nbsp;&nbsp;&nbsp;&nbsp;name: "홍길동",<br>';
+            result += '&nbsp;&nbsp;&nbsp;&nbsp;age: 25,<br>';
+            result += '&nbsp;&nbsp;&nbsp;&nbsp;city: "서울",<br>';
+            result += '&nbsp;&nbsp;&nbsp;&nbsp;isStudent: true<br>';
+            result += '};<br><br>';
+
+            // 속성 접근 방법 1: 점 표기법 (dot notation)
+            result += '<strong>2. 속성 접근 (점 표기법):</strong><br>';
+            result += `person.name = "${person.name}"<br>`;
+            result += `person.age = ${person.age}<br>`;
+            result += `person.city = "${person.city}"<br><br>`;
+
+            // 속성 접근 방법 2: 대괄호 표기법 (bracket notation)
+            // 변수를 사용하거나 속성명에 특수문자가 있을 때 사용
+            result += '<strong>3. 속성 접근 (대괄호 표기법):</strong><br>';
+            result += `person["name"] = "${person["name"]}"<br>`;
+            result += `person["age"] = ${person["age"]}<br><br>`;
+
+            // 변수를 사용한 접근
+            const propertyName = 'city';
+            result += '<strong>4. 변수를 사용한 접근:</strong><br>';
+            result += `const propertyName = "city";<br>`;
+            result += `person[propertyName] = "${person[propertyName]}"<br><br>`;
+
+            // 속성 추가
+            person.email = 'hong@example.com';
+            result += '<strong>5. 속성 추가:</strong><br>';
+            result += `person.email = "hong@example.com";<br>`;
+            result += `person.email = "${person.email}"<br><br>`;
+
+            // 속성 수정
+            person.age = 26;
+            result += '<strong>6. 속성 수정:</strong><br>';
+            result += `person.age = 26;<br>`;
+            result += `person.age = ${person.age}<br><br>`;
+
+            // 속성 삭제
+            delete person.isStudent;
+            result += '<strong>7. 속성 삭제:</strong><br>';
+            result += `delete person.isStudent;<br>`;
+            result += `person.isStudent = ${person.isStudent} // undefined<br>`;
+
+            output.innerHTML = result;
+        }
+
+        // ============================================
+        // 2. 메서드 정의
+        // ============================================
+        
+        function showMethods() {
+            const output = document.getElementById('methods-output');
+            let result = '<strong>객체 메서드:</strong><br><br>';
+
+            // 객체에 함수를 속성으로 추가하면 메서드가 됨
+            const calculator = {
+                // 속성
+                name: '계산기',
+                version: '1.0',
+                
+                // 메서드 1: 함수 선언 방식
+                add: function(a, b) {
+                    return a + b;
+                },
+                
+                // 메서드 2: 화살표 함수 (간단한 형태)
+                subtract: (a, b) => a - b,
+                
+                // 메서드 3: ES6 축약 문법 (가장 간단)
+                multiply(a, b) {
+                    return a * b;
+                },
+                
+                // 메서드에서 this 사용 (객체 자신을 가리킴)
+                introduce() {
+                    return `나는 ${this.name} 버전 ${this.version}입니다.`;
+                },
+                
+                // 여러 메서드를 조합하여 사용
+                calculate(operation, a, b) {
+                    switch(operation) {
+                        case '+':
+                            return this.add(a, b);
+                        case '-':
+                            return this.subtract(a, b);
+                        case '*':
+                            return this.multiply(a, b);
+                        default:
+                            return '알 수 없는 연산';
+                    }
+                }
+            };
+
+            result += '<strong>메서드 정의 방법:</strong><br>';
+            result += '1. add: function(a, b) { ... }<br>';
+            result += '2. subtract: (a, b) => a - b<br>';
+            result += '3. multiply(a, b) { ... } // ES6 축약<br><br>';
+
+            result += '<strong>메서드 호출:</strong><br>';
+            result += `calculator.add(10, 5) = ${calculator.add(10, 5)}<br>`;
+            result += `calculator.subtract(10, 5) = ${calculator.subtract(10, 5)}<br>`;
+            result += `calculator.multiply(10, 5) = ${calculator.multiply(10, 5)}<br>`;
+            result += `calculator.introduce() = "${calculator.introduce()}"<br>`;
+            result += `calculator.calculate('+', 10, 5) = ${calculator.calculate('+', 10, 5)}<br>`;
+
+            output.innerHTML = result;
+        }
+
+        // ============================================
+        // 3. 객체 순회 (for...in)
+        // ============================================
+        
+        function showObjectLoop() {
+            const output = document.getElementById('loop-output');
+            let result = '<strong>객체 순회:</strong><br><br>';
+
+            const student = {
+                name: '김철수',
+                age: 20,
+                grade: 'A',
+                subjects: ['수학', '영어', '과학']
+            };
+
+            result += '<strong>for...in 반복문 사용:</strong><br>';
+            result += 'for (let key in 객체) {<br>';
+            result += '&nbsp;&nbsp;&nbsp;&nbsp;console.log(key, 객체[key]);<br>';
+            result += '}<br><br>';
+
+            result += '<strong>순회 결과:</strong><br>';
+            for (let key in student) {
+                // key: 속성명
+                // student[key]: 속성값
+                const value = student[key];
+                const valueType = Array.isArray(value) ? `[${value.join(', ')}]` : value;
+                result += `&nbsp;&nbsp;${key}: ${valueType}<br>`;
+            }
+
+            result += '<br><strong>Object.keys() 사용:</strong><br>';
+            result += 'Object.keys(객체)는 속성명들의 배열을 반환합니다.<br>';
+            const keys = Object.keys(student);
+            result += `속성명 배열: [${keys.join(', ')}]<br><br>`;
+
+            result += '<strong>Object.values() 사용:</strong><br>';
+            result += 'Object.values(객체)는 속성값들의 배열을 반환합니다.<br>';
+            const values = Object.values(student);
+            result += `속성값 배열: [${values.map(v => Array.isArray(v) ? `[${v.join(', ')}]` : v).join(', ')}]<br>`;
+
+            output.innerHTML = result;
+        }
+
+        // ============================================
+        // 4. 객체 구조 분해 (Destructuring)
+        // ============================================
+        
+        function showDestructuring() {
+            const output = document.getElementById('destructuring-output');
+            let result = '<strong>객체 구조 분해:</strong><br><br>';
+
+            const person = {
+                firstName: '길동',
+                lastName: '홍',
+                age: 25,
+                city: '서울',
+                email: 'hong@example.com'
+            };
+
+            // 기존 방식: 각각 변수에 할당
+            result += '<strong>기존 방식:</strong><br>';
+            result += 'const firstName = person.firstName;<br>';
+            result += 'const lastName = person.lastName;<br>';
+            result += 'const age = person.age;<br><br>';
+
+            // 구조 분해 방식: 한 번에 추출
+            const { firstName, lastName, age } = person;
+            result += '<strong>구조 분해 방식:</strong><br>';
+            result += 'const { firstName, lastName, age } = person;<br>';
+            result += `firstName = "${firstName}"<br>`;
+            result += `lastName = "${lastName}"<br>`;
+            result += `age = ${age}<br><br>`;
+
+            // 일부만 추출
+            const { city, email } = person;
+            result += '<strong>일부만 추출:</strong><br>';
+            result += 'const { city, email } = person;<br>';
+            result += `city = "${city}", email = "${email}"<br><br>`;
+
+            // 다른 이름으로 추출
+            const { firstName: name, age: years } = person;
+            result += '<strong>다른 이름으로 추출:</strong><br>';
+            result += 'const { firstName: name, age: years } = person;<br>';
+            result += `name = "${name}", years = ${years}<br><br>`;
+
+            // 기본값 설정
+            const { phone = '010-0000-0000' } = person;
+            result += '<strong>기본값 설정:</strong><br>';
+            result += 'const { phone = "010-0000-0000" } = person;<br>';
+            result += `phone = "${phone}" // person에 phone이 없으므로 기본값 사용<br><br>`;
+
+            // 함수 매개변수에서 사용
+            result += '<strong>함수 매개변수에서 사용:</strong><br>';
+            result += 'function greet({ firstName, lastName }) {<br>';
+            result += '&nbsp;&nbsp;&nbsp;&nbsp;return `안녕하세요, ${lastName}${firstName}님!`;<br>';
+            result += '}<br>';
+            
+            function greet({ firstName, lastName }) {
+                return `안녕하세요, ${lastName}${firstName}님!`;
+            }
+            result += `greet(person) = "${greet(person)}"<br>`;
+
+            output.innerHTML = result;
+        }
+
+        // ============================================
+        // 5. 실전 예제: 학생 정보 관리
+        // ============================================
+        
+        // 학생 정보 배열
+        const students = [
+            {
+                name: '김철수',
+                age: 20,
+                grade: 'A',
+                subjects: ['수학', '영어', '과학'],
+                introduce() {
+                    return `안녕하세요, ${this.name}입니다. ${this.age}세이고, 성적은 ${this.grade}입니다.`;
+                }
+            },
+            {
+                name: '이영희',
+                age: 19,
+                grade: 'B',
+                subjects: ['국어', '영어', '사회'],
+                introduce() {
+                    return `안녕하세요, ${this.name}입니다. ${this.age}세이고, 성적은 ${this.grade}입니다.`;
+                }
+            },
+            {
+                name: '박민수',
+                age: 21,
+                grade: 'A',
+                subjects: ['수학', '과학', '체육'],
+                introduce() {
+                    return `안녕하세요, ${this.name}입니다. ${this.age}세이고, 성적은 ${this.grade}입니다.`;
+                }
+            }
+        ];
+
+        function displayStudents() {
+            const container = document.getElementById('student-cards');
+            container.innerHTML = '';
+
+            // 배열을 순회하면서 각 학생 정보를 카드로 표시
+            students.forEach((student, index) => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                
+                // 구조 분해를 사용하여 속성 추출
+                const { name, age, grade, subjects } = student;
+                
+                card.innerHTML = `
+                    <h3>${name}</h3>
+                    <p><strong>나이:</strong> ${age}세</p>
+                    <p><strong>성적:</strong> ${grade}</p>
+                    <p><strong>과목:</strong> ${subjects.join(', ')}</p>
+                    <p><em>${student.introduce()}</em></p>
+                `;
+                
+                container.appendChild(card);
+            });
+        }
+
+        // 페이지 로드 시 자동으로 표시
+        document.addEventListener('DOMContentLoaded', function() {
+            displayStudents();
+        });
+    </script>
+</body>
+</html>

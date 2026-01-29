@@ -122,7 +122,7 @@ def scan_file(path: Path, banned: set[str]) -> list[Violation]:
         print(f"[Error] SyntaxError in {path} (line {e.lineno})")
         return []
 
-    # 원문을 lines[lineno-1]로 만들기 위해 splilines
+    # 원문을 lines[lineno-1]로 만들기 위해 splitlines
     lines = code.splitlines()
     # 탐지기 인스턴스 생성 및 트리 방문
     visitor = CallVisitor(filename=str(path), lines=lines, banned=banned)
